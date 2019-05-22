@@ -74,7 +74,7 @@ function scene:create( event )
     backButton = widget.newButton( 
     {
         -- Setting Position
-        x = display.contentWidth*1/2,
+        x = display.contentWidth*3.5/8,
         y = display.contentHeight*9.3/10,
 
         -- Setting Dimensions
