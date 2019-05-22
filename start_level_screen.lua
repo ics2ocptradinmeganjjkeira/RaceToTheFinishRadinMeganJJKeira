@@ -46,6 +46,21 @@ local function gotoLevel1()
 
 end
 
+local function redStopLight()
+
+    red.isVisible = true
+end
+
+local function yellowStopLight()
+
+    yellow.isVisible = true
+end
+
+local function greenStopLight()
+
+    green.isVisible = true
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -74,20 +89,20 @@ function scene:create( event )
     red.x = display.contentWidth*1.05/2
     red.y = display.contentHeight*0.8/4
     red:scale(0.1,0.1)
---    red.isVisible = false
+    red.isVisible = false
 
 
     yellow = display.newImage("Images/YellowMeganS@2x.png", 0, 0)
     yellow.x = display.contentWidth*1.05/2
     yellow.y = display.contentHeight*1.5/3
     yellow:scale(0.1,0.1)
---    yellow.isVisible = false
+    yellow.isVisible = false
 
     green = display.newImage("Images/GreenMeganS@2x.png", 0, 0)
     green.x = display.contentWidth*1.05/2
     green.y = display.contentHeight*2.4/3
     green:scale(0.1,0.1)
---    green.isVisible = false
+    green.isVisible = false
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( stopLight )
@@ -119,8 +134,14 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
 
-        -- Go to the main menu screen after the given time.
---       timer.performWithDelay ( 10000, gotoLevel1)     
+        -- Go to the level 1 screen after the given time.
+        timer.performWithDelay ( 1700, gotoLevel1) 
+
+        -- Create the animation for the stop lights
+        timer.performWithDelay( 500, redStopLight )
+        timer.performWithDelay( 1000, yellowStopLight )
+        timer.performWithDelay( 1500, greenStopLight )
+
        
     end
 
