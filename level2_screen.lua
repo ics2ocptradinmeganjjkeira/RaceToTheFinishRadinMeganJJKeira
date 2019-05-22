@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
 -- level2_screen.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the level 1 screen of the game.
+-- Created by: Keira L
+-- Date: May 21, 2019
+-- Description: This is the level 2 screen of the game.
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -65,6 +65,7 @@ local pylon3
 local tree
 local rock
 
+-- create the score
 local score = 0
 
 -- Create the local variables for the timer
@@ -195,11 +196,11 @@ function scene:create( event )
     lArrow.y = display.contentHeight * 9.5 / 10
 
     -- insert the car
-    car = display.newImageRect("Images/MainMenu_Car.png", 100, 150)
+    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
     car.x = display.contentWidth/2
-    car.y = display.contentHeight/1
-    car.width = 75
-    car.height = 100
+    car.y = display.contentHeight/1.5
+    car.width = 200
+    car.height = 150
     car.myName = "car"
 
     -- Insert the Hearts
