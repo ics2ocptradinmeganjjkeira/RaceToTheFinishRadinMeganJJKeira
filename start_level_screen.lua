@@ -2,7 +2,7 @@
 --
 --start_level_screen.lua
 -- Created by: Megan
--- Date: Month Day, Year
+-- Date: May 22, 2019
 -- Description: This is the start level screen. This appears when 
 -- the player starts the level
 -----------------------------------------------------------------------------------------
@@ -34,6 +34,7 @@ local stopLight
 local red
 local yellow
 local green
+local startText
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -43,7 +44,6 @@ local green
 local function gotoLevel1()
 
     composer.gotoScene( "level1_screen" )
-
 end
 
 local function redStopLight()
@@ -59,6 +59,11 @@ end
 local function greenStopLight()
 
     green.isVisible = true
+end
+
+local function StartText()
+
+    startText.isVisible = true
 end
 
 -----------------------------------------------------------------------------------------
@@ -78,11 +83,17 @@ function scene:create( event )
 
     -- Display the stop light
     stopLight = display.newImage("Images/StopLightMeganS@2x.png", 0, 0)
-
     stopLight.x = display.contentCenterX
     stopLight.y = display.contentCenterY
 
     stopLight:scale(0.5,0.47)
+
+    -- Create the start text 
+    startText = display.newText("Start!", 0, 0, nil, 80)
+    startText.x = display.contentWidth*2.5/3
+    startText.y = display.contentHeight*1/2
+    startText:setTextColor(0, 0, 0)
+    startText.isVisible = false
 
     -- Create the colours for the stop light
     red = display.newImage("Images/RedMeganS@2x.png", 0, 0)
@@ -90,7 +101,6 @@ function scene:create( event )
     red.y = display.contentHeight*0.8/4
     red:scale(0.1,0.1)
     red.isVisible = false
-
 
     yellow = display.newImage("Images/YellowMeganS@2x.png", 0, 0)
     yellow.x = display.contentWidth*1.05/2
@@ -109,6 +119,7 @@ function scene:create( event )
     sceneGroup:insert( red )
     sceneGroup:insert( yellow )
     sceneGroup:insert( green )
+    sceneGroup:insert( startText )
 
 
 end 
@@ -135,12 +146,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- Go to the level 1 screen after the given time.
-        timer.performWithDelay ( 1700, gotoLevel1) 
+        timer.performWithDelay ( 3000, gotoLevel1) 
 
         -- Create the animation for the stop lights
-        timer.performWithDelay( 500, redStopLight )
-        timer.performWithDelay( 1000, yellowStopLight )
-        timer.performWithDelay( 1500, greenStopLight )
+        timer.performWithDelay( 1500, redStopLight )
+        timer.performWithDelay( 2000, yellowStopLight )
+        timer.performWithDelay( 2500, greenStopLight )
+        timer.performWithDelay( 2500, StartText )
 
        
     end
