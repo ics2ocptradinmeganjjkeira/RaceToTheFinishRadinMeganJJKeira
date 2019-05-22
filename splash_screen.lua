@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
---splash_screen.lua
+-- splash_screen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
 -- Description: This is the splash screen of the game. It displays the 
@@ -18,45 +18,88 @@ sceneName = "splash_screen"
 -- Create Scene Object
 local scene = composer.newScene( sceneName )
 
-----------------------------------------------------------------------------------------
--- SOUNDS
------------------------------------------------------------------------------------------
--- The local variables for the sound
 
-local CrashSound = audio.loadSound( "Sounds/CrashSound.mp3")
-local CrashSoundChannel
+-- set the background colour
+display.setDefault("background", 1, 1, 1)
 
-----------------------------------------------------------------------------------------
--- LOCAL VARIABLES
------------------------------------------------------------------------------------------
- 
--- The local variable for the Platelogo
-local Platelogo 
-local scrollSpeedPlatelogo = -9
+---------------------------------------------------------------
+-- GLOBAL VARIABLES -- 
+---------------------------------------------------------------
+scrollSpeed = 10
+
+---------------------------------------------------------------
+-- LOCAL VARIABLES -- 
+---------------------------------------------------------------
+local plate
+local slime
+local fork
+local spoon
+
+---------------------------------------------------------------
+-- SOUNDS -- 
+---------------------------------------------------------------
+local crashSound = audio.loadSound("Sounds/crash.mp3")
+local crashSoundsChannel
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
+-- move the plate to the starting poisition
+local function MovePlate( event )
+    -- add the scroll speed to the y-value
+    plate.y = plate.y + scrollSpeed
 
--- The function that moves the Platelogo across the screen
-local function movePlatelogo()
+    -- make the plate stop after it reaches half
+    if (plate.y >= display.contentHeight/2) then
+        -- stop moving lamp
+        Runtime:removeEventListener("enterFrame", MovePlate)
+        -- play crash sound
+        crashSoundsChannel = audio.play(crashSound )
+    end
+end
 
-    -- change the transparency of the ship every time it moves so that it fades out
-    Platelogo.alpha = Platelogo.alpha - 0.01
+-- move the slime to the starting poisition
+local function MoveSlime( event )
+    -- add the scroll speed to the y-value
+    slime.y = slime.y + scrollSpeed
+        -- make the plate stop after it reaches half
+    if (slime.y >= display.contentHeight/1.5) then
+        -- stop moving lamp
+        Runtime:removeEventListener("enterFrame", MoveSlime)
+    end
+end
 
+-- move the fork to the starting poisition
+local function MoveFork( event )
+    -- add the scroll speed to the y-value
+    fork.y = fork.y + scrollSpeed
+        -- make the plate stop after it reaches half
+    if (fork.y >= display.contentHeight/2) then
+        -- stop moving lamp
+        Runtime:removeEventListener("enterFrame", MoveFork)
+        -- play crash sound
+        crashSoundsChannel = audio.play(crashSound )
+    end
+end
+
+-- move the spoon to the starting poisition
+local function MoveSpoon( event )
+    -- add the scroll speed to the y-value
+    spoon.y = spoon.y + scrollSpeed
+        -- make the plate stop after it reaches half
+    if (spoon.y >= display.contentHeight/2) then
+        -- stop moving lamp
+        Runtime:removeEventListener("enterFrame", MoveSpoon)
+        -- play crash sound
+        crashSoundsChannel = audio.play(crashSound )
+    end
 end
 
 -- The function that will go to the main menu 
 local function gotoMainMenu()
-
     composer.gotoScene( "main_menu" )
-
 end
 
-local function Sound()
-
-    CrashSoundChannel = audio.play(CrashSound)
-end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -67,33 +110,42 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    display.setStatusBar(display.HiddenStatusBar)
+    ---------------------------------------------------------------
+    -- OBJECTS -- 
+    ---------------------------------------------------------------
+    -- create the plate
+    plate = display.newImageRect("Images/plate.png", 600, 450)
+    plate.x = display.contentWidth/2
+    plate.y = display.contentHeight/-2
 
-    -- Set the background to be black
-    display.setDefault( "background", 1, 1, 1  ) 
+    -- create the slime
+    slime = display.newImageRect("Images/slime.png", 600, 400)
+    slime.x = display.contentWidth/2
+    slime.y = display.contentHeight/-3
 
-    Platelogo = display.newImage("Images/CompanyLogo.png", 50, 50 )
+    -- create the fork
+    fork = display.newImageRect("Images/fork.png", 150, 450)
+    fork.x = display.contentWidth/8
+    fork.y = display.contentHeight/-2
 
-    -- Set the scale of the logo
-    Platelogo:scale(0.25, 0.25)
+    -- create the spoon
+    spoon = display.newImageRect("Images/spoon.png", 150, 450)
+    spoon.x = 880
+    spoon.y = display.contentHeight/-2
 
-    -- Set the initial x and y position of the Platelogo
-    Platelogo.x = display.contentWidth/2
-    Platelogo.y = display.contentHeight*1/10
+    sceneGroup:insert( plate )
+    sceneGroup:insert( slime )
+    sceneGroup:insert( fork )
+    sceneGroup:insert( spoon)
 
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( Platelogo )
-
-end 
-
+end
 --------------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
 
     -- Creating a group that associates objects with the scene
-    local sceneGroup = self.views
+    local sceneGroup = self.view
 
     -----------------------------------------------------------------------------------------
 
@@ -107,20 +159,17 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        -- start the splash screen music
 
-        
-        -- Move the plate to the middle of the screen form the top
-        transition.moveTo( Platelogo, {x = display.contentWidth/2, y = display.contentHeight/2 , time = 1500})
-
-        -- Make the plate logo fade out 
-        movePlatelogo()
-
-        -- Play the crash sound
-        timer.performWithDelay(150, Sound)
+        -- Call the moveplate, slime, fork, and spoon functions as soon as we enter the frame.        
+        Runtime:addEventListener("enterFrame", MovePlate)
+        Runtime:addEventListener("enterFrame", MoveSlime)
+        Runtime:addEventListener("enterFrame", MoveFork)
+        Runtime:addEventListener("enterFrame", MoveSpoon)
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu)     
-       
+        timer.performWithDelay ( 3000, gotoMainMenu)          
+        
     end
 
 end --function scene:show( event )
@@ -145,10 +194,11 @@ function scene:hide( event )
 
     -- Called immediately after scene goes off screen.
     elseif ( phase == "did" ) then
-        
-        -- stop the jungle sounds channel for this screen
-      audio.stop(CrashSoundChannel) 
-      
+        -- remove event listeners
+        Runtime:removeEventListener("enterFrame", MovePlate)
+        Runtime:removeEventListener("enterFrame", MoveSlime)
+        Runtime:removeEventListener("enterFrame", MoveFork)
+        Runtime:removeEventListener("enterFrame", MoveSpoon)
     end
 
 end --function scene:hide( event )
@@ -169,9 +219,6 @@ function scene:destroy( event )
     -- Example: remove display objects, save state, etc.
 end -- function scene:destroy( event )
 
------------------------------------------------------------------------------------------
--- EVENT LISTENERS
------------------------------------------------------------------------------------------
 
 -- Adding Event Listeners
 scene:addEventListener( "create", scene )

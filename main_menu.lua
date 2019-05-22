@@ -88,6 +88,13 @@ end
 
 -----------------------------------------------------------------------------------------
 
+-- Creating Transition to Level2 Screen
+local function Level2ScreenTransition( )
+    composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 1000})
+end
+
+-----------------------------------------------------------------------------------------
+
 -- Creating Transition to Instuctions Screen
 local function InstructionTransition( )
     composer.gotoScene( "instruction_screen", {effect = "slideUp", time = 1000})
