@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Allison
--- Date: May 16, 2017
+-- Created by: Megan
+-- Date: May 16, 2019
 -- Description: This is the level 1 screen of the game. the charater can be dragged to move
 --If character goes off a certain araea they go back to the start. When a user interactes
 --with piant a trivia question will come up. they will have a limided time to click on the answer
@@ -308,8 +308,8 @@ function scene:create( event )
     circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
     circle1.isVisible = false
 
-    rectangle1 = display.newImage("Images/RectangleMeganS.png", 0, 0)
-    rectangle1.isVisible = false
+--    rectangle1 = display.newImage("Images/RectangleMeganS.png", 0, 0)
+ --   rectangle1.isVisible = false
 
     pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", 0, 0)
     pentagon1.isVisible = false
@@ -365,7 +365,7 @@ function scene:create( event )
 
     -- the group scene insert for all of the objects in the questions
     sceneGroup:insert( circle1 )
-    sceneGroup:insert( rectangle1 )
+--    sceneGroup:insert( rectangle1 )
     sceneGroup:insert( pentagon1 )
     sceneGroup:insert( triangle1 )
     sceneGroup:insert( textObject )
@@ -398,7 +398,6 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
-        PositionAnswers()
         AddTextListeners()
     end
 
