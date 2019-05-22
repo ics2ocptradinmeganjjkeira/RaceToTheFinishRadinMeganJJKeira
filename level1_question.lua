@@ -74,11 +74,8 @@ local Tri2
 local square2
 local oval2
 
-
 -- question 5 objects
-local rightAngleTri5
-local pentagon2
-local oval5
+local Tri5
 local square5
 
 -- question 6 objects
@@ -268,56 +265,8 @@ local function DisplayQuestion()
     end
 end
 
-local function PositionAnswers()
 
-    --creating random start position in a certian area
-    answerPosition = math.random(1,3)
 
-    if (answerPosition == 1) then
-
-        answerText.x = X1
-        answerText.y = Y1
-        
-        wrongText1.x = X2
-        wrongText1.y = Y1
-        
-        wrongText2.x = X1
-        wrongText2.y = Y2
-
-        wrongText3.x = X2
-        wrongText3.y = Y2        
-
-        
-    elseif (answerPosition == 2) then
-
-        answerText.x = X1
-        answerText.y = Y2
-            
-        wrongText1.x = X1
-        wrongText1.y = Y1
-            
-        wrongText2.x = X2
-        wrongText2.y = Y1
-
-        wrongText3.x = X2
-        wrongText3.y = Y2
-
-    elseif (answerPosition == 3) then
-
-        answerText.x = X2
-        answerText.y = Y1
-            
-        wrongText1.x = X1
-        wrongText1.y = Y2
-            
-        wrongText2.x = X1
-        wrongText2.y = Y1
-
-        wrongText3.x = X2
-        wrongText3.y = Y2
-            
-    end
-end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -359,9 +308,20 @@ function scene:create( event )
     circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
     circle1.isVisible = false
 
-
     rectangle1 = display.newImage("Images/RectangleMeganS.png", 0, 0)
     rectangle1.isVisible = false
+
+    pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", 0, 0)
+    pentagon1.isVisible = false
+
+    triangle1 = display.newImage("Images/TriangleMeganS@2x.png", 0, 0)
+    triangle1.isVisible = false
+
+
+    -- Question 2 --
+
+
+
 
     -- Question 4 --
 
@@ -378,6 +338,20 @@ function scene:create( event )
     textObject2:setTextColor (1, 1, 0)
     textObject2.isVisible = false
 
+    -- Question 5 -- 
+
+    Tri5 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
+    Tri5.isVisible = false
+
+    -- the same pentagon from question 1 
+
+    -- the same oval as question 2
+
+    square5 = display.newImage("Images/SqaureMeganS@2x.png", 0, 0)
+    square5.isVisible = false
+
+
+
     -----------------------------------------------------------------------------------------
 
     -- insert all objects for this scene into the scene group
@@ -388,6 +362,18 @@ function scene:create( event )
     sceneGroup:insert( wrongText1 )
     sceneGroup:insert( wrongText2 )
     sceneGroup:insert( wrongText3 )
+
+    -- the group scene insert for all of the objects in the questions
+    sceneGroup:insert( circle1 )
+    sceneGroup:insert( rectangle1 )
+    sceneGroup:insert( pentagon1 )
+    sceneGroup:insert( triangle1 )
+    sceneGroup:insert( textObject )
+    sceneGroup:insert( textObject2 )
+    sceneGroup:insert( Tri5 )
+    sceneGroup:insert( square5 )
+
+
 
 end --function scene:create( event )
 
