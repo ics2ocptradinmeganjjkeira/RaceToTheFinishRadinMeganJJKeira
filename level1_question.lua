@@ -34,19 +34,8 @@ local scene = composer.newScene( sceneName )
 
 -- The local variables for this scene
 local questionText
-
-local firstNumber
-local secondNumber
-
-local answer
-local wrongAnswer1
-local wrongAnswer2
-local wrongAnswer3
-
-local answerText 
-local wrongAnswerText1
-local wrongAnswerText2
-local wrongAnswerText3
+local textObject
+local textObject2
 
 local answerPosition = 1
 local questionSelect = 1
@@ -83,6 +72,13 @@ local rightAngleTri6
 local isosceles6
 local triangle6
 
+-- question 9 objects 
+
+local pentagonText
+local octagonText
+local decagonText
+local hexagonText
+
 -- question 14 objects
 local angles 
 
@@ -98,12 +94,16 @@ local function BackToLevel1()
     ResumeGame()
 end 
 
------------------------------------------------------------------------------------------
+-------------------------------------------- Touch and react question for question 3 --------------------------------------------
+
+
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerAnswer(touch)
-    userAnswer = answerText.text
+local function TouchListenerAnswerQ3(touch)
+    userAnswer = pentagonText.text
     
     if (touch.phase == "ended") then
+
+        CountScore()
 
         BackToLevel1( )
     
@@ -111,8 +111,8 @@ local function TouchListenerAnswer(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer(touch)
-    userAnswer = wrongText1.text
+local function TouchListenerWrongAnswerQ3(touch)
+    userAnswer = decagonText.text
     
     if (touch.phase == "ended") then
         
@@ -123,8 +123,8 @@ local function TouchListenerWrongAnswer(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer2(touch)
-    userAnswer = wrongText2.text
+local function TouchListenerWrongAnswer2Q3(touch)
+    userAnswer = octagonText.text
     
     if (touch.phase == "ended") then
 
@@ -134,8 +134,8 @@ local function TouchListenerWrongAnswer2(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer3(touch)
-    userAnswer = wrongText3.text
+local function TouchListenerWrongAnswer3Q3(touch)
+    userAnswer = hexagonText.text
     
     if (touch.phase == "ended") then
 
@@ -143,24 +143,66 @@ local function TouchListenerWrongAnswer3(touch)
         
     end 
 end
+
+------------------------------------------ Touch and react question for question 4------------------------------------------
+
+local function TouchListenerAnswerQ4(touch)
+    userAnswer = textObject.text
+    
+    if (touch.phase == "ended") then
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer1Q4(touch)
+    userAnswer = textObject2.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
 
 
 --adding the event listeners 
 local function AddTextListeners ( )
-    answerText:addEventListener( "touch", TouchListenerAnswer )
-    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
-    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2)
-    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
+
+    pentagonText:addEventListener( "touch", TouchListenerAnswerQ3 )
+    decagonText:addEventListener( "touch", TouchListenerWrongAnswerQ3 )
+    octagonText:addEventListener( "touch", TouchListenerWrongAnswer2Q3 )
+    hexagonText:addEventListener( "touch", TouchListenerWrongAnswer3Q3 )
+
+
+    textObject:addEventListener( "touch", TouchListenerAnswerQ4)
+    textObject2:addEventListener( "touch", TouchListenerWrongAnswer1Q4)
+
+
+
 end
 
 --removing the event listeners
 local function RemoveTextListeners()
-    answerText:removeEventListener( "touch", TouchListenerAnswer )
-    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
-    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
-    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
+
+    questionText.isVisible = false
+
+    pentagonText:removeEventListener( "touch", TouchListenerAnswerQ3 )
+    decagonText:removeEventListener( "touch", TouchListenerWrongAnswerQ3 )
+    octagonText:removeEventListener( "touch", TouchListenerWrongAnswer2Q3 )
+    hexagonText:removeEventListener( "touch", TouchListenerWrongAnswer3Q3 )
+
+    textObject:removeEventListener( "touch", TouchListenerAnswerQ4 )
+    textObject2:removeEventListener( "touch", TouchListenerWrongAnswer1Q4 )
 
 end
+
 
 --local function Answers()
 
@@ -171,7 +213,7 @@ local function DisplayQuestion()
 
     if (questionSelect == 1) then
 
-        questionText.text = display.newText("Which shape has 5 sides?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
+        questionText.text = display.newText( "Which shape has 5 sides?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
         -- Display the objects
         circle1.isVisible = true
@@ -181,23 +223,23 @@ local function DisplayQuestion()
         circle1.y = Y1
 
 
+
     elseif (questionSelect == 2) then
 
-        questionText.text = display.newText("What shape is an oval?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
+        questionText.text = display.newText( "What shape is an oval?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
     elseif (questionSelect == 3) then 
 
-        questionText.text = display.newText("How many vertices does a circle have?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 35 )
+        questionText.text = display.newText( "How many vertices does a circle have?", display.contentWidth*1/2, display.contentHeight*1/3, nil, 35 )
 
     elseif (questionSelect == 4) then
 
-        questionText.text = display.newText(" A circle is a polygon.", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
+        questionText.text = display.newText( " A circle is a polygon. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
             -- Display the text objects 
            textObject.isVisible = true
            textObject2.isVisible = true
 --[[
-
     elseif (questionSelect == 5) then
 
         questionText.text = display.newText(" Click on the triangle ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
@@ -217,6 +259,13 @@ local function DisplayQuestion()
     elseif (questionSelect == 9) then
 
         questionText.text = display.newText(" A five-sided polygon is called: ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
+
+        -- Make the objects visible
+        octagonText.isVisible = true
+        pentagonText.isVisible = true
+        decagonText.isVisible = true
+        hexagonText.isVisible = true
+
 
     elseif (questionSelect == 10) then
 
@@ -292,7 +341,7 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 75)
-
+--[[
     -- create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 75)
     answerText.anchorX = 0
@@ -302,10 +351,12 @@ function scene:create( event )
     wrongText2.anchorX = 0
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
-
+--]]
     -- Question 1 --
 
     circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
+    circle1.width = 150
+    circle1.height = 150
     circle1.isVisible = false
 
 --    rectangle1 = display.newImage("Images/RectangleMeganS.png", 0, 0)
@@ -327,14 +378,14 @@ function scene:create( event )
 
     -- Create the text for the true and false questions
     textObject = display.newText("True", 0, 0, nil, 50)
-    textObject.x = display.contentWidth/2
-    textObject.y = display.contentHeight/3
+    textObject.x = display.contentWidth*1/3
+    textObject.y = display.contentHeight*3/4
     textObject:setTextColor (1, 1, 0)
     textObject.isVisible = false
 
     textObject2 = display.newText("False", 0, 0, nil, 50)
-    textObject2.x = display.contentWidth/3
-    textObject2.y = display.contentHeight/3
+    textObject2.x = display.contentWidth*2/3
+    textObject2.y = display.contentHeight*3/4
     textObject2:setTextColor (1, 1, 0)
     textObject2.isVisible = false
 
@@ -350,18 +401,35 @@ function scene:create( event )
     square5 = display.newImage("Images/SqaureMeganS@2x.png", 0, 0)
     square5.isVisible = false
 
+    -- Question 6 -- 
+
+    -- Question 9 --
+
+    pentagonText = display.newText("Pentagon", X1, Y2, nil, 40)
+    pentagonText.isVisible = false
+
+    octagonText = display.newText("Octagon", X2, Y2, nil, 40)
+    octagonText.isVisible = false
+
+    decagonText = display.newText("Decagon", X1, Y1, nil, 40)
+    decagonText.isVisible = false
+
+    hexagonText = display.newText("Hexagon", X2, Y1, nil, 40)
+    hexagonText.isVisible = false
+
+
 
 
     -----------------------------------------------------------------------------------------
 
-    -- insert all objects for this scene into the scene group
+    -- insert the questions for question 9
     sceneGroup:insert( bkg )
     sceneGroup:insert( cover )
     sceneGroup:insert( questionText )
-    sceneGroup:insert( answerText )
-    sceneGroup:insert( wrongText1 )
-    sceneGroup:insert( wrongText2 )
-    sceneGroup:insert( wrongText3 )
+    sceneGroup:insert( pentagonText )
+    sceneGroup:insert( octagonText )
+    sceneGroup:insert( decagonText )
+    sceneGroup:insert( hexagonText )
 
     -- the group scene insert for all of the objects in the questions
     sceneGroup:insert( circle1 )
