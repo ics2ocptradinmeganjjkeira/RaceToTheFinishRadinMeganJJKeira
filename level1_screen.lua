@@ -305,11 +305,21 @@ function ResumeGame()
     if (questionsAnswered > 0) then
         if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
             physics.removeBody( Pylon )
-            Pylon.isVisible = false
+            Pylon.isVisible = true
+            ReplaceCar()
         end
     end
 
 end
+
+function CountScore()
+
+    score = score + 100
+
+    scoreObject.text = "Score: " .. score
+end
+
+
 
 
 -----------------------------------------------------------------------------------------
@@ -402,7 +412,7 @@ function scene:create( event )
     sceneGroup:insert( heart5 )
 
     Pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon1.x = 150
+    Pylon1.x = 110
     Pylon1.y = 650
     Pylon1.isVisible = true
     Pylon1.myName = "Pylon1"
@@ -422,7 +432,7 @@ function scene:create( event )
   
 
     Pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon3.x = 940
+    Pylon3.x = 750
     Pylon3.y = 500
     Pylon3.isVisible = true
     Pylon3.myName = "Pylon3"
