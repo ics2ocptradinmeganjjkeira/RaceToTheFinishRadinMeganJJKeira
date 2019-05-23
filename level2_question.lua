@@ -34,6 +34,27 @@ local scene = composer.newScene( sceneName )
 local bkg
 local cover
 
+local answerPosition = 1
+
+local questionText
+local questionText2
+
+local answerText 
+local wrongAnswerText1
+local wrongAnswerText2
+local wrongAnswerText3
+local answerText2
+local wrongAnswerText4
+local wrongAnswerText5
+local wrongAnswerText6
+
+local X1 = display.contentWidth*2/7
+local X2 = display.contentWidth*4/7
+local Y1 = display.contentHeight*1/2
+local Y2 = display.contentHeight*5.5/7
+
+local userAnswer
+local textTouched = false
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -45,6 +66,150 @@ local function BackToLevel2()
     ResumeGame()
 end 
 
+
+local function TouchListenerAnswer(touch)
+    userAnswer = answerText.text
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+    
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer(touch)
+    userAnswer = wrongText1.text
+    
+    if (touch.phase == "ended") then
+        
+        BackToLevel2( )
+        
+        
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer2(touch)
+    userAnswer = wrongText2.text
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+        
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer3(touch)
+    userAnswer = wrongText3.text
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+        
+    end 
+end
+
+--adding the event listeners 
+local function AddTextListeners ( )
+    answerText:addEventListener( "touch", TouchListenerAnswer )
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
+    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2)
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
+end
+
+--removing the event listeners
+local function RemoveTextListeners()
+    answerText:removeEventListener( "touch", TouchListenerAnswer )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
+    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
+end
+
+
+local function DisplayQuestion()
+    -- choose a random question
+    question = math.random(1,1)
+
+    if (question == 1) then 
+        -- create the question
+        questionText.text = "How many faces are there?"
+
+        -- create the answer
+        answerText.text = 6
+
+        -- create the wrong answers
+        wrongText1.text = 4
+        wrongText2.text = 7
+        wrongText3.text = 3
+    end
+
+   -- if (question == 2) then 
+        -- create the question
+        --questionText2.text = "How many vertices does a rectangular prism have?"
+
+        -- create the answer
+        --answerText2.text = 8
+
+        -- create the incorrect answers
+        --wrongAnswerText4.text = 4
+        --wrongAnswerText5.text = 10
+        --wrongAnswerText6.text = 12
+    --end
+end
+
+local function PositionAnswers()
+
+    --creating random start position in a cretain area
+    answerPosition = math.random(1,3)
+
+    if (answerPosition == 1) then
+
+        answerText.x = X1
+        answerText.y = Y1
+        
+        wrongText1.x = X2
+        wrongText1.y = Y1
+        
+        wrongText2.x = X1
+        wrongText2.y = Y2
+
+        wrongText3.x = X2
+        wrongText3.y = Y2
+
+        
+    elseif (answerPosition == 2) then
+
+        answerText.x = X1
+        answerText.y = Y2
+            
+        wrongText1.x = X1
+        wrongText1.y = Y1
+            
+        wrongText2.x = X2
+        wrongText2.y = Y1
+
+        wrongText3.x = X2
+        wrongText3.y = Y2
+
+    elseif (answerPosition == 3) then
+
+        answerText.x = X2
+        answerText.y = Y1
+            
+        wrongText1.x = X1
+        wrongText1.y = Y2
+            
+        wrongText2.x = X1
+        wrongText2.y = Y1
+
+        wrongText3.x = X2
+        wrongText3.y = Y2
+
+            
+    end
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -66,8 +231,29 @@ function scene:create( event )
     cover = display.newRoundedRect(display.contentCenterX, display.contentCenterY, display.contentWidth*0.8, display.contentHeight*0.95, 50 )
     --setting its colour
     cover:setFillColor(96/255, 96/255, 96/255)
+    -- create the question text object
+    questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
+
+    -- create the answer text object & wrong answer text objects
+    answerText = display.newText("", X1, Y2, Arial, 75)
+    answerText.anchorX = 0
+    wrongText1 = display.newText("", X2, Y2, Arial, 75)
+    wrongText1.anchorX = 0
+    wrongText2 = display.newText("", X1, Y1, Arial, 75)
+    wrongText2.anchorX = 0
+    wrongText3 = display.newText("", X2, Y1, Arial, 75)
+    wrongText3.anchorX = 0
 
     -----------------------------------------------------------------------------------------
+
+    -- insert all objects for this scene into the scene group
+    sceneGroup:insert(bkg)
+    sceneGroup:insert(cover)
+    sceneGroup:insert(questionText)
+    sceneGroup:insert(answerText)
+    sceneGroup:insert(wrongText1)
+    sceneGroup:insert(wrongText2)
+    sceneGroup:insert(wrongText3)
 
     -- insert all objects for this scene into the scene group
 
@@ -93,6 +279,9 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        DisplayQuestion()
+        PositionAnswers()
+        AddTextListeners()
     end
 
 end --function scene:show( event )
@@ -117,6 +306,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        RemoveTextListeners()
     end
 
 end --function scene:hide( event )
