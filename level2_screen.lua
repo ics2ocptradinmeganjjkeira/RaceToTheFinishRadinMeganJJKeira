@@ -14,6 +14,9 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 
+-- load physics
+local physics = require("physics")
+
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
@@ -56,12 +59,13 @@ local numLives = 5
 local leftW
 local rightW
 local topW
-local bottomW
+local ground
 
 -- add the items the car interacts with
 local pylon1
 local pylon2
 local pylon3
+local thePylon
 local tree
 local rock
 
@@ -88,18 +92,18 @@ end
 -- When right arrow is touched, move character right
 local function right (touch)
     motionx = SPEED
-    character.xScale = 1
+    car.xScale = 1
 end
 
 -- When left arrow is touched, move character right
 local function left (touch)
     motionx = SPEED2
-    character.xScale = -1
+    car.xScale = -1
 end
 
 -- Move character horizontally
 local function movePlayer (event)
-    character.x = character.x + motionx
+    car.x = car.x + motionx
 end
  
 -- Stop character movement when no arrow is pushed
@@ -132,21 +136,28 @@ local function RemoveRuntimeListeners()
 end
 
 local function ReplaceCar()
+    -- insert the car
+    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
+    car.x = display.contentWidth/2
+    car.y = display.contentHeight*0.5
+    car.width = 200
+    car.height = 150
+    car.myName = "car"
 
     -- intialize horizontal movement of character
     motionx = 0
+
+    -- add physics body
+    physics.addBody( car, "dynamic", { density=0, friction=0.8, bounce=0, rotation=0 } )
+
+    -- prevent car from being able to tip over
+    car.isFixedRotation = true
 
     -- add back arrow event listeners
     AddArrowEventListeners()
 
     -- add back runtime listeners
     AddRuntimeListeners()
-
-    -- add physics body
-    physics.addBody( Car, "dynamic", { density=0, friction=0.8, bounce=0, rotation=0 } )
-
-    -- prevent car from being able to tip over
-    Car.isFixedRotation = true
 end
 
 local function MakePylonsVisible()
@@ -164,6 +175,86 @@ local function MakeHeartsVisible()
 
 end
 
+local function onCollision( self, event )
+
+    if  (event.target.myName == "pylon1") or
+        (event.target.myName == "pylon2") or
+        (event.target.myName == "pylon3") then
+
+        -- get the ball that the user hit
+        thePylon = event.target
+
+        -- stop the character from moving
+        motionx = 0
+
+        -- make the character invisible
+        car.isVisible = false
+
+        -- show overlay with math question
+        composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+
+        -- Increment questions answered
+        questionsAnswered = questionsAnswered + 1
+    end     
+end
+
+
+local function AddCollisionListeners()
+
+    -- if character collides with ball, onCollision will be called    
+    pylon1.collision = onCollision
+    pylon1:addEventListener( "collision" )
+    pylon2.collision = onCollision
+    pylon2:addEventListener( "collision" )
+    pylon3.collision = onCollision
+    pylon3:addEventListener( "collision" )
+end
+
+local function RemoveCollisionListeners()
+    pylon1:removeEventListener( "collision" )
+    pylon2:removeEventListener( "collision" )
+    pylon3:removeEventListener( "collision" )
+
+end
+
+
+
+local function AddPhysicsBodies()
+    --add to the physics engine
+    physics.addBody( ground, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} ) 
+
+    physics.addBody(pylon1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(pylon2, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(pylon3, "static",  {density=0, friction=0, bounce=0} )
+   
+end
+
+local function RemovePhysicsBodies()
+    physics.removeBody(ground)
+    physics.removeBody(leftW)
+    physics.removeBody(rightW)
+ 
+end
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+-----------------------------------------------------------------------------------------
+
+function ResumeGame()
+
+    -- make character visible again
+    character.isVisible = true
+    
+    if (questionsAnswered > 0) then
+        if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
+            physics.removeBody(thePylon)
+            thePylon.isVisible = false
+        end
+    end
+
+end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -184,6 +275,21 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
+        --WALLS--
+    leftW = display.newLine( 0, 0, 0, display.contentHeight)
+    leftW.isVisible = true
+
+    rightW = display.newLine( 0, 0, 0, display.contentHeight)
+    rightW.x = display.contentCenterX * 2
+    rightW.isVisible = true
+
+
+    -- Insert the ground
+    ground = display.newImageRect("Images/Level2-Ground.png", 1024, 100)
+    ground.x = display.contentCenterX
+    ground.y = display.contentHeight * 1.07
+
+
     --Insert the right arrow
     rArrow = display.newImageRect("Images/RightArrowUnpressed.png", 100, 50)
     rArrow.x = display.contentWidth * 9.2 / 10
@@ -192,16 +298,9 @@ function scene:create( event )
 
     --Insert the left arrow
     lArrow = display.newImageRect("Images/LeftArrowUnpressed.png", 100, 50)
-    lArrow.x = display.contentWidth * 7.2 / 10
+    lArrow.x = display.contentWidth * 8.2 / 10
     lArrow.y = display.contentHeight * 9.5 / 10
 
-    -- insert the car
-    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
-    car.x = display.contentWidth/2
-    car.y = display.contentHeight/1.5
-    car.width = 200
-    car.height = 150
-    car.myName = "car"
 
     -- Insert the Hearts
     heart1 = display.newImageRect("Images/heart.png", 80, 80)
@@ -234,14 +333,14 @@ function scene:create( event )
     pylon1.x = 150
     pylon1.y = 650
     pylon1.isVisible = true
-    pylon1.myName = "Pylon1"
+    pylon1.myName = "pylon1"
 
 
     pylon2 = display.newImageRect("Images/Pylon.png", 80, 80)
     pylon2.x = 50
     pylon2.y = 400
     pylon2.isVisible = true
-    pylon2.myName = "Pylon2"
+    pylon2.myName = "pylon2"
 
   
 
@@ -249,7 +348,7 @@ function scene:create( event )
     pylon3.x = 940
     pylon3.y = 500
     pylon3.isVisible = true
-    pylon3.myName = "Pylon3"
+    pylon3.myName = "pylon3"
 
 
     -----------------------------------------------------------------------------------------
@@ -285,8 +384,7 @@ function scene:create( event )
     sceneGroup:insert( bkg_image ) 
     sceneGroup:insert( backButton )   
     sceneGroup:insert( rArrow)
-    sceneGroup:insert( lArrow)   
-    sceneGroup:insert( car) 
+    sceneGroup:insert( lArrow)    
     sceneGroup:insert( heart1)
     sceneGroup:insert( heart2)
     sceneGroup:insert( heart3)
@@ -295,6 +393,9 @@ function scene:create( event )
     sceneGroup:insert( pylon1)
     sceneGroup:insert( pylon2)
     sceneGroup:insert( pylon3)
+    sceneGroup:insert( ground)
+    sceneGroup:insert( rightW)
+    sceneGroup:insert( leftW)
 
 end --function scene:create( event )
 
@@ -324,6 +425,24 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
+        numLives = 5
+        questionsAnswered = 0
+
+        -- make all soccer balls visible
+        MakePylonsVisible()
+
+        -- make all lives visible
+        MakeHeartsVisible()
+
+        -- create the character, add physics bodies and runtime listeners
+        ReplaceCar()
+
+        -- add physics bodies to each object
+        AddPhysicsBodies()
+
+        -- add collision listeners to objects
+        AddCollisionListeners()        
+
     end
 
 end --function scene:show( event )
@@ -348,9 +467,12 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        RemoveCollisionListeners()
+        RemovePhysicsBodies()
         RemoveArrowEventListeners()
         RemoveRuntimeListeners()
         physics.stop()
+        display.remove(car)
     end
 
 end --function scene:hide( event )
