@@ -249,8 +249,7 @@ function ResumeGame()
     
     if (questionsAnswered > 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
-            physics.removeBody(thePylon)
-            thePylon.isVisible = false
+            thePylon.isVisible = true
         end
     end
 
