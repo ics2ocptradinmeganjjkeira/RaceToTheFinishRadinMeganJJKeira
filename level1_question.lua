@@ -64,7 +64,7 @@ local square2
 local oval2
 
 -- question 5 objects
-local Tri5
+local tri5
 local square5
 
 -- question 6 objects
@@ -89,16 +89,190 @@ local angles
 
 --making transition to next scene
 local function BackToLevel1() 
+
     composer.hideOverlay("crossFade", 400 )
   
     ResumeGame()
 end 
 
--------------------------------------------- Touch and react question for question 3 --------------------------------------------
+--------------------------- Touch and react question for question 1 ---------------------
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerAnswerQ1(touch)
+    userAnswer = pentagon1.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+    
+    end 
+end
+
+local function TouchListenerWrongAnswerQ14(touch)
+    userAnswer = rectangle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer2Q4(touch)
+    userAnswer = triangle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer3Q4(touch)
+    userAnswer = circle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+--------------------- Touch and react question for question 2 -------------------------
+
+local function TouchListenerAnswerQ2(touch)
+    userAnswer = oval2.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer1Q4(touch)
+    userAnswer = circle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer2Q4(touch)
+    userAnswer = pentagon1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer3Q4(touch)
+    userAnswer = circle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+--------------------- Touch and react question for question 4 -------------------------
+
+local function TouchListenerAnswerQ4(touch)
+    userAnswer = textObject.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswerQ4(touch)
+    userAnswer = textObject2.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+--------------------- Touch and react question for question 5 -------------------------
+
+
+local function TouchListenerAnswerQ5(touch)
+    userAnswer = tri5.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer1Q5(touch)
+    userAnswer = square5.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer2Q5(touch)
+    userAnswer = pentagon1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer3Q5(touch)
+    userAnswer = oval2.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+--------------------------- Touch and react question for question 9 ---------------------
 
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerAnswerQ3(touch)
+local function TouchListenerAnswerQ9(touch)
     userAnswer = pentagonText.text
     
     if (touch.phase == "ended") then
@@ -111,7 +285,7 @@ local function TouchListenerAnswerQ3(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswerQ3(touch)
+local function TouchListenerWrongAnswer1Q9(touch)
     userAnswer = decagonText.text
     
     if (touch.phase == "ended") then
@@ -123,7 +297,7 @@ local function TouchListenerWrongAnswerQ3(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer2Q3(touch)
+local function TouchListenerWrongAnswer2Q9(touch)
     userAnswer = octagonText.text
     
     if (touch.phase == "ended") then
@@ -134,7 +308,7 @@ local function TouchListenerWrongAnswer2Q3(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer3Q3(touch)
+local function TouchListenerWrongAnswer3Q9(touch)
     userAnswer = hexagonText.text
     
     if (touch.phase == "ended") then
@@ -144,45 +318,36 @@ local function TouchListenerWrongAnswer3Q3(touch)
     end 
 end
 
------------------------------------------- Touch and react question for question 4------------------------------------------
-
-local function TouchListenerAnswerQ4(touch)
-    userAnswer = textObject.text
-    
-    if (touch.phase == "ended") then
-        CountScore()
-
-        BackToLevel1( )
-        
-    end 
-end
-
-
-local function TouchListenerWrongAnswer1Q4(touch)
-    userAnswer = textObject2.text
-    
-    if (touch.phase == "ended") then
-
-
-        BackToLevel1( )
-        
-    end 
-end
-
-
-
 
 --adding the event listeners 
 local function AddTextListeners ( )
 
-    pentagonText:addEventListener( "touch", TouchListenerAnswerQ3 )
-    decagonText:addEventListener( "touch", TouchListenerWrongAnswerQ3 )
-    octagonText:addEventListener( "touch", TouchListenerWrongAnswer2Q3 )
-    hexagonText:addEventListener( "touch", TouchListenerWrongAnswer3Q3 )
+-- Add Text Listeners for question 2 -- 
+    oval2:addEventListener( "touch", TouchListenerAnswerQ2 )
+    circle1:addEventListener( "touch", TouchListenerWrongAnswer1Q2 ) 
+    circle1:addEventListener( "touch", TouchListenerWrongAnswer2Q2 )
+    pentagon1:addEventListener( "touch", TouchListenerWrongAnswer3Q2 )
+
+-- Add Text Listeners for question 3 -- 
+
+-- Add Text Listeners for question 4 -- 
+    textObject:addEventListener( "touch", TouchListenerAnswerQ4 )
+    textObject2:addEventListener( "touch", TouchListenerWrongAnswer1Q4 )
+
+-- Add Text Listeners for question 5 -- 
+    textObject:addEventListener( "touch", TouchListenerAnswerQ5 ) 
+    textObject:addEventListener( "touch", TouchListenerWrongAnswer1Q5 )
+    textObject:addEventListener( "touch", TouchListenerWrongAnswer2Q5 )
+    textObject:addEventListener( "touch", TouchListenerWrongAnswer3Q5 )
 
 
-    textObject:addEventListener( "touch", TouchListenerAnswerQ4)
-    textObject2:addEventListener( "touch", TouchListenerWrongAnswer1Q4)
+-- Add Text Listeners for question 9 -- 
+    pentagonText:addEventListener( "touch", TouchListenerAnswerQ9 )
+    decagonText:addEventListener( "touch", TouchListenerWrongAnswerQ9 )
+    octagonText:addEventListener( "touch", TouchListenerWrongAnswer2Q9 )
+    hexagonText:addEventListener( "touch", TouchListenerWrongAnswer3Q9 )
+
+
 
 
 
@@ -191,15 +356,29 @@ end
 --removing the event listeners
 local function RemoveTextListeners()
 
-    questionText.isVisible = false
+-- Remove Text Listeners for question 2 --
+    oval2:removeEventListener( "touch", TouchListenerAnswerQ2 )
+    circle1:removeEventListener( "touch", TouchListenerWrongAnswer1Q2 )
+    circle1:removeEventListener( "touch", TouchListenerWrongAnswer2Q2 )
+    pentagon1:removeEventListener( "touch", TouchListenerWrongAnswer3Q2 )
 
-    pentagonText:removeEventListener( "touch", TouchListenerAnswerQ3 )
-    decagonText:removeEventListener( "touch", TouchListenerWrongAnswerQ3 )
-    octagonText:removeEventListener( "touch", TouchListenerWrongAnswer2Q3 )
-    hexagonText:removeEventListener( "touch", TouchListenerWrongAnswer3Q3 )
-
+-- Remove Text Listeners for question 4 --
     textObject:removeEventListener( "touch", TouchListenerAnswerQ4 )
     textObject2:removeEventListener( "touch", TouchListenerWrongAnswer1Q4 )
+
+-- Remove Text Listeners for question 5 --
+    tri5:removeEventListener( "touch", TouchListenerAnswerQ5 )
+    square5:removeEventListener( "touch", TouchListenerWrongAnswer1Q5 )
+    pentagon1:removeEventListener( "touch", TouchListenerWrongAnswer2Q5 )
+    oval2:removeEventListener( "touch", TouchListenerWrongAnswer3Q5 )
+
+
+-- Remove Text Listeners for question 9 --
+    pentagonText:removeEventListener( "touch", TouchListenerAnswerQ9 )
+    decagonText:removeEventListener( "touch", TouchListenerWrongAnswerQ9 )
+    octagonText:removeEventListener( "touch", TouchListenerWrongAnswer2Q9 )
+    hexagonText:removeEventListener( "touch", TouchListenerWrongAnswer3Q9 )
+
 
 end
 
@@ -217,10 +396,23 @@ local function DisplayQuestion()
 
         -- Display the objects
         circle1.isVisible = true
+        rectangle1.isVisible = true
+        pentagon1.isVisible = true
+        triangle1.isVisible = true
+
 
         -- Set the position of the objects
         circle1.x = X1
         circle1.y = Y1
+
+        rectangle1.x = X2
+        rectangle1.y = Y2
+
+        pentagon1.x = X1
+        pentagon1.y = Y2
+
+        triangle1.x = X2
+        triangle1.y = Y1
 
 
 
@@ -341,17 +533,7 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 75)
---[[
-    -- create the answer text object & wrong answer text objects
-    answerText = display.newText("", X1, Y2, Arial, 75)
-    answerText.anchorX = 0
-    wrongText1 = display.newText("", X2, Y2, Arial, 75)
-    wrongText1.anchorX = 0
-    wrongText2 = display.newText("", X1, Y1, Arial, 75)
-    wrongText2.anchorX = 0
-    wrongText3 = display.newText("", X2, Y1, Arial, 75)
-    wrongText3.anchorX = 0
---]]
+
     -- Question 1 --
 
     circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
@@ -359,8 +541,8 @@ function scene:create( event )
     circle1.height = 150
     circle1.isVisible = false
 
---    rectangle1 = display.newImage("Images/RectangleMeganS.png", 0, 0)
- --   rectangle1.isVisible = false
+    rectangle1 = display.newImage("Images/RectangleMeganS@2x.png", 0, 0)
+    rectangle1.isVisible = false
 
     pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", 0, 0)
     pentagon1.isVisible = false
@@ -371,7 +553,8 @@ function scene:create( event )
 
     -- Question 2 --
 
-
+    oval2 = display.newImage("Images/OvalMeganS@2x.png", 0, 0)
+    oval2.isVisible = false
 
 
     -- Question 4 --
@@ -391,8 +574,8 @@ function scene:create( event )
 
     -- Question 5 -- 
 
-    Tri5 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
-    Tri5.isVisible = false
+    tri5 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
+    tri5.isVisible = false
 
     -- the same pentagon from question 1 
 
@@ -433,12 +616,12 @@ function scene:create( event )
 
     -- the group scene insert for all of the objects in the questions
     sceneGroup:insert( circle1 )
---    sceneGroup:insert( rectangle1 )
+    sceneGroup:insert( rectangle1 )
     sceneGroup:insert( pentagon1 )
     sceneGroup:insert( triangle1 )
     sceneGroup:insert( textObject )
     sceneGroup:insert( textObject2 )
-    sceneGroup:insert( Tri5 )
+    sceneGroup:insert( tri5 )
     sceneGroup:insert( square5 )
 
 
@@ -492,6 +675,8 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
         RemoveTextListeners()
+
+        questionText.isVisible = false
     end
 
 end --function scene:hide( event )
