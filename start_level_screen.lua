@@ -146,13 +146,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- Go to the level 1 screen after the given time.
-        timer.performWithDelay ( 3000, gotoLevel1) 
+        timer.performWithDelay ( 2000, gotoLevel1) 
 
         -- Create the animation for the stop lights
-        timer.performWithDelay( 1000, redStopLight )
-        timer.performWithDelay( 2200, yellowStopLight )
-        timer.performWithDelay( 2400, greenStopLight )
-        timer.performWithDelay( 2400, StartText )
+        timer.performWithDelay( 900, redStopLight )
+        timer.performWithDelay( 1200, yellowStopLight )
+        timer.performWithDelay( 1400, greenStopLight )
+        timer.performWithDelay( 1600, StartText )
 
        
     end
