@@ -52,8 +52,8 @@ local Score = 0
 local ScoreObject
 
 -- Create the local variables for the 
-local totalSeconds = 60
-local secondsLeft = 60
+local totalSeconds = 2
+local secondsLeft = 2
 local clockText 
 local countDownTimer
 
@@ -181,17 +181,73 @@ local function MainTransition( )
 end 
 
 
+
 local function UpdateTime()
 
     -- Decrement the number of seconds
     secondsLeft = secondsLeft - 1
 
     -- Display the number of seconds left in the clock object 
-    clockText.text = "Time Left:" .. secondsLeft
+    clockText.text = "Time Left: " .. secondsLeft
 
+    if ( secondsLeft == 0 ) then
+        -- Reset the number of seconds left
+        secondsLeft = totalSeconds
+
+        numLives = numLives - 1
+
+        -- If there are no lives left, play a lose sound, show a you lose image
+        -- and cancel the timer remove the third heart by making it invisible
+
+        if (numLives == 4) then
+
+            heart5.isVisible = false
+
+            ResumeGame()
+        end
+
+        if (numLives == 3) then
+
+            heart5.isVisible = false
+            heart4.isVisible = false
+
+            ResumeGame()
+        end
+
+        if (numLives == 2) then
+
+            heart5.isVisible = false
+            heart4.isVisible = false
+            heart3.isVisible = false
+
+            ResumeGame()
+        end
+
+        if (numLives == 1) then
+
+            heart5.isVisible = false
+            heart4.isVisible = false
+            heart3.isVisible = false
+            heart2.isVisible = false
+
+            ResumeGame()
+        end
+
+        if (numLives == 0) then
+
+            heart1.isVisible = false   
+            heart2.isVisible = false
+            heart3.isVisible = false 
+            heart2.isVisible = false
+            heart3.isVisible = false
+            ScoreObject.isVisible = false
+            timer.cancel(countDownTimer)
+
+            ResumeGame()
+            
+        end
+    end
 end
-
-
 
 -- Function that calls the timer
 local function StartTimer()
@@ -306,7 +362,7 @@ function ResumeGame()
     
     if (questionsAnswered > 0) then
         if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
-            physics.removeBody( Pylon )
+--            physics.removeBody( Pylon )
             Pylon.isVisible = true
             ReplaceCar()
         end
@@ -320,9 +376,13 @@ function CountScore()
 
     ScoreObject.text = "Score: " .. Score
 end
+--[[
+function DecreaseLives()
 
 
 
+end
+--]]
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -567,6 +627,9 @@ function scene:show( event )
         -- create the car, add physics bodies and runtime listeners
         ReplaceCar()
 
+        -- start the countdown timer
+--        StartTimer()
+
     end
 
 end --function scene:show( event )
@@ -630,115 +693,9 @@ scene:addEventListener( "destroy", scene )
 
 return scene
 
---[[
-            if (numLives == 1) then
-                -- update hearts
-                heart1.isVisible = true
-                heart2.isVisible = false
-                heart3.isVisible = false 
-                heart4.isVisible = false
-                heart5.isVisible = false
-                timer.performWithDelay(200, ReplaceCar) 
-            end
-
-            if (numLives == 2) then 
-                -- update hearts
-                heart1.isVisible = true 
-                heart2.isVisible = true
-                heart3.isVisible = false 
-                heart4.isVisible = false
-                heart5.isVisible = false
-                timer.performWithDelay(200, ReplaceCharacter) 
-            end
-
-            if (numLives == 3) then 
-                -- update hearts
-                heart1.isVisible = true 
-                heart2.isVisible = true
-                heart3.isVisible = true
-                heart4.isVisible = false
-                heart5.isVisible = false
-                timer.performWithDelay(200, ReplaceCharacter) 
-            end
-
-            if (numLives == 4) then 
-                -- update hearts
-                heart1.isVisible = true 
-                heart2.isVisible = true
-                heart3.isVisible = true
-                heart4.isVisible = true
-                heart5.isVisible = false
-                timer.performWithDelay(200, ReplaceCharacter) 
-            end
-
-            else (numLives == 0) 
-                -- update hearts
-                heart1.isVisible = false
-                heart2.isVisible = false
-                heart3.isVisible = false
-                heart4.isVisible = false
-                heart5.isVisible = false
-
-                timer.performWithDelay(200, YouLoseTransition)
-            end
-        end
 
 
 
 
 
-local function UpdateTime()
 
-    -- Decrement the number of seconds
-    secondsLeft = secondsLeft - 1
-
-    -- Display the number of seconds left in the clock object 
-    clockText.text = secondsLeft .. ""
-
-    if ( secondsLeft == 0 ) then
-        -- Reset the number of seconds left
-        secondsLeft = totalSeconds
-
-        lives = lives - 1
-
-        -- If there are no lives left, play a lose sound, show a you lose image
-        -- and cancel the timer remove the third heart by making it invisible
-
-        if (numLives == 5) then
-
-            heart3.isVisible = false
-            gameOverObject.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 4) then
-
-            heart2.isVisible = false
-            gameOverObject.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 3) then
-
-
-        if (numLives = 2) 
-
-            heart1.isVisible = false   
-            heart2.isVisible = false
-            heart3.isVisible = false 
-            timer.cancel(countDownTimer)
-            pointsObject.isVisible = false
-            heart2.isVisible = false
-            heart3.isVisible = false
-            gameOverSoundChannel = audio.play(gameOverSound)
-
-            ResumeGame()
-            
-
-        end
-    end
-end
-
---]]

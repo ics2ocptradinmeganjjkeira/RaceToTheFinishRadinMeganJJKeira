@@ -3,7 +3,7 @@
 --start_level_screen.lua
 -- Created by: Megan
 -- Date: May 22, 2019
--- Description: This is the start level screen. This appears when 
+-- Description: This is the start level screen. This appears before
 -- the player starts the level
 -----------------------------------------------------------------------------------------
 
@@ -146,13 +146,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- Go to the level 1 screen after the given time.
-        timer.performWithDelay ( 2000, gotoLevel1) 
+        timer.performWithDelay ( 2800, gotoLevel1) 
 
         -- Create the animation for the stop lights
-        timer.performWithDelay( 900, redStopLight )
-        timer.performWithDelay( 1200, yellowStopLight )
-        timer.performWithDelay( 1400, greenStopLight )
-        timer.performWithDelay( 1600, StartText )
+        timer.performWithDelay( 500, redStopLight )
+        timer.performWithDelay( 1100, yellowStopLight )
+        timer.performWithDelay( 1700, greenStopLight )
+        timer.performWithDelay( 2300, StartText )
 
        
     end

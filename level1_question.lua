@@ -627,6 +627,10 @@ local function DisplayQuestion()
 
         questionText.text = display.newText(" Which triangle is isosceles? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
+            -- Display the shapes
+            isosceles6 = true
+            
+
 
 --[[
     elseif (questionSelect == 7) then
