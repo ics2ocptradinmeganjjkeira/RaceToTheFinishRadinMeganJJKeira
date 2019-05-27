@@ -49,7 +49,7 @@ local numLives = 5
 
 -- Create the score
 local Score = 0
-local scoreObject
+local ScoreObject
 
 -- Create the local variables for the 
 local totalSeconds = 60
@@ -200,10 +200,12 @@ local function StartTimer()
     countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0 )
 
     if (countDownTimer == 0) then
-    timer.cancel(countDownTimer)
+
+        timer.cancel(countDownTimer)
     
     end
 end
+
 
 
 local function onCollision( self, event )
@@ -314,11 +316,10 @@ end
 
 function CountScore()
 
-    score = score + 100
+    Score = Score + 100
 
-    scoreObject.text = "Score: " .. score
+    ScoreObject.text = "Score: " .. Score
 end
-
 
 
 
@@ -363,12 +364,12 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( clockText )
 
-    scoreObject = display.newText("Score: " .. Score, display.contentWidth*4.5/5, display.contentHeight*0.4/10, nil, 50 )
-    scoreObject:setTextColor(0, 0, 0)
-    scoreObject.isVisible = true
+    ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.5/5, display.contentHeight*0.4/10, nil, 50 )
+    ScoreObject:setTextColor(0, 0, 0)
+    ScoreObject.isVisible = true
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( scoreObject )  
+    sceneGroup:insert( ScoreObject )  
 
     -- Insert the Hearts
     heart1 = display.newImageRect("Images/heart.png", 80, 80)
@@ -703,21 +704,26 @@ local function UpdateTime()
         -- If there are no lives left, play a lose sound, show a you lose image
         -- and cancel the timer remove the third heart by making it invisible
 
-        if (lives == 3) then
+        if (numLives == 5) then
 
             heart3.isVisible = false
             gameOverObject.isVisible = false
-            AskQuestion()
+
+            ResumeGame()
         end
 
-        if (lives == 2) then
+        if (numLives == 4) then
 
             heart2.isVisible = false
             gameOverObject.isVisible = false
-            AskQuestion()
+
+            ResumeGame()
         end
 
-        if (lives == 1 ) then
+        if (numLives == 3) then
+
+
+        if (numLives = 2) 
 
             heart1.isVisible = false   
             heart2.isVisible = false
@@ -727,8 +733,8 @@ local function UpdateTime()
             heart2.isVisible = false
             heart3.isVisible = false
             gameOverSoundChannel = audio.play(gameOverSound)
-            AskQuestion()
 
+            ResumeGame()
             
 
         end

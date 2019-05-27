@@ -3,9 +3,9 @@
 -- level1_screen.lua
 -- Created by: Megan
 -- Date: May 16, 2019
--- Description: This is the level 1 screen of the game. the charater can be dragged to move
---If character goes off a certain araea they go back to the start. When a user interactes
---with piant a trivia question will come up. they will have a limided time to click on the answer
+-- Description: This is the level 1 screen of the game. The user can use the right or left arrow keys to move the
+-- car around. Once the car touches a pylon or a tree, the use will be asked a question. If thw user gets the 
+-- the question right he/she will earn 100 points. If the user gets the question qrong, he/she will lose one heart
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -42,6 +42,7 @@ local questionSelect = 1
 local bkg
 local cover
 
+-- The positions for the objects/answers
 local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*5/7
 local Y1 = display.contentHeight*1/2
@@ -75,7 +76,10 @@ local square5
 -- question 6 objects
 local rightAngleTri6
 local isosceles6
-local triangle6
+
+-- question 7 objects
+local numTwo
+local numOne
 
 -- question 9 objects 
 
@@ -322,7 +326,40 @@ end
 
 --------------------- Touch and react question for question 6 -------------------------
 
+local function TouchListenerAnswerQ6(touch)
+    userAnswer = isosceles6.text
+    
+    if (touch.phase == "ended") then
 
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer1Q6(touch)
+    userAnswer = rightAngleTri6.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer2Q6(touch)
+    userAnswer = triangle1.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
 
 
 --------------------------- Touch and react question for question 9 -------------------
@@ -409,14 +446,17 @@ local function AddTextListeners ( )
     oval2:addEventListener( "touch", TouchListenerWrongAnswer3Q5 )
 
 -- Add Text Listeners for question 6 -- 
-
+    rightAngleTri6:addEventListener( "touch", TouchListenerAnswerQ6 ) 
+    isosceles6:addEventListener( "touch", TouchListenerWrongAnswer1Q6 )
+    triangle1:addEventListener( "touch", TouchListenerWrongAnswer2Q6 )
+    
 -- Add Text Listeners for question 9 -- 
     pentagonText:addEventListener( "touch", TouchListenerAnswerQ9 )
     decagonText:addEventListener( "touch", TouchListenerWrongAnswer1Q9 )
     octagonText:addEventListener( "touch", TouchListenerWrongAnswer2Q9 )
     hexagonText:addEventListener( "touch", TouchListenerWrongAnswer3Q9 )
 
-
+-- Add Text Listeners for question 10 -- 
 
 
 
@@ -455,12 +495,17 @@ local function RemoveTextListeners()
     oval2:removeEventListener( "touch", TouchListenerWrongAnswer3Q5 )
 
 -- Remove Text Listeners for question 6 --
+    rightAngleTri6:removeEventListener( "touch", TouchListenerAnswerQ6 )
+    isosceles6:removeEventListener( "touch", TouchListenerWrongAnswer1Q6 )
+    triangle1:removeEventListener( "touch", TouchListenerWrongAnswer2Q6 )
 
 -- Remove Text Listeners for question 9 --
     pentagonText:removeEventListener( "touch", TouchListenerAnswerQ9 )
     decagonText:removeEventListener( "touch", TouchListenerWrongAnswer1Q9 )
     octagonText:removeEventListener( "touch", TouchListenerWrongAnswer2Q9 )
     hexagonText:removeEventListener( "touch", TouchListenerWrongAnswer3Q9 )
+
+-- Remove text Listeners for question 10 -- 
 
 
 end
@@ -760,6 +805,30 @@ function scene:create( event )
 
     -- Question 6 -- 
 
+    isosceles6 = display.newImage("Images/IsoscelesTriMegan@2x.png", 0, 0)
+    isosceles6.isVisible = false
+
+    rightAngleTri6 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
+    rightAngleTri6.isVisible = false
+
+    -- the same triangle displayed from question 1
+
+    -- Question 7 -- 
+
+    numTwo = display.newText("2", 0, 0, nil, 60)
+    numTwo:setTextColor (1, 1, 0)
+    numTwo.isVisible = false
+
+    numOne = display.newText("1", 0, 0, nil, 60)
+    numOne:setTextColor (1, 1, 0)
+    numOne.isVisible = false
+
+    -- the same Zero from question three
+
+    -- the same Four from question three
+
+
+
     -- Question 9 --
 
     pentagonText = display.newText("Pentagon", X1, Y2, nil, 40)
@@ -798,14 +867,12 @@ function scene:create( event )
 
     -- question 2 --
     sceneGroup:insert( oval2 )
---[[
-    -- question 3 -- 
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
---]]
 
+    -- question 3 -- 
+    sceneGroup:insert( numThree )
+    sceneGroup:insert( numEight )
+    sceneGroup:insert( numZero )
+    sceneGroup:insert( numFour )
 
     -- question 4 -- 
     sceneGroup:insert( textObject )
@@ -814,10 +881,14 @@ function scene:create( event )
     -- question 5 --
     sceneGroup:insert( tri5 )
     sceneGroup:insert( square5 )
---[[
-    sceneGroup:insert(  )
 
     -- question 6 --
+    sceneGroup:insert( isosceles6 )
+    sceneGroup:insert( rightAngleTri6 )
+--[[
+    -- question 7 --
+    sceneGroup:insert(  )
+    sceneGroup:insert(  )
     sceneGroup:insert(  )
     sceneGroup:insert(  )
     sceneGroup:insert(  )
