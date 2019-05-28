@@ -65,7 +65,7 @@ local rectangularprism
 local function BackToLevel2() 
     composer.hideOverlay("crossFade", 400 )
   
-    ResumeGame()
+    ResumeLevel2()
 end 
 
 
@@ -133,8 +133,8 @@ local function DisplayQuestion()
     if (question == 1) then 
         -- create the question
         questionText.text = "How many faces are there?"
-
-
+        
+        rectangularprism.isVisible = true
 
         -- create the answer
         answerText.text = 6
@@ -231,6 +231,7 @@ function scene:create( event )
     cover = display.newRoundedRect(display.contentCenterX, display.contentCenterY, display.contentWidth*0.8, display.contentHeight*0.95, 50 )
     --setting its colour
     cover:setFillColor(96/255, 96/255, 96/255)
+
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
 
@@ -252,6 +253,8 @@ function scene:create( event )
     rectangularprism.x = display.contentWidth/2.2
     -- set the location on the y-axis
     rectangularprism.y = display.contentHeight/3
+    -- make the prism invisible
+    rectangularprism.isVisible = false
 
     -----------------------------------------------------------------------------------------
 
@@ -311,7 +314,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-        --parent:resumeGame()
+        --parent:ResumeLevel2()
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
