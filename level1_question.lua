@@ -101,7 +101,7 @@ local function BackToLevel1()
 
     composer.hideOverlay("crossFade", 400 )
   
-    ResumeGame()
+    ResumeLevel1()
 end 
 
 --------------------------- Touch and react question for question 1 ---------------------
