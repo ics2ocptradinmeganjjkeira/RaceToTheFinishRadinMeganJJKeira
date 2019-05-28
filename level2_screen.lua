@@ -42,7 +42,7 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 8
+local SPEED = 6
 local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 9
@@ -114,6 +114,43 @@ local function stop (event)
 end
 
 
+-- move the pylon1 to the starting poisition
+local function MovePylon1( event )
+    -- add the scroll speed to the y-value
+    pylon1.y = pylon1.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon2( event )
+    -- add the scroll speed to the y-value
+    pylon2.y = pylon2.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon3( event )
+    -- add the scroll speed to the y-value
+    pylon3.y = pylon3.y + SPEED
+    
+end
+
+local function AddRuntimeListeners()
+    Runtime:addEventListener("enterFrame", movePlayer)
+    Runtime:addEventListener("touch", stop )
+    Runtime:addEventListener("enterFrame", MovePylon1)
+    Runtime:addEventListener("enterFrame", MovePylon2)
+    Runtime:addEventListener("enterFrame", MovePylon3)
+end
+
+local function RemoveRuntimeListeners()
+    Runtime:removeEventListener("enterFrame", movePlayer)
+    Runtime:removeEventListener("touch", stop )
+    Runtime:removeEventListener("enterFrame", MovePylon1)
+    Runtime:removeEventListener("enterFrame", MovePylon2)
+    Runtime:removeEventListener("enterFrame", MovePylon3)
+end
+
 local function AddArrowEventListeners()
     rArrow:addEventListener("touch", right)
     lArrow:addEventListener("touch", left)
@@ -124,16 +161,6 @@ local function RemoveArrowEventListeners()
     lArrow:removeEventListener("touch", left)
 end
 
-
-local function AddRuntimeListeners()
-    Runtime:addEventListener("enterFrame", movePlayer)
-    Runtime:addEventListener("touch", stop )
-end
-
-local function RemoveRuntimeListeners()
-    Runtime:removeEventListener("enterFrame", movePlayer)
-    Runtime:removeEventListener("touch", stop )
-end
 
 local function ReplaceCar()
     -- insert the car
@@ -209,7 +236,6 @@ local function onCollision( self, event )
     end  
 end
 
-
 local function AddCollisionListeners()
 
     -- if character collides with ball, onCollision will be called    
@@ -236,7 +262,7 @@ local function AddPhysicsBodies()
     physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} ) 
 
-    physics.addBody(pylon1, "dynamic", { density=0, friction=0.8, bounce=0, rotation=0 } )
+    physics.addBody(pylon1, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
     physics.addBody(pylon2, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(pylon3, "static",  {density=0, friction=0, bounce=0} )
    
@@ -248,6 +274,7 @@ local function RemovePhysicsBodies()
     physics.removeBody(rightW)
  
 end
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
@@ -349,16 +376,16 @@ function scene:create( event )
 
 
     pylon2 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon2.x = 50
-    pylon2.y = 400
+    pylon2.x = 400
+    pylon2.y = 0
     pylon2.isVisible = true
     pylon2.myName = "pylon2"
 
   
 
     pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon3.x = 940
-    pylon3.y = 500
+    pylon3.x = 640
+    pylon3.y = 0
     pylon3.isVisible = true
     pylon3.myName = "pylon3"
 
@@ -428,7 +455,13 @@ function scene:show( event )
         physics.start()
 
         --set gravity
-        physics.setGravity( 0, GRAVITY )        
+        physics.setGravity( 0, GRAVITY )     
+
+        -- delay the pylon2 from falling down immidiately
+        timer.performWithDelay( 4000, MovePylon2)   
+
+        -- delay the pylon3 from falling down immidiately
+        timer.performWithDelay( 6500, MovePylon3)   
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
