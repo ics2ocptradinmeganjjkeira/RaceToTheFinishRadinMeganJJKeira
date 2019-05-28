@@ -99,6 +99,13 @@ end
 local function InstructionTransition( )
     composer.gotoScene( "instruction_screen", {effect = "slideUp", time = 1000})
 end    
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level Select Screen
+local function LevelSelectTransition( )
+    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
+end   
+-----------------------------------------------------------------------------------------
 
 -- Creating the mute/unmute buttons
 local function Mute( touch )
@@ -226,7 +233,7 @@ function scene:create( event )
             overFile = "Images/PlayButtonPressed.png", 
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition 
+            onRelease = LevelSelectTransition 
        
         } )
 

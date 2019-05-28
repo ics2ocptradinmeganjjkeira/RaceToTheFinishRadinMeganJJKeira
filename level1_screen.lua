@@ -383,6 +383,8 @@ function DecreaseLives()
 
 end
 --]]
+
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -424,7 +426,7 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( clockText )
 
-    ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.5/5, display.contentHeight*0.4/10, nil, 50 )
+    ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
     ScoreObject:setTextColor(0, 0, 0)
     ScoreObject.isVisible = true
 
