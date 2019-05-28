@@ -81,6 +81,12 @@ local isosceles6
 local numTwo
 local numOne
 
+-- question 8 objects
+local numSix
+local numSeven
+local numNine
+
+
 -- question 9 objects 
 
 local pentagonText
@@ -361,6 +367,105 @@ local function TouchListenerWrongAnswer2Q6(touch)
     end 
 end
 
+--------------------- Touch and react question for question 7 -------------------------
+
+local function TouchListenerAnswerQ7(touch)
+    userAnswer = numTwo.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer1Q7(touch)
+    userAnswer = numFour.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer2Q7(touch)
+    userAnswer = numOne.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer3Q7(touch)
+    userAnswer = numZero.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+--------------------- Touch and react question for question 8 -------------------------
+
+local function TouchListenerAnswerQ8(touch)
+    userAnswer = numSeven.text
+    
+    if (touch.phase == "ended") then
+
+        CountScore()
+
+        BackToLevel1( )
+        
+    end 
+end
+
+local function TouchListenerWrongAnswer1Q8(touch)
+    userAnswer = numSix.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer2Q8(touch)
+    userAnswer = numEight.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
+local function TouchListenerWrongAnswer3Q8(touch)
+    userAnswer = numNine.text
+    
+    if (touch.phase == "ended") then
+
+
+        BackToLevel1( )
+        
+    end 
+end
+
+
 
 --------------------------- Touch and react question for question 9 -------------------
 
@@ -449,6 +554,18 @@ local function AddTextListeners ( )
     rightAngleTri6:addEventListener( "touch", TouchListenerAnswerQ6 ) 
     isosceles6:addEventListener( "touch", TouchListenerWrongAnswer1Q6 )
     triangle1:addEventListener( "touch", TouchListenerWrongAnswer2Q6 )
+
+-- Add Text Listeners for question 7 -- 
+    numTwo:addEventListener( "touch", TouchListenerAnswerQ7 ) 
+    numFour:addEventListener( "touch", TouchListenerWrongAnswer1Q7 )
+    numOne:addEventListener( "touch", TouchListenerWrongAnswer2Q7 )
+    numZero:addEventListener( "touch", TouchListenerWrongAnswer3Q7 )
+
+-- Add Text Listeners for question 8 -- 
+    numSeven:addEventListener( "touch", TouchListenerAnswerQ8 ) 
+    numSix:addEventListener( "touch", TouchListenerWrongAnswer1Q8 )
+    numEight:addEventListener( "touch", TouchListenerWrongAnswer2Q8 )
+    numNine:addEventListener( "touch", TouchListenerWrongAnswer3Q8 )
     
 -- Add Text Listeners for question 9 -- 
     pentagonText:addEventListener( "touch", TouchListenerAnswerQ9 )
@@ -498,6 +615,18 @@ local function RemoveTextListeners()
     rightAngleTri6:removeEventListener( "touch", TouchListenerAnswerQ6 )
     isosceles6:removeEventListener( "touch", TouchListenerWrongAnswer1Q6 )
     triangle1:removeEventListener( "touch", TouchListenerWrongAnswer2Q6 )
+
+-- Remove Text Listeners for question 7 --
+    numTwo:removeEventListener( "touch", TouchListenerAnswerQ7 )
+    numFour:removeEventListener( "touch", TouchListenerWrongAnswer1Q7 )
+    numOne:removeEventListener( "touch", TouchListenerWrongAnswer2Q7 )
+    numZero:removeEventListener( "touch", TouchListenerWrongAnswer3Q7 )
+
+-- Remove Text Listeners for question 8 --
+    numSeven:removeEventListener( "touch", TouchListenerAnswerQ8 )
+    numSix:removeEventListener( "touch", TouchListenerWrongAnswer1Q8 )
+    numEight:removeEventListener( "touch", TouchListenerWrongAnswer2Q8 )
+    numNine:removeEventListener( "touch", TouchListenerWrongAnswer3Q8 )
 
 -- Remove Text Listeners for question 9 --
     pentagonText:removeEventListener( "touch", TouchListenerAnswerQ9 )
@@ -610,6 +739,7 @@ local function DisplayQuestion()
             pentagon1.isVisible = true
             oval2.isVisible = true
 
+            -- Set the positions for the shapes
             tri5.x = X1
             tri5.y = Y1
 
@@ -629,17 +759,51 @@ local function DisplayQuestion()
 
             -- Display the shapes
             isosceles6 = true
-            
+            rightAngleTri6 = true
+            triangle1 = true
+
+            -- Set the positions for the shapes
+            isosceles6.x = X1
+            isosceles6.y = Y1
+
+            rightAngleTri6.x = X1
+            rightAngleTri6.y = Y2
+
+            triangle1.x = X2
+            triangle1.y = Y2
 
 
---[[
+
     elseif (questionSelect == 7) then
 
         questionText.text = display.newText(" How many circles are in this photo? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
+            -- Display the shapes
+            numTwo.isVisible = true
+            numFour.isVisible = true
+            numOne.isVisible = true
+            numZero.isVisible = true
+
+            -- Set the positions for the shapes
+            numTwo.x = X1
+            numTwo.y = Y1
+
+            numFour.x = X1
+            numFour.y = Y2
+
+            numOne.x = X2 
+            numOne.y = Y2
+
+            numZero.x = X2
+            numZero.y = Y1
+
+
     elseif (questionSelect == 8) then
 
         questionText.text = display.newText(" How many sides does a heptagon have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 35 )
+
+
+
 
     elseif (questionSelect == 9) then
 
@@ -651,11 +815,24 @@ local function DisplayQuestion()
         decagonText.isVisible = true
         hexagonText.isVisible = true
 
+        -- Set the positions for the shapes
+        octagonText.x = X1
+        octagonText.y = Y1
+
+        pentagonText.x = X1
+        pentagonText.y = Y2
+
+        decagonText.x = X2
+        decagonText.y = Y1
+
+        hexagonText.x = X2
+        hexagonText.y = Y2
+
 
     elseif (questionSelect == 10) then
 
         questionText.text = display.newText(" A polygon that has two more sides than a hexagon is called: ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 25 )
-
+--[[
     elseif (questionSelect == 11) then 
 
         questionText.text = display.newText(" How many more sides than a pentagon does a decagon have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 25 )
@@ -831,6 +1008,19 @@ function scene:create( event )
 
     -- the same Four from question three
 
+    -- Question 8 -- 
+
+    numSix = display.newText("6", 0, 0, nil, 60)
+    numSix:setTextColor (1, 1, 0)
+    numSix.isVisible = false
+
+    numSeven = display.newText("7", 0, 0, nil, 60)
+    numSeven:setTextColor (1, 1, 0)
+    numSeven.isVisible = false
+
+    numNine = display.newText("9", 0, 0, nil, 60)
+    numNine:setTextColor (1, 1, 0)
+    numNine.isVisible = false
 
 
     -- Question 9 --
@@ -889,15 +1079,14 @@ function scene:create( event )
     -- question 6 --
     sceneGroup:insert( isosceles6 )
     sceneGroup:insert( rightAngleTri6 )
---[[
-    -- question 7 --
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
-    sceneGroup:insert(  )
 
---]]
+    -- question 7 --
+    sceneGroup:insert( numTwo )
+    sceneGroup:insert( numOne )
+
+    -- question 8 --
+
+
 
 
 end --function scene:create( event )
