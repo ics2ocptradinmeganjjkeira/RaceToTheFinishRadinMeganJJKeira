@@ -1,5 +1,14 @@
 -----------------------------------------------------------------------------------------
 --
+-- main.lua
+-- Created by: John Omage
+-- Date: Month Day, Year
+-- Description: This is the level 3 screen of the game.
+-----------------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------------------
+--
 -- level1_screen.lua
 -- Created by: Megan
 -- Date: Month Day, Year
@@ -20,7 +29,7 @@ local physics = require("physics")
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_screen"
+sceneName = "level3_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -203,7 +212,7 @@ local function UpdateTime()
 
             heart5.isVisible = false
 
-            ResumeLevel1()
+            ResumeGame()
         end
 
         if (numLives == 3) then
@@ -211,7 +220,7 @@ local function UpdateTime()
             heart5.isVisible = false
             heart4.isVisible = false
 
-            ResumeLevel1()
+            ResumeGame()
         end
 
         if (numLives == 2) then
@@ -220,7 +229,7 @@ local function UpdateTime()
             heart4.isVisible = false
             heart3.isVisible = false
 
-            ResumeLevel1()
+            ResumeGame()
         end
 
         if (numLives == 1) then
@@ -230,7 +239,7 @@ local function UpdateTime()
             heart3.isVisible = false
             heart2.isVisible = false
 
-            ResumeLevel1()
+            ResumeGame()
         end
 
         if (numLives == 0) then
@@ -243,7 +252,7 @@ local function UpdateTime()
             ScoreObject.isVisible = false
             timer.cancel(countDownTimer)
 
-            ResumeLevel1()
+            ResumeGame()
             
         end
     end
@@ -295,7 +304,7 @@ local function onCollision( self, event )
             Car.isVisible = false
 
             -- show overlay with math question
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
 
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
@@ -355,7 +364,7 @@ end
 -- GLOBAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-function ResumeLevel1()
+function ResumeGame()
 
     -- make car visible again
     Car.isVisible = true
@@ -396,7 +405,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image
-    bkg_image = display.newImageRect("Images/Level1ScreenKeiraL@2x.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/Level3ScreenJohnOmage@2x.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth

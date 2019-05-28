@@ -83,8 +83,15 @@ end
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 1000})
+    composer.gotoScene( "start_level_screen", {effect = "zoomInOutFade", time = 1000})
 end    
+
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level2 Screen
+local function Level2ScreenTransition( )
+    composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 1000})
+end
 
 -----------------------------------------------------------------------------------------
 
