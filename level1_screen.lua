@@ -177,7 +177,7 @@ end
 
 -- Creating Transition Function to Credits Page
 local function MainTransition( )       
-    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 1000})
+    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 700})
 end 
 
 
