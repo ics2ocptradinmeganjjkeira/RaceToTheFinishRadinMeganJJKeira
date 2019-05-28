@@ -137,11 +137,9 @@ end
 
 local function ReplaceCar()
     -- insert the car
-    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
+    car = display.newImageRect("Images/MainMenu_Car.png", 200, 150)
     car.x = display.contentWidth/2
     car.y = display.contentHeight*0.5
-    car.width = 200
-    car.height = 150
     car.myName = "car"
 
     -- intialize horizontal movement of character
@@ -177,25 +175,38 @@ end
 
 local function onCollision( self, event )
 
-    if  (event.target.myName == "pylon1") or
-        (event.target.myName == "pylon2") or
-        (event.target.myName == "pylon3") then
+    -- for testing purposes
+    --print( event.target )        --the first object in the collision
+    --print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
 
-        -- get the ball that the user hit
-        thePylon = event.target
+    if (event.phase == "began") then
+        if  (event.target.myName == "pylon1") or
+            (event.target.myName == "pylon2") or
+            (event.target.myName == "pylon3") then
 
-        -- stop the character from moving
-        motionx = 0
+            --print ("***Collided with: " .. event.other[0])
+            --print ("***Collided with: " .. event.object2.myName)
 
-        -- make the character invisible
-        car.isVisible = false
+            -- get the ball that the user hit
+            thePylon = event.target
+            thePylon:removeEventListener( "collision" )
 
-        -- show overlay with math question
-        composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+            -- stop the character from moving
+            motionx = 0
 
-        -- Increment questions answered
-        questionsAnswered = questionsAnswered + 1
-    end     
+            -- make the character invisible
+            car.isVisible = false
+
+            -- show overlay with math question
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+
+            -- Increment questions answered
+            questionsAnswered = questionsAnswered + 1
+        end   
+    end  
 end
 
 
@@ -221,11 +232,11 @@ end
 
 local function AddPhysicsBodies()
     --add to the physics engine
-    physics.addBody( ground, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody(ground, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} ) 
 
-    physics.addBody(pylon1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(pylon1, "dynamic", { density=0, friction=0.8, bounce=0, rotation=0 } )
     physics.addBody(pylon2, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(pylon3, "static",  {density=0, friction=0, bounce=0} )
    
@@ -250,7 +261,6 @@ function ResumeLevel2()
     if (questionsAnswered > 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
             thePylon.isVisible = false
-            --thePylon:removeEventListener( "collision" )
             physics.removeBody(thePylon)
         end
     end
@@ -289,6 +299,7 @@ function scene:create( event )
     ground = display.newImageRect("Images/Level2-Ground.png", 1024, 100)
     ground.x = display.contentCenterX
     ground.y = display.contentHeight * 1.07
+    ground.myName = "ground"
 
 
     --Insert the right arrow
@@ -331,8 +342,8 @@ function scene:create( event )
 
 
     pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon1.x = 150
-    pylon1.y = 650
+    pylon1.x = display.contentWidth/2
+    pylon1.y = 0
     pylon1.isVisible = true
     pylon1.myName = "pylon1"
 
@@ -376,8 +387,8 @@ function scene:create( event )
 
     } )
 
-        -- scale down the size
-        backButton:scale(0.33, 0.33)
+    -- scale down the size
+    backButton:scale(0.33, 0.33)
 
     -----------------------------------------------------------------------------------------
 
