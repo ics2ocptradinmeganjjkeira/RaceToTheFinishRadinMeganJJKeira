@@ -242,14 +242,16 @@ end
 -- GLOBAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-function ResumeGame()
+function ResumeLevel2()
 
     -- make character visible again
     car.isVisible = true
     
     if (questionsAnswered > 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
-            thePylon.isVisible = true
+            thePylon.isVisible = false
+            --thePylon:removeEventListener( "collision" )
+            physics.removeBody(thePylon)
         end
     end
 

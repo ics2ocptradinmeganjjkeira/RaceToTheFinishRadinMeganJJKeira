@@ -203,7 +203,7 @@ local function UpdateTime()
 
             heart5.isVisible = false
 
-            ResumeGame()
+            ResumeLevel1()
         end
 
         if (numLives == 3) then
@@ -211,7 +211,7 @@ local function UpdateTime()
             heart5.isVisible = false
             heart4.isVisible = false
 
-            ResumeGame()
+            ResumeLevel1()
         end
 
         if (numLives == 2) then
@@ -220,7 +220,7 @@ local function UpdateTime()
             heart4.isVisible = false
             heart3.isVisible = false
 
-            ResumeGame()
+            ResumeLevel1()
         end
 
         if (numLives == 1) then
@@ -230,7 +230,7 @@ local function UpdateTime()
             heart3.isVisible = false
             heart2.isVisible = false
 
-            ResumeGame()
+            ResumeLevel1()
         end
 
         if (numLives == 0) then
@@ -243,7 +243,7 @@ local function UpdateTime()
             ScoreObject.isVisible = false
             timer.cancel(countDownTimer)
 
-            ResumeGame()
+            ResumeLevel1()
             
         end
     end
@@ -355,7 +355,7 @@ end
 -- GLOBAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-function ResumeGame()
+function ResumeLevel1()
 
     -- make car visible again
     Car.isVisible = true
