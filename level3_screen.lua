@@ -304,7 +304,7 @@ local function onCollision( self, event )
             Car.isVisible = false
 
             -- show overlay with math question
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
 
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
