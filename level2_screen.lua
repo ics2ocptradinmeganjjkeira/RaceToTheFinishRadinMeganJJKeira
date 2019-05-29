@@ -70,6 +70,7 @@ local rock
 
 -- create the score
 local score = 0
+local scoreText
 
 -- Create the local variables for the timer
 local totalSeconds = 60
@@ -293,6 +294,13 @@ function ResumeLevel2()
 
 end
 
+function CountScore2()
+
+    Score = Score + 100
+
+    ScoreObject.text = "Score: " .. Score
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -389,6 +397,10 @@ function scene:create( event )
     pylon3.myName = "pylon3"
 
 
+    scoreText = display.newText("Score: " .. score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
+    scoreText:setTextColor(0, 0, 0)
+    scoreText.isVisible = true
+
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------
@@ -434,6 +446,7 @@ function scene:create( event )
     sceneGroup:insert( ground)
     sceneGroup:insert( rightW)
     sceneGroup:insert( leftW)
+    sceneGroup:insert( scoreText)
 
 end --function scene:create( event )
 
@@ -552,3 +565,5 @@ scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
+
+

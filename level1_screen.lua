@@ -406,7 +406,7 @@ function ResumeLevel1()
 
 end
 
-function CountScore()
+function CountScore1()
 
     Score = Score + 100
 

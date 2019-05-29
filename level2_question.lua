@@ -44,8 +44,8 @@ local wrongText1
 local wrongText2
 local wrongText3
 
-local X1 = display.contentWidth*1.5/7
-local X2 = display.contentWidth*4.5/7
+local X1 = display.contentWidth*1/7
+local X2 = display.contentWidth*3.75/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
@@ -122,7 +122,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,3)
+    question = math.random(1,4)
 
     if (question == 1) then 
         -- create the question
@@ -167,6 +167,23 @@ local function DisplayQuestion()
         wrongText1.text = "rectangular prism"
         wrongText2.text = "octagonal prism"
         wrongText3.text = "sphere"
+
+        -- make the other things from other questions invisible
+        rectangularprism.isVisible = false
+
+
+    elseif (question == 4) then 
+        --create the question
+        questionText.text = "What two shapes are in a "
+        questionText2.text = "square-based pyramid?"
+
+        --create the answer
+        answerText.text = "square, triangle"
+
+        --create the incorrect answers
+        wrongText1.text = "square, circle"
+        wrongText2.text = "tringle, circle"
+        wrongText3.text = "square, rectangle"
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false

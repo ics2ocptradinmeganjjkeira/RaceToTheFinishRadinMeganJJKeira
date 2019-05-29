@@ -124,7 +124,7 @@ local function TouchListenerAnswerQ1(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
     
@@ -168,7 +168,7 @@ local function TouchListenerAnswerQ2(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -211,7 +211,7 @@ local function TouchListenerAnswerQ3(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -255,7 +255,7 @@ local function TouchListenerAnswerQ4(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -281,7 +281,7 @@ local function TouchListenerAnswerQ5(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -327,7 +327,7 @@ local function TouchListenerAnswerQ6(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -361,7 +361,7 @@ local function TouchListenerAnswerQ7(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -407,7 +407,7 @@ local function TouchListenerAnswerQ8(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
         
@@ -456,7 +456,7 @@ local function TouchListenerAnswerQ9(touch)
     
     if (touch.phase == "ended") then
 
-        CountScore()
+        CountScore1()
 
         BackToLevel1( )
     
