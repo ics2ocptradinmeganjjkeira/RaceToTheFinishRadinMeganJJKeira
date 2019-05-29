@@ -63,8 +63,8 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 8
-local LeftSpeed = -8
+local SPEED = 4
+local LeftSpeed = -4
 local LINEAR_VELOCITY = -100
 local GRAVITY = 9
 
@@ -82,6 +82,11 @@ local Pylon1
 local Pylon2
 local Pylon3
 local Pylon
+
+-- Create the plyons where the car will hit
+local Pylon4
+local Pylon5
+local Pylon6
 
 local questionsAnswered = 0
 
@@ -121,6 +126,27 @@ local function stop (event)
     end
 end
 
+-- move the pylon1 to the starting poisition
+local function MovePylon4( event )
+    -- add the scroll speed to the y-value
+    Pylon4.y = Pylon4.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon5( event )
+    -- add the scroll speed to the y-value
+    Pylon5.y = Pylon5.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon6( event )
+    -- add the scroll speed to the y-value
+    Pylon6.y = Pylon6.y + SPEED
+    
+end
+
 local function AddArrowEventListeners()
     rArrow:addEventListener("touch", right)
     lArrow:addEventListener("touch", left)
@@ -134,11 +160,17 @@ end
 local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
     Runtime:addEventListener("touch", stop )
+    Runtime:addEventListener("enterFrame", MovePylon4)
+    Runtime:addEventListener("enterFrame", MovePylon5)
+    Runtime:addEventListener("enterFrame", MovePylon6)
 end
 
 local function RemoveRuntimeListeners()
     Runtime:removeEventListener("enterFrame", movePlayer)
     Runtime:removeEventListener("touch", stop )
+    Runtime:removeEventListener("enterFrame", MovePylon4)
+    Runtime:removeEventListener("enterFrame", MovePylon5)
+    Runtime:removeEventListener("enterFrame", MovePylon6)
 end
 
 
@@ -338,6 +370,10 @@ local function AddPhysicsBodies()
     physics.addBody( Pylon2, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody( Pylon3, "static",  {density=0, friction=0, bounce=0} )
 
+    physics.addBody(Pylon4, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
+    physics.addBody(Pylon5, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(Pylon6, "static",  {density=0, friction=0, bounce=0} )
+
 end
 
 
@@ -502,6 +538,36 @@ function scene:create( event )
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
     sceneGroup:insert( Pylon3 )
+
+
+    Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
+    Pylon4.x = 750
+    Pylon4.y = 500
+    Pylon4.isVisible = true
+    Pylon4.myName = "Pylon4"
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene  
+    sceneGroup:insert( Pylon4 )
+
+
+    Pylon5 = display.newImageRect("Images/Pylon.png", 80, 80)
+    Pylon5.x = 750
+    Pylon5.y = 500
+    Pylon5.isVisible = true
+    Pylon5.myName = "Pylon5"
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene  
+    sceneGroup:insert( Pylon5 )
+
+
+    Pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
+    Pylon6.x = 750
+    Pylon6.y = 500
+    Pylon6.isVisible = true
+    Pylon6.myName = "Pylon6"
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene  
+    sceneGroup:insert( Pylon6 )
 
     --Insert the right arrow
     rArrow = display.newImageRect("Images/RightArrowUnpressed.png", 100, 50)

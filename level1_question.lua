@@ -624,7 +624,7 @@ end
 local function DisplayQuestion()
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,10)
+    questionSelect = math.random(1,7)
 
     if (questionSelect == 1) then
 
@@ -679,7 +679,7 @@ local function DisplayQuestion()
 
     elseif (questionSelect == 3) then 
 
-        questionText = "How many vertices does a circle have?"
+        questionText.text = "How many vertices does a circle have?"
 
             -- Display the numbers 
             numThree.isVisible = true
@@ -702,7 +702,7 @@ local function DisplayQuestion()
 
     elseif (questionSelect == 4) then
 
-        questionText =" A circle is a polygon. "
+        questionText.text = " A circle is a polygon. "
 
             -- Display the text objects for the true or false question
            textObject.isVisible = true
@@ -710,7 +710,7 @@ local function DisplayQuestion()
 
     elseif (questionSelect == 5) then
 
-        questionText = " Click on the triangle "
+        questionText.text = " Click on the triangle "
 
             -- Display the shapes 
             tri5.isVisible = true
@@ -734,7 +734,7 @@ local function DisplayQuestion()
 
     elseif (questionSelect == 6) then   
 
-        questionText = " Which triangle is isosceles? "
+        questionText.text = " Which triangle is isosceles? "
 
             -- Display the shapes
             isosceles6 = true
@@ -755,7 +755,7 @@ local function DisplayQuestion()
 
     elseif (questionSelect == 7) then
 
-        questionText = " How many circles are in this photo? "
+        questionText.text = " How many circles are in this photo? "
 
             -- Display the shapes
             numTwo.isVisible = true
@@ -909,6 +909,8 @@ function scene:create( event )
     -- Question 2 --
 
     oval2 = display.newImage("Images/OvalMeganS@2x.png", 0, 0)
+    oval2.width = 160
+    oval2.height = 160
     oval2.isVisible = false
 
     -- circle from question 1 
@@ -954,6 +956,8 @@ function scene:create( event )
     -- Question 5 -- 
 
     tri5 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
+    tri5.width = 160
+    tri5.height = 160
     tri5.isVisible = false
 
     -- the same pentagon from question 1 
@@ -961,14 +965,20 @@ function scene:create( event )
     -- the same oval as question 2
 
     square5 = display.newImage("Images/SqaureMeganS@2x.png", 0, 0)
+    square5.width = 160
+    square5.height = 160
     square5.isVisible = false
 
     -- Question 6 -- 
 
     isosceles6 = display.newImage("Images/IsoscelesTriMegan@2x.png", 0, 0)
+    isosceles6.width = 160
+    isosceles6.height = 160
     isosceles6.isVisible = false
 
     rightAngleTri6 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
+    rightAngleTri6.width = 160
+    rightAngleTri6.height = 160
     rightAngleTri6.isVisible = false
 
     -- the same triangle displayed from question 1
