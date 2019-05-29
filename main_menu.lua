@@ -99,6 +99,13 @@ end
 local function InstructionTransition( )
     composer.gotoScene( "instruction_screen", {effect = "slideUp", time = 1000})
 end    
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level Select Screen
+local function LevelSelectTransition( )
+    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
+end   
+-----------------------------------------------------------------------------------------
 
 -- Creating Transition to Instuctions Screen
 local function LevelSelectTransition( )

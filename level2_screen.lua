@@ -42,7 +42,7 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 8
+local SPEED = 6
 local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 9
@@ -114,6 +114,43 @@ local function stop (event)
 end
 
 
+-- move the pylon1 to the starting poisition
+local function MovePylon1( event )
+    -- add the scroll speed to the y-value
+    pylon1.y = pylon1.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon2( event )
+    -- add the scroll speed to the y-value
+    pylon2.y = pylon2.y + SPEED
+    
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon3( event )
+    -- add the scroll speed to the y-value
+    pylon3.y = pylon3.y + SPEED
+    
+end
+
+local function AddRuntimeListeners()
+    Runtime:addEventListener("enterFrame", movePlayer)
+    Runtime:addEventListener("touch", stop )
+    Runtime:addEventListener("enterFrame", MovePylon1)
+    Runtime:addEventListener("enterFrame", MovePylon2)
+    Runtime:addEventListener("enterFrame", MovePylon3)
+end
+
+local function RemoveRuntimeListeners()
+    Runtime:removeEventListener("enterFrame", movePlayer)
+    Runtime:removeEventListener("touch", stop )
+    Runtime:removeEventListener("enterFrame", MovePylon1)
+    Runtime:removeEventListener("enterFrame", MovePylon2)
+    Runtime:removeEventListener("enterFrame", MovePylon3)
+end
+
 local function AddArrowEventListeners()
     rArrow:addEventListener("touch", right)
     lArrow:addEventListener("touch", left)
@@ -125,23 +162,11 @@ local function RemoveArrowEventListeners()
 end
 
 
-local function AddRuntimeListeners()
-    Runtime:addEventListener("enterFrame", movePlayer)
-    Runtime:addEventListener("touch", stop )
-end
-
-local function RemoveRuntimeListeners()
-    Runtime:removeEventListener("enterFrame", movePlayer)
-    Runtime:removeEventListener("touch", stop )
-end
-
 local function ReplaceCar()
     -- insert the car
-    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
+    car = display.newImageRect("Images/MainMenu_Car.png", 200, 150)
     car.x = display.contentWidth/2
     car.y = display.contentHeight*0.5
-    car.width = 200
-    car.height = 150
     car.myName = "car"
 
     -- intialize horizontal movement of character
@@ -177,27 +202,39 @@ end
 
 local function onCollision( self, event )
 
-    if  (event.target.myName == "pylon1") or
-        (event.target.myName == "pylon2") or
-        (event.target.myName == "pylon3") then
+    -- for testing purposes
+    --print( event.target )        --the first object in the collision
+    --print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
 
-        -- get the ball that the user hit
-        thePylon = event.target
+    if (event.phase == "began") then
+        if  (event.target.myName == "pylon1") or
+            (event.target.myName == "pylon2") or
+            (event.target.myName == "pylon3") then
 
-        -- stop the character from moving
-        motionx = 0
+            --print ("***Collided with: " .. event.other[0])
+            --print ("***Collided with: " .. event.object2.myName)
 
-        -- make the character invisible
-        car.isVisible = false
+            -- get the ball that the user hit
+            thePylon = event.target
+            thePylon:removeEventListener( "collision" )
 
-        -- show overlay with math question
-        composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+            -- stop the character from moving
+            motionx = 0
 
-        -- Increment questions answered
-        questionsAnswered = questionsAnswered + 1
-    end     
+            -- make the character invisible
+            car.isVisible = false
+
+            -- show overlay with math question
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+
+            -- Increment questions answered
+            questionsAnswered = questionsAnswered + 1
+        end   
+    end  
 end
-
 
 local function AddCollisionListeners()
 
@@ -221,11 +258,11 @@ end
 
 local function AddPhysicsBodies()
     --add to the physics engine
-    physics.addBody( ground, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody(ground, "static", { density=1.0, friction=0.3, bounce=0.2 } )
     physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} ) 
 
-    physics.addBody(pylon1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(pylon1, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
     physics.addBody(pylon2, "static",  {density=0, friction=0, bounce=0} )
     physics.addBody(pylon3, "static",  {density=0, friction=0, bounce=0} )
    
@@ -237,6 +274,7 @@ local function RemovePhysicsBodies()
     physics.removeBody(rightW)
  
 end
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
@@ -250,7 +288,6 @@ function ResumeLevel2()
     if (questionsAnswered > 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
             thePylon.isVisible = false
-            --thePylon:removeEventListener( "collision" )
             physics.removeBody(thePylon)
         end
     end
@@ -289,6 +326,7 @@ function scene:create( event )
     ground = display.newImageRect("Images/Level2-Ground.png", 1024, 100)
     ground.x = display.contentCenterX
     ground.y = display.contentHeight * 1.07
+    ground.myName = "ground"
 
 
     --Insert the right arrow
@@ -331,23 +369,23 @@ function scene:create( event )
 
 
     pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon1.x = 150
-    pylon1.y = 650
+    pylon1.x = display.contentWidth/2
+    pylon1.y = 0
     pylon1.isVisible = true
     pylon1.myName = "pylon1"
 
 
     pylon2 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon2.x = 50
-    pylon2.y = 400
+    pylon2.x = 400
+    pylon2.y = 0
     pylon2.isVisible = true
     pylon2.myName = "pylon2"
 
   
 
     pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon3.x = 940
-    pylon3.y = 500
+    pylon3.x = 640
+    pylon3.y = 0
     pylon3.isVisible = true
     pylon3.myName = "pylon3"
 
@@ -376,8 +414,8 @@ function scene:create( event )
 
     } )
 
-        -- scale down the size
-        backButton:scale(0.33, 0.33)
+    -- scale down the size
+    backButton:scale(0.33, 0.33)
 
     -----------------------------------------------------------------------------------------
 
@@ -417,7 +455,13 @@ function scene:show( event )
         physics.start()
 
         --set gravity
-        physics.setGravity( 0, GRAVITY )        
+        physics.setGravity( 0, GRAVITY )     
+
+        -- delay the pylon2 from falling down immidiately
+        timer.performWithDelay( 4000, MovePylon2)   
+
+        -- delay the pylon3 from falling down immidiately
+        timer.performWithDelay( 6500, MovePylon3)   
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then

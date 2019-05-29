@@ -68,15 +68,14 @@ local function BackToLevel2()
     ResumeLevel2()
 end 
 
+local function TouchListenerAnswer( touch )
 
-local function TouchListenerAnswer(touch)
-    
     if (touch.phase == "ended") then
-
-        BackToLevel2( )
-    
-    end 
+        BackToLevel2()
+    end
 end
+
+
 
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer(touch)
@@ -106,15 +105,60 @@ local function TouchListenerWrongAnswer3(touch)
 
         BackToLevel2( )
         
+    end
+end 
+
+local function TouchListenerAnswer2(touch)
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+    
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer4(touch)
+    
+    if (touch.phase == "ended") then
+        
+        BackToLevel2( )
+        
+        
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer5(touch)
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+        
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongAnswer6(touch)
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
+        
     end 
 end
 
 --adding the event listeners 
-local function AddTextListeners ( )
-    answerText:addEventListener( "touch", TouchListenerAnswer )
+local function AddTextListeners ()    
+    answerText:addEventListener( "touch", TouchListenerAnswer)
     wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
     wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2)
     wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
+    answerText2:addEventListener( "touch", TouchListenerAnswer2)
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer4)
+    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer5)
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer6)
+
 end
 
 --removing the event listeners
@@ -123,6 +167,10 @@ local function RemoveTextListeners()
     wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
     wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
     wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
+    answerText2:removeEventListener( "touch", TouchListenerAnswer2 )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer4)
+    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer5)
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer6)
 end
 
 
@@ -143,26 +191,44 @@ local function DisplayQuestion()
         wrongText1.text = 4
         wrongText2.text = 7
         wrongText3.text = 3
+
+        -- make the other answers invisible
+        answerText2.isVisible = false
+        wrongText4.isVisible = false
+        wrongText5.isVisible = false
+        wrongText6.isVisible = false
     end
+--[[
+    if (question == 2) then 
+        create the question
+        questionText2.text = "How many vertices does a rectangular 
+        prism have?"
 
-   -- if (question == 2) then 
-        -- create the question
-        --questionText2.text = "How many vertices does a rectangular prism have?"
+        --create the answer
+        answerText2.text = 8
 
-        -- create the answer
-        --answerText2.text = 8
+        --create the incorrect answers
+        wrongText4.text = 4
+        wrongText5.text = 10
+        wrongText6.text = 12
 
-        -- create the incorrect answers
-        --wrongAnswerText4.text = 4
-        --wrongAnswerText5.text = 10
-        --wrongAnswerText6.text = 12
+        -- make the other things from other questions invisible
+        --answerText.isVisible = false
+       -- wrongText1.isVisible = false
+        --wrongText2.isVisible = false
+        --wrongText3.isVisible = false
+        --rectangularprism.isVisible = false
+        --questionText.isVisible = false
     --end
+
+    ]]--
+
 end
 
 local function PositionAnswers()
 
     --creating random start position in a cretain area
-    answerPosition = math.random(1,3)
+    answerPosition = math.random(1,4)
 
     if (answerPosition == 1) then
 
@@ -207,7 +273,20 @@ local function PositionAnswers()
         wrongText3.x = X2
         wrongText3.y = Y2
 
+    elseif (answerPosition == 4) then
+
+        answerText.x = X2
+        answerText.y = Y2
             
+        wrongText1.x = X2
+        wrongText1.y = Y2
+            
+        wrongText2.x = X2
+        wrongText2.y = Y2
+
+        wrongText3.x = X1
+        wrongText3.y = Y1
+  
     end
 end
 -----------------------------------------------------------------------------------------
@@ -234,6 +313,7 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
+    questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
 
     -- create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 75)
@@ -244,6 +324,14 @@ function scene:create( event )
     wrongText2.anchorX = 0
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
+    answerText2 = display.newText("", X1, Y2, Arial, 75)
+    answerText2.anchorX = 0
+    wrongText4 = display.newText("", X2, Y2, Arial, 75)
+    wrongText4.anchorX = 0
+    wrongText5 = display.newText("", X1, Y1, Arial, 75)
+    wrongText5.anchorX = 0
+    wrongText6 = display.newText("", X2, Y1, Arial, 75)
+    wrongText6.anchorX = 0
 
     -- add the rectangular prism
     rectangularprism = display.newImage("Images/rectangularprism1.png", 5, 5)
@@ -262,10 +350,15 @@ function scene:create( event )
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
     sceneGroup:insert(questionText)
+    sceneGroup:insert(questionText2)
     sceneGroup:insert(answerText)
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(answerText2)
+    sceneGroup:insert(wrongText4)
+    sceneGroup:insert(wrongText5)
+    sceneGroup:insert(wrongText6)
     sceneGroup:insert(rectangularprism)
 
     -- insert all objects for this scene into the scene group
