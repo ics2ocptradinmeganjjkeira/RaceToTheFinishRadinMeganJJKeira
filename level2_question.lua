@@ -40,13 +40,9 @@ local questionText
 local questionText2
 
 local answerText 
-local wrongAnswerText1
-local wrongAnswerText2
-local wrongAnswerText3
-local answerText2
-local wrongAnswerText4
-local wrongAnswerText5
-local wrongAnswerText6
+local wrongText1
+local wrongText2
+local wrongText3
 
 local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*4/7
@@ -68,7 +64,7 @@ local function BackToLevel2()
     ResumeLevel2()
 end 
 
-local function TouchListenerAnswer( touch )
+local function TouchListenerAnswerText(touch)
 
     if (touch.phase == "ended") then
         BackToLevel2()
@@ -78,28 +74,27 @@ end
 
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer(touch)
+local function TouchListenerWrongText1(touch)
     
     if (touch.phase == "ended") then
         
         BackToLevel2( )
-        
+         
+    end 
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerWrongText2(touch)
+    
+    if (touch.phase == "ended") then
+
+        BackToLevel2( )
         
     end 
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer2(touch)
-    
-    if (touch.phase == "ended") then
-
-        BackToLevel2( )
-        
-    end 
-end
-
---checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer3(touch)
+local function TouchListenerWrongText3(touch)
     
     if (touch.phase == "ended") then
 
@@ -108,75 +103,26 @@ local function TouchListenerWrongAnswer3(touch)
     end
 end 
 
-local function TouchListenerAnswer2(touch)
-    
-    if (touch.phase == "ended") then
-
-        BackToLevel2( )
-    
-    end 
-end
-
---checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer4(touch)
-    
-    if (touch.phase == "ended") then
-        
-        BackToLevel2( )
-        
-        
-    end 
-end
-
---checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer5(touch)
-    
-    if (touch.phase == "ended") then
-
-        BackToLevel2( )
-        
-    end 
-end
-
---checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerWrongAnswer6(touch)
-    
-    if (touch.phase == "ended") then
-
-        BackToLevel2( )
-        
-    end 
-end
-
 --adding the event listeners 
-local function AddTextListeners ()    
-    answerText:addEventListener( "touch", TouchListenerAnswer)
-    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
-    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2)
-    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
-    answerText2:addEventListener( "touch", TouchListenerAnswer2)
-    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer4)
-    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer5)
-    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer6)
-
+function AddTextListeners2 ()    
+    answerText:addEventListener( "touch", TouchListenerAnswerText)
+    wrongText1:addEventListener( "touch", TouchListenerWrongText1)
+    wrongText2:addEventListener( "touch", TouchListenerWrongText2)
+    wrongText3:addEventListener( "touch", TouchListenerWrongText3)
 end
 
 --removing the event listeners
-local function RemoveTextListeners()
-    answerText:removeEventListener( "touch", TouchListenerAnswer )
-    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
-    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
-    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
-    answerText2:removeEventListener( "touch", TouchListenerAnswer2 )
-    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer4)
-    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer5)
-    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer6)
+function RemoveTextListeners2()
+    answerText:removeEventListener( "touch", TouchListenerAnswerText)
+    wrongText1:removeEventListener( "touch", TouchListenerWrongText1)
+    wrongText2:removeEventListener( "touch", TouchListenerWrongText2)
+    wrongText3:removeEventListener( "touch", TouchListenerWrongText3)
 end
 
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,1)
+    question = math.random(1,2)
 
     if (question == 1) then 
         -- create the question
@@ -192,37 +138,23 @@ local function DisplayQuestion()
         wrongText2.text = 7
         wrongText3.text = 3
 
-        -- make the other answers invisible
-        answerText2.isVisible = false
-        wrongText4.isVisible = false
-        wrongText5.isVisible = false
-        wrongText6.isVisible = false
-    end
---[[
-    if (question == 2) then 
-        create the question
-        questionText2.text = "How many vertices does a rectangular 
-        prism have?"
+
+    elseif (question == 2) then 
+        --create the question
+        questionText.text = "How many vertices does a "
+        questionText2.text = "rectangular prism have?"
 
         --create the answer
-        answerText2.text = 8
+        answerText.text = 8
 
         --create the incorrect answers
-        wrongText4.text = 4
-        wrongText5.text = 10
-        wrongText6.text = 12
+        wrongText1.text = 4
+        wrongText2.text = 10
+        wrongText3.text = 12
 
         -- make the other things from other questions invisible
-        --answerText.isVisible = false
-       -- wrongText1.isVisible = false
-        --wrongText2.isVisible = false
-        --wrongText3.isVisible = false
-        --rectangularprism.isVisible = false
-        --questionText.isVisible = false
-    --end
-
-    ]]--
-
+        rectangularprism.isVisible = false
+    end
 end
 
 local function PositionAnswers()
@@ -278,11 +210,11 @@ local function PositionAnswers()
         answerText.x = X2
         answerText.y = Y2
             
-        wrongText1.x = X2
+        wrongText1.x = X1
         wrongText1.y = Y2
             
         wrongText2.x = X2
-        wrongText2.y = Y2
+        wrongText2.y = Y1
 
         wrongText3.x = X1
         wrongText3.y = Y1
@@ -313,7 +245,7 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
-    questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
+    questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*4/8, Arial, 50)
 
     -- create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 75)
@@ -324,14 +256,6 @@ function scene:create( event )
     wrongText2.anchorX = 0
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
-    answerText2 = display.newText("", X1, Y2, Arial, 75)
-    answerText2.anchorX = 0
-    wrongText4 = display.newText("", X2, Y2, Arial, 75)
-    wrongText4.anchorX = 0
-    wrongText5 = display.newText("", X1, Y1, Arial, 75)
-    wrongText5.anchorX = 0
-    wrongText6 = display.newText("", X2, Y1, Arial, 75)
-    wrongText6.anchorX = 0
 
     -- add the rectangular prism
     rectangularprism = display.newImage("Images/rectangularprism1.png", 5, 5)
@@ -355,10 +279,6 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
-    sceneGroup:insert(answerText2)
-    sceneGroup:insert(wrongText4)
-    sceneGroup:insert(wrongText5)
-    sceneGroup:insert(wrongText6)
     sceneGroup:insert(rectangularprism)
 
     -- insert all objects for this scene into the scene group
@@ -387,7 +307,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
         PositionAnswers()
-        AddTextListeners()
+        AddTextListeners2()
     end
 
 end --function scene:show( event )
@@ -412,7 +332,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        RemoveTextListeners()
+        RemoveTextListeners2()
     end
 
 end --function scene:hide( event )

@@ -32,8 +32,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 
 -- The local variables for this scene
-local bkg_image
 
+local bkg_image
 local car 
 
 -- Create the arrows for the car to move left or right
@@ -42,10 +42,10 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 6
+local SPEED = 8
 local SPEED2 = -8
 local LINEAR_VELOCITY = -100
-local GRAVITY = 9
+local GRAVITY = 6
 
 -- create the lives
 local heart1
@@ -58,7 +58,6 @@ local numLives = 5
 --create the walls
 local leftW
 local rightW
-local topW
 local ground
 
 -- add the items the car interacts with
@@ -263,8 +262,8 @@ local function AddPhysicsBodies()
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} ) 
 
     physics.addBody(pylon1, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
-    physics.addBody(pylon2, "static",  {density=0, friction=0, bounce=0} )
-    physics.addBody(pylon3, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(pylon2, "static",  { density=0, friction=0, bounce=0} )
+    physics.addBody(pylon3, "static",  { density=0, friction=0, bounce=0} )
    
 end
 
@@ -285,7 +284,7 @@ function ResumeLevel2()
     -- make character visible again
     car.isVisible = true
     
-    if (questionsAnswered > 0) then
+    if (questionsAnswered == 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
             thePylon.isVisible = false
             physics.removeBody(thePylon)
@@ -451,17 +450,19 @@ function scene:show( event )
 
     if ( phase == "will" ) then
 
+        -- delay the pylon2 from falling down immidiately
+        timer.performWithDelay( 4000, MovePylon2)   
+
+        -- delay the pylon3 from falling down immidiately
+        timer.performWithDelay( 6500, MovePylon3) 
+
         -- Called when the scene is still off screen (but is about to come on screen).
         physics.start()
 
         --set gravity
         physics.setGravity( 0, GRAVITY )     
 
-        -- delay the pylon2 from falling down immidiately
-        timer.performWithDelay( 4000, MovePylon2)   
-
-        -- delay the pylon3 from falling down immidiately
-        timer.performWithDelay( 6500, MovePylon3)   
+        
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
