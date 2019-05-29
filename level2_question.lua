@@ -44,8 +44,8 @@ local wrongText1
 local wrongText2
 local wrongText3
 
-local X1 = display.contentWidth*2/7
-local X2 = display.contentWidth*4/7
+local X1 = display.contentWidth*1.5/7
+local X2 = display.contentWidth*4.5/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
@@ -122,7 +122,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,2)
+    question = math.random(1,3)
 
     if (question == 1) then 
         -- create the question
@@ -151,6 +151,22 @@ local function DisplayQuestion()
         wrongText1.text = 4
         wrongText2.text = 10
         wrongText3.text = 12
+
+        -- make the other things from other questions invisible
+        rectangularprism.isVisible = false
+
+
+    elseif (question == 3) then 
+        --create the question
+        questionText.text = "What type of 3D shape has one face? "
+
+        --create the answer
+        answerText.text = "cone"
+
+        --create the incorrect answers
+        wrongText1.text = "rectangular prism"
+        wrongText2.text = "octagonal prism"
+        wrongText3.text = "sphere"
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
@@ -248,13 +264,13 @@ function scene:create( event )
     questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*4/8, Arial, 50)
 
     -- create the answer text object & wrong answer text objects
-    answerText = display.newText("", X1, Y2, Arial, 75)
+    answerText = display.newText("", X1, Y2, Arial, 50)
     answerText.anchorX = 0
-    wrongText1 = display.newText("", X2, Y2, Arial, 75)
+    wrongText1 = display.newText("", X2, Y2, Arial, 50)
     wrongText1.anchorX = 0
-    wrongText2 = display.newText("", X1, Y1, Arial, 75)
+    wrongText2 = display.newText("", X1, Y1, Arial, 50)
     wrongText2.anchorX = 0
-    wrongText3 = display.newText("", X2, Y1, Arial, 75)
+    wrongText3 = display.newText("", X2, Y1, Arial, 50)
     wrongText3.anchorX = 0
 
     -- add the rectangular prism
