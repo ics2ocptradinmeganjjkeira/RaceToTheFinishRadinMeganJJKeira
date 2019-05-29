@@ -1,16 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua
+-- level3_screen.lua
 -- Created by: John Omage
--- Date: Month Day, Year
--- Description: This is the level 3 screen of the game.
------------------------------------------------------------------------------------------
-
-
------------------------------------------------------------------------------------------
---
--- level1_screen.lua
--- Created by: Megan
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
@@ -212,7 +203,7 @@ local function UpdateTime()
 
             heart5.isVisible = false
 
-            ResumeGame()
+            ResumeLevel3()
         end
 
         if (numLives == 3) then
@@ -220,7 +211,7 @@ local function UpdateTime()
             heart5.isVisible = false
             heart4.isVisible = false
 
-            ResumeGame()
+            ResumeLevel3()
         end
 
         if (numLives == 2) then
@@ -229,7 +220,7 @@ local function UpdateTime()
             heart4.isVisible = false
             heart3.isVisible = false
 
-            ResumeGame()
+            ResumeLevel3()
         end
 
         if (numLives == 1) then
@@ -239,7 +230,7 @@ local function UpdateTime()
             heart3.isVisible = false
             heart2.isVisible = false
 
-            ResumeGame()
+            ResumeLevel3()
         end
 
         if (numLives == 0) then
@@ -252,7 +243,7 @@ local function UpdateTime()
             ScoreObject.isVisible = false
             timer.cancel(countDownTimer)
 
-            ResumeGame()
+            ResumeLevel3()
             
         end
     end
@@ -303,15 +294,13 @@ local function onCollision( self, event )
             -- make the character invisible
             Car.isVisible = false
 
-            -- show overlay with math question
+            -- show overlay with math qu1estion
             composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
 
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
-            
         end        
-
-    end
+	end
 end
 
 
@@ -364,7 +353,7 @@ end
 -- GLOBAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-function ResumeGame()
+function ResumeLevel3()
 
     -- make car visible again
     Car.isVisible = true
@@ -571,7 +560,7 @@ function scene:create( event )
             defaultFile = "Images/BackButtonUnpressed.png", 
             overFile = "Images/BackButtonPressed.png", 
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the Level3 screen transition function
             onRelease = MainTransition         
         } )
     -- Set the scale for the Start button
