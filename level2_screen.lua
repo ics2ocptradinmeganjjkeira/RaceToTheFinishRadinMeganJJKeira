@@ -42,7 +42,7 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 8
+local SPEED = 6
 local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 6
@@ -53,7 +53,7 @@ local heart2
 local heart3
 local heart4
 local heart5
-local numLives = 5
+local lives = 3
 
 --create the walls
 local leftW
@@ -64,6 +64,7 @@ local ground
 local pylon1
 local pylon2
 local pylon3
+local pylon4
 local thePylon
 local tree
 local rock
@@ -124,23 +125,42 @@ end
 -- move the pylon1 to the starting poisition
 local function MovePylon2( event )
     -- add the scroll speed to the y-value
-    pylon2.y = pylon2.y + SPEED
+    if (pylon2.y > 768) then 
+        pylon2.x = math.random (150, 800)
+        pylon2.y = 0
+    else
+        pylon2.y = pylon2.y + SPEED
+    end
     
 end
 
 -- move the pylon1 to the starting poisition
 local function MovePylon3( event )
     -- add the scroll speed to the y-value
-    pylon3.y = pylon3.y + SPEED
-    
+    if (pylon3.y > 768) then 
+        pylon3.x = math.random (150, 800)
+        pylon3.y = 0
+    else
+        pylon3.y = pylon3.y + SPEED
+    end  
 end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon4( event )
+    -- add the scroll speed to the y-value
+    if (pylon4.y > 768) then 
+        pylon4.x = math.random (150, 800)
+        pylon4.y = 0
+    else
+        pylon4.y = pylon4.y + SPEED
+    end
+end
+
 
 local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
     Runtime:addEventListener("touch", stop )
     Runtime:addEventListener("enterFrame", MovePylon1)
-    Runtime:addEventListener("enterFrame", MovePylon2)
-    Runtime:addEventListener("enterFrame", MovePylon3)
 end
 
 local function RemoveRuntimeListeners()
@@ -149,6 +169,7 @@ local function RemoveRuntimeListeners()
     Runtime:removeEventListener("enterFrame", MovePylon1)
     Runtime:removeEventListener("enterFrame", MovePylon2)
     Runtime:removeEventListener("enterFrame", MovePylon3)
+    Runtime:removeEventListener("enterFrame", MovePylon4)
 end
 
 local function AddArrowEventListeners()
@@ -187,16 +208,17 @@ end
 
 local function MakePylonsVisible()
     pylon1.isVisible = true
-    pylon2.isVisible = true
-    pylon3.isVisible = true
+    pylon2.isVisible = false
+    pylon3.isVisible = false
+    pylon4.isVisible = false
 end
 
 local function MakeHeartsVisible()
     heart1.isVisible = true
     heart2.isVisible = true
     heart3.isVisible = true
-    heart4.isVisible = true
-    heart5.isVisible = true
+    heart4.isVisible = false
+    heart5.isVisible = false
 
 end
 
@@ -212,14 +234,15 @@ local function onCollision( self, event )
     if (event.phase == "began") then
         if  (event.target.myName == "pylon1") or
             (event.target.myName == "pylon2") or
-            (event.target.myName == "pylon3") then
+            (event.target.myName == "pylon3") or
+            (event.target.myName == "pylon4") then
 
             --print ("***Collided with: " .. event.other[0])
             --print ("***Collided with: " .. event.object2.myName)
 
             -- get the ball that the user hit
             thePylon = event.target
-            thePylon:removeEventListener( "collision" )
+            thePylon:removeEventListener( "collision" )         
 
             -- stop the character from moving
             motionx = 0
@@ -245,12 +268,16 @@ local function AddCollisionListeners()
     pylon2:addEventListener( "collision" )
     pylon3.collision = onCollision
     pylon3:addEventListener( "collision" )
+    pylon4.collision = onCollision
+    pylon4:addEventListener( "collision" )
 end
 
 local function RemoveCollisionListeners()
+
     pylon1:removeEventListener( "collision" )
     pylon2:removeEventListener( "collision" )
     pylon3:removeEventListener( "collision" )
+    pylon4:removeEventListener( "collision" )
 
 end
 
@@ -265,6 +292,7 @@ local function AddPhysicsBodies()
     physics.addBody(pylon1, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
     physics.addBody(pylon2, "static",  { density=0, friction=0, bounce=0} )
     physics.addBody(pylon3, "static",  { density=0, friction=0, bounce=0} )
+    physics.addBody(pylon4, "static",  { density=0, friction=0, bounce=0} )
    
 end
 
@@ -272,6 +300,21 @@ local function RemovePhysicsBodies()
     physics.removeBody(ground)
     physics.removeBody(leftW)
     physics.removeBody(rightW)
+    if (pylon1 ~= nil) and (pylon1.isBodyActive == true) then        
+        physics.removeBody(pylon1)
+    end
+    physics.removeBody(pylon2)
+    if (pylon2 ~= nil) and (pylon2.isBodyActive == true) then        
+        physics.removeBody(pylon2)
+    end
+    physics.removeBody(pylon3)
+    if (pylon3 ~= nil) and (pylon3.isBodyActive == true) then        
+        physics.removeBody(pylon3)
+    end
+    physics.removeBody(pylon4)
+    if (pylon4 ~= nil) and (pylon4.isBodyActive == true) then        
+        physics.removeBody(pylon4)
+    end
  
 end
 
@@ -285,22 +328,60 @@ function ResumeLevel2()
     -- make character visible again
     car.isVisible = true
     
-    if (questionsAnswered == 0) then
+    if (questionsAnswered >= 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
+            --print ("***ResumeLevel2: removed the pylon")
             thePylon.isVisible = false
             physics.removeBody(thePylon)
         end
+        if (questionsAnswered == 1) then            
+            Runtime:addEventListener("enterFrame", MovePylon2)
+            pylon2.isVisible = true
+        end
+        if (questionsAnswered == 2) then
+            Runtime:addEventListener("enterFrame", MovePylon3)
+            pylon3.isVisible = true
+        end
+        elseif (questionsAnswered == 3) then
+            Runtime:addEventListener("enterFrame", MovePylon4)
+            pylon4.isVisible = true
     end
-
 end
 
 function CountScore2()
 
-    Score = Score + 100
+    score = score + 100
 
-    ScoreObject.text = "Score: " .. Score
+    scoreText.text = "Score: " .. score
+
+    if (score == 300) then
+        composer.gotoScene( "you_win" )
+    end
 end
 
+
+function DecreaseLives2()
+
+    lives = lives - 1
+
+    if ( lives == 4) then
+        heart5.isVisible = false
+    end  
+    if (lives == 3) then
+        heart4.isVisible = false
+    end 
+    if (lives == 2) then
+        heart3.isVisible = false
+    end
+    if (lives == 1) then
+        heart2.isVisible = false
+    end
+
+    if (lives == 0) then
+        heart1.isVisible = false
+        composer.gotoScene( "you_lose" )
+    end
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -320,7 +401,8 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
-        --WALLS--
+
+    --WALLS--
     leftW = display.newLine( 0, 0, 0, display.contentHeight)
     leftW.isVisible = true
 
@@ -351,28 +433,33 @@ function scene:create( event )
     -- Insert the Hearts
     heart1 = display.newImageRect("Images/heart.png", 80, 80)
     heart1.x = 985
-    heart1.y = 50
+    heart1.y = 100
     heart1.isVisible = true
+    heart1:scale(0.75, 0.75)
 
     heart2 = display.newImageRect("Images/heart.png", 80, 80)
     heart2.x = 905
-    heart2.y = 50
+    heart2.y = 100
     heart2.isVisible = true
+    heart2:scale(0.75, 0.75)
 
     heart3= display.newImageRect("Images/heart.png", 80, 80)
     heart3.x = 825
-    heart3.y = 50
+    heart3.y = 100
     heart3.isVisible = true
+    heart3:scale(0.75, 0.75)
 
     heart4 = display.newImageRect("Images/heart.png", 80, 80)
     heart4.x = 745
-    heart4.y = 50
+    heart4.y = 100
     heart4.isVisible = true
+    heart4:scale(0.75, 0.75)
 
     heart5 = display.newImageRect("Images/heart.png", 80, 80)
     heart5.x = 665
-    heart5.y = 50
+    heart5.y = 100
     heart5.isVisible = true
+    heart5:scale(0.75, 0.75)
 
 
     pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
@@ -383,18 +470,24 @@ function scene:create( event )
 
 
     pylon2 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon2.x = 400
+    pylon2.x = 350
     pylon2.y = 0
-    pylon2.isVisible = true
+    pylon2.isVisible = false
     pylon2.myName = "pylon2"
 
   
 
     pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
-    pylon3.x = 640
+    pylon3.x = 700
     pylon3.y = 0
-    pylon3.isVisible = true
+    pylon3.isVisible = false
     pylon3.myName = "pylon3"
+
+    pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
+    pylon4.x = 700
+    pylon4.y = 0
+    pylon4.isVisible = false
+    pylon4.myName = "pylon4"
 
 
     scoreText = display.newText("Score: " .. score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
@@ -443,6 +536,7 @@ function scene:create( event )
     sceneGroup:insert( pylon1)
     sceneGroup:insert( pylon2)
     sceneGroup:insert( pylon3)
+    sceneGroup:insert( pylon4)
     sceneGroup:insert( ground)
     sceneGroup:insert( rightW)
     sceneGroup:insert( leftW)
@@ -484,7 +578,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
-        numLives = 5
+        lives = 3
         questionsAnswered = 0
 
         -- make all soccer balls visible
@@ -528,6 +622,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         RemoveCollisionListeners()
         RemovePhysicsBodies()
+
         RemoveArrowEventListeners()
         RemoveRuntimeListeners()
         physics.stop()

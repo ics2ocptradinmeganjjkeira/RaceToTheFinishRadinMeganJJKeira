@@ -13,7 +13,6 @@
 -- Use Composer Libraries
 local composer = require( "composer" )
 local widget = require( "widget" )
-local physics = require( "physics")
 
 
 -----------------------------------------------------------------------------------------
@@ -37,7 +36,6 @@ local cover
 local answerPosition = 1
 
 local questionText
-local questionText2
 
 local answerText 
 local wrongText1
@@ -67,6 +65,8 @@ end
 local function TouchListenerAnswerText(touch)
 
     if (touch.phase == "ended") then
+
+        CountScore2()
         BackToLevel2()
     end
 end
@@ -78,6 +78,7 @@ local function TouchListenerWrongText1(touch)
     
     if (touch.phase == "ended") then
         
+        DecreaseLives2()
         BackToLevel2( )
          
     end 
@@ -88,6 +89,7 @@ local function TouchListenerWrongText2(touch)
     
     if (touch.phase == "ended") then
 
+        DecreaseLives2()
         BackToLevel2( )
         
     end 
@@ -98,13 +100,14 @@ local function TouchListenerWrongText3(touch)
     
     if (touch.phase == "ended") then
 
+        DecreaseLives2()
         BackToLevel2( )
         
     end
 end 
 
 --adding the event listeners 
-function AddTextListeners2 ()    
+local function AddTextListeners ( )    
     answerText:addEventListener( "touch", TouchListenerAnswerText)
     wrongText1:addEventListener( "touch", TouchListenerWrongText1)
     wrongText2:addEventListener( "touch", TouchListenerWrongText2)
@@ -112,7 +115,7 @@ function AddTextListeners2 ()
 end
 
 --removing the event listeners
-function RemoveTextListeners2()
+local function RemoveTextListeners( )
     answerText:removeEventListener( "touch", TouchListenerAnswerText)
     wrongText1:removeEventListener( "touch", TouchListenerWrongText1)
     wrongText2:removeEventListener( "touch", TouchListenerWrongText2)
@@ -141,8 +144,7 @@ local function DisplayQuestion()
 
     elseif (question == 2) then 
         --create the question
-        questionText.text = "How many vertices does a "
-        questionText2.text = "rectangular prism have?"
+        questionText.text = "How many vertices does a\nrectangular prism have?"
 
         --create the answer
         answerText.text = 8
@@ -174,8 +176,7 @@ local function DisplayQuestion()
 
     elseif (question == 4) then 
         --create the question
-        questionText.text = "What two shapes are in a "
-        questionText2.text = "square-based pyramid?"
+        questionText.text = "What two shapes are in a\nsquare-based pyramid?"
 
         --create the answer
         answerText.text = "square, triangle"
@@ -278,7 +279,6 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
-    questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*4/8, Arial, 50)
 
     -- create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 50)
@@ -307,7 +307,6 @@ function scene:create( event )
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
     sceneGroup:insert(questionText)
-    sceneGroup:insert(questionText2)
     sceneGroup:insert(answerText)
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
@@ -340,7 +339,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
         PositionAnswers()
-        AddTextListeners2()
+        AddTextListeners()
     end
 
 end --function scene:show( event )
@@ -365,7 +364,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        RemoveTextListeners2()
+        RemoveTextListeners()
     end
 
 end --function scene:hide( event )

@@ -143,8 +143,7 @@ end
 -- move the pylon1 to the starting poisition
 local function MovePylon6( event )
     -- add the scroll speed to the y-value
-    Pylon6.y = Pylon6.y + SPEED
-    
+    Pylon6.y = Pylon6.y + SPEED 
 end
 
 local function AddArrowEventListeners()
@@ -412,13 +411,16 @@ function CountScore1()
 
     ScoreObject.text = "Score: " .. Score
 end
---[[
-function DecreaseLives()
 
+function DecreaseLives2()
 
-
+    lives = lives - 1
+    if ( lives == 4) then
+        heart1.isVisible = false
+    end
+    
 end
---]]
+
 
 
 -----------------------------------------------------------------------------------------
