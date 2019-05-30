@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
--- level1_screen.lua
--- Created by: Ms Raffin
+-- level3_screen.lua
+-- Created by: John Omage
 -- Date: Nov. 22nd, 2014
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ local physics = require("physics")
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_screen"
+sceneName = "level3_screen"
 
 -----------------------------------------------------------------------------------------
 

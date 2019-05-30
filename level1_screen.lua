@@ -129,21 +129,39 @@ end
 -- move the pylon1 to the starting poisition
 local function MovePylon4( event )
     -- add the scroll speed to the y-value
-    Pylon4.y = Pylon4.y + SPEED
+    if (Pylon4.y > 768) then 
+        Pylon4.x = math.random (150, 800)
+        Pylon4.y = 0
+    else
+
+        Pylon4.y = Pylon4.y + SPEED
+    end
     
 end
 
 -- move the pylon1 to the starting poisition
 local function MovePylon5( event )
     -- add the scroll speed to the y-value
-    Pylon5.y = Pylon5.y + SPEED
+    if (Pylon5.y > 768) then 
+        Pylon5.x = math.random (150, 800)
+        Pylon5.y = 0
+    else
+
+        Pylon5.y = Pylon5.y + SPEED
+    end
     
 end
 
 -- move the pylon1 to the starting poisition
 local function MovePylon6( event )
     -- add the scroll speed to the y-value
-    Pylon6.y = Pylon6.y + SPEED 
+    if (Pylon6.y > 768) then 
+        Pylon6.x = math.random (150, 800)
+        Pylon6.y = 0
+    else
+
+        Pylon6.y = Pylon6.y + SPEED 
+    end
 end
 
 local function AddArrowEventListeners()
@@ -195,6 +213,9 @@ local function MakePylonsVisible()
     Pylon1.isVisible = true
     Pylon2.isVisible = true
     Pylon3.isVisible = true
+    Pylon4.isVisible = true
+    Pylon5.isVisible = true
+    Pylon6.isVisible = true
 end
 
 local function MakeHeartsVisible()
@@ -307,8 +328,10 @@ local function onCollision( self, event )
 
         if  (event.target.myName == "Pylon1") or 
             (event.target.myName == "Pylon2") or
-            (event.target.myName == "Pylon3") then
-
+            (event.target.myName == "Pylon3") or            
+            (event.target.myName == "Pylon4") or
+            (event.target.myName == "Pylon5") or
+            (event.target.myName == "Pylon6") then
             -- add sound effect here
             crashSoundChannel = audio.play(crashSound)
 
@@ -318,6 +341,7 @@ local function onCollision( self, event )
 
             -- get the Pylon that the user hit
             Pylon = event.target
+            Pylon:removeEventListener( "collision" )         
 
             -- stop the character from moving
             motionx = 0
@@ -345,6 +369,12 @@ local function AddCollisionListeners()
     Pylon2:addEventListener( "collision" )
     Pylon3.collision = onCollision
     Pylon3:addEventListener( "collision" )
+    Pylon4.collision = onCollision
+    Pylon4:addEventListener( "collision" )
+    Pylon5.collision = onCollision
+    Pylon5:addEventListener( "collision" )
+    Pylon6.collision = onCollision
+    Pylon6:addEventListener( "collision" )
 
 end
 
@@ -353,6 +383,10 @@ local function RemoveCollisionListeners()
     Pylon1:removeEventListener( "collision" )
     Pylon2:removeEventListener( "collision" )
     Pylon3:removeEventListener( "collision" )
+    Pylon4:removeEventListener( "collision" )
+    Pylon5:removeEventListener( "collision" )
+    Pylon6:removeEventListener( "collision" )
+
 
 end
 
@@ -378,11 +412,21 @@ end
 
 local function RemovePhysicsBodies()
     
-    physics.removeBody( Car )
     physics.removeBody( leftW )
     physics.removeBody( rightW )
-    physics.removeBody( topW )
-    physics.removeBody( floor ) 
+    physics.removeBody( floor )
+
+    if (Pylon4 ~= nil) and (Pylon4.isBodyActive == true) then        
+        physics.removeBody(Pylon4)
+    end
+    physics.removeBody(pylon2)
+    if (Pylon5 ~= nil) and (Pylon5.isBodyActive == true) then        
+        physics.removeBody(Pylon5)
+    end
+    physics.removeBody(pylon3)
+    if (Pylon6 ~= nil) and (Pylon6.isBodyActive == true) then        
+        physics.removeBody(Pylon6)
+    end
 end
 
 
@@ -392,17 +436,26 @@ end
 
 function ResumeLevel1()
 
-    -- make car visible again
+    -- make character visible again
     Car.isVisible = true
     
-    if (questionsAnswered > 0) then
+    if (questionsAnswered >= 0) then
         if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
---            physics.removeBody( Pylon )
-            Pylon.isVisible = true
-            ReplaceCar()
+            Pylon.isVisible = false
+            physics.removeBody(Pylon)
         end
+        if (questionsAnswered == 1) then            
+            Runtime:addEventListener("enterFrame", MovePylon4)
+            Pylon4.isVisible = true
+        end
+        if (questionsAnswered == 2) then
+            Runtime:addEventListener("enterFrame", MovePylon5)
+            Pylon5.isVisible = true
+        end
+        elseif (questionsAnswered == 3) then
+            Runtime:addEventListener("enterFrame", MovePylon6)
+            Pylon6.isVisible = true
     end
-
 end
 
 function CountScore1()
@@ -410,14 +463,31 @@ function CountScore1()
     Score = Score + 100
 
     ScoreObject.text = "Score: " .. Score
+
+    if (score == 300) then
+        composer.gotoScene( "you_win" )
+    end
 end
 
-function DecreaseLives2()
+function DecreaseLives1()
 
-    lives = lives - 1
-    if ( lives == 4) then
+    numLives = numLives - 1
+    if ( numLives == 4) then
         heart1.isVisible = false
     end
+    if ( numLives == 3) then
+        heart2.isVisible = false
+    end
+    if ( numLives == 2) then
+        heart3.isVisible = false
+    end
+    if ( numLives == 1) then
+        heart4.isVisible = false
+    end
+    if ( numLives == 0) then
+        composer.gotoScene( "you_lose" )
+    end    
+
     
 end
 
@@ -729,6 +799,8 @@ function scene:hide( event )
         physics.stop()
         RemoveArrowEventListeners()
         RemoveRuntimeListeners()
+        display.remove(car)
+
     end
 
 end --function scene:hide( event )
