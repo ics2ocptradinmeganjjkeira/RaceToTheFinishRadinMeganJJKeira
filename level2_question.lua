@@ -51,6 +51,8 @@ local userAnswer
 local textTouched = false
 
 local rectangularprism
+local sphere
+local cylinder
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -189,6 +191,20 @@ local function DisplayQuestion()
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
     end
+--[[
+    elseif (question == 5) then
+        --create the question
+        questionText.text = "Click on the sphere."
+
+        --create the answer
+        answerText.text = " "
+
+        --create the incorrect answers
+        wrongText1.text = " "
+        wrongText2.text = " "
+        wrongText3.text = " "
+    end
+    ]]--
 end
 
 local function PositionAnswers()
@@ -301,6 +317,28 @@ function scene:create( event )
     -- make the prism invisible
     rectangularprism.isVisible = false
 
+    -- add the rectangular prism
+    cylinder = display.newImage("Images/cylinder.png", 5, 5)
+    -- make the image smaller
+    cylinder:scale(0.55, 0.55)
+    --  set the location on the x-axis
+    cylinder.x = display.contentWidth/2.2
+    -- set the location on the y-axis
+    cylinder.y = display.contentHeight/3
+    -- make the prism invisible
+    cylinder.isVisible = false
+
+    -- add the rectangular prism
+    sphere = display.newImage("Images/sphere.png", 5, 5)
+    -- make the image smaller
+    sphere:scale(0.55, 0.55)
+    --  set the location on the x-axis
+    sphere.x = display.contentWidth/2.2
+    -- set the location on the y-axis
+    sphere.y = display.contentHeight/3
+    -- make the prism invisible
+    sphere.isVisible = false
+
     -----------------------------------------------------------------------------------------
 
     -- insert all objects for this scene into the scene group
@@ -312,6 +350,8 @@ function scene:create( event )
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
     sceneGroup:insert(rectangularprism)
+    sceneGroup:insert( cylinder)
+    sceneGroup:insert( sphere)
 
     -- insert all objects for this scene into the scene group
 
