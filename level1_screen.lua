@@ -44,6 +44,8 @@ local heart3
 local heart4
 local heart5
 
+local alreadyCollided = false
+
 -- To keep track of the hearts the player has
 local numLives = 5
 
@@ -77,13 +79,15 @@ local floor
 -- Create the car
 local Car
 
--- Create the pylon
+-- Static pylons
 local Pylon1
 local Pylon2
 local Pylon3
-local Pylon
 
--- Create the plyons where the car will hit
+-- the pylon that is collided with
+local thePylon
+
+-- Falling pylons
 local Pylon4
 local Pylon5
 local Pylon6
@@ -130,7 +134,7 @@ end
 local function MovePylon4( event )
     -- add the scroll speed to the y-value
     if (Pylon4.y > 768) then 
-        Pylon4.x = math.random (150, 800)
+        Pylon4.x = math.random (150, 250)
         Pylon4.y = 0
     else
 
@@ -143,7 +147,7 @@ end
 local function MovePylon5( event )
     -- add the scroll speed to the y-value
     if (Pylon5.y > 768) then 
-        Pylon5.x = math.random (150, 800)
+        Pylon5.x = math.random (260, 400)
         Pylon5.y = 0
     else
 
@@ -156,7 +160,7 @@ end
 local function MovePylon6( event )
     -- add the scroll speed to the y-value
     if (Pylon6.y > 768) then 
-        Pylon6.x = math.random (150, 800)
+        Pylon6.x = math.random (405, 800)
         Pylon6.y = 0
     else
 
@@ -328,22 +332,26 @@ local function onCollision( self, event )
 
     if ( event.phase == "began" ) then
 
-        if  (event.target.myName == "Pylon1") or 
+        if  ((event.target.myName == "Pylon1") or 
             (event.target.myName == "Pylon2") or
             (event.target.myName == "Pylon3") or            
             (event.target.myName == "Pylon4") or
             (event.target.myName == "Pylon5") or
-            (event.target.myName == "Pylon6") then
+            (event.target.myName == "Pylon6")) and (alreadyCollided == false) then
+
             -- add sound effect here
             crashSoundChannel = audio.play(crashSound)
 
+            -- set already collided to true
+            alreadyCollided = true
+
             -- remove runtime listeners that move the car
-            RemoveArrowEventListeners()
-            RemoveRuntimeListeners()
+            --RemoveArrowEventListeners()
+            --RemoveRuntimeListeners()
 
             -- get the Pylon that the user hit
-            Pylon = event.target
-            Pylon:removeEventListener( "collision" )         
+            --Pylon = event.target
+            --Pylon:removeEventListener( "collision" )         
 
             -- stop the character from moving
             motionx = 0
@@ -440,7 +448,13 @@ function ResumeLevel1()
 
     -- make character visible again
     Car.isVisible = true
+    Car.y = display.contentHeight - Car.width/2
+    Pylon4.y = 0
+    Pylon5.y = 0
+    Pylon6.y = 0
+    alreadyCollided = false
     
+    --[[
     if (questionsAnswered >= 0) then
         if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
             Pylon.isVisible = false
@@ -458,7 +472,7 @@ function ResumeLevel1()
             Runtime:addEventListener("enterFrame", MovePylon6)
             Pylon6.isVisible = true
     end
-
+]]--
    
 end
 
@@ -468,14 +482,17 @@ function CountScore1()
 
     ScoreObject.text = "Score: " .. Score
 
-    if (score == 300) then
+    if (Score == 300) then
+
         composer.gotoScene( "you_win" )
+
     end
 end
 
 function DecreaseLives1()
 
     numLives = numLives - 1
+    print ("***lives = " .. numLives)
     if ( numLives == 4) then
         heart1.isVisible = false
     end
@@ -617,7 +634,7 @@ function scene:create( event )
 
 
     Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon4.x = 750
+    Pylon4.x = math.random(250, 400)
     Pylon4.y = 500
     Pylon4.isVisible = true
     Pylon4.myName = "Pylon4"
@@ -627,7 +644,7 @@ function scene:create( event )
 
 
     Pylon5 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon5.x = 750
+    Pylon5.x = math.random(405, 600)
     Pylon5.y = 500
     Pylon5.isVisible = true
     Pylon5.myName = "Pylon5"
@@ -637,7 +654,7 @@ function scene:create( event )
 
 
     Pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon6.x = 750
+    Pylon6.x = math.random(605, 800)
     Pylon6.y = 500
     Pylon6.isVisible = true
     Pylon6.myName = "Pylon6"

@@ -32,8 +32,7 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
--- The local variables for this scene
-local questionText
+-- Tells the user if it is right or wrong
 local textObject
 local textObject2
 
@@ -48,16 +47,14 @@ local X2 = display.contentWidth*5/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
-local userAnswer
 local textTouched = false
 
 -- Create the answer texts 
+local questionText
 local answerText 
 local wrongText1
 local wrongText2
 local wrongText3
-
--- Create the variables for the answers -- 
 
 -- question 1 objects
 local circle1
@@ -94,7 +91,6 @@ local numNine
 
 
 -- question 9 objects 
-
 local pentagonText
 local octagonText
 local decagonText
@@ -124,6 +120,40 @@ local function BackToLevel1()
 end 
 
 --------------------------- Touch and react question for question 1 ---------------------
+
+local function TouchListenerAnswer(touch)
+    if (touch.phase == "ended") then
+
+        CountScore1()
+
+        BackToLevel1( )
+    
+    end 
+end
+
+
+local function TouchListenerWrongText1(touch)
+    if (touch.phase == "ended") then
+        DecreaseLives1()
+        BackToLevel1( )
+    end 
+end
+
+
+local function TouchListenerWrongText2(touch)
+    if (touch.phase == "ended") then
+        DecreaseLives1()
+        BackToLevel1( )
+    end 
+end
+
+
+local function TouchListenerWrongText3(touch)
+    if (touch.phase == "ended") then
+        DecreaseLives1()
+        BackToLevel1( )
+    end 
+end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswerQ1(touch)
@@ -318,7 +348,6 @@ end
 
 
 local function TouchListenerWrongAnswer3Q5(touch)
-    userAnswer = oval2.text
     
     if (touch.phase == "ended") then
 
@@ -506,6 +535,11 @@ end
 
 --adding the event listeners 
 local function AddTextListeners ( )
+
+    answerText:addEventListener("touch", TouchListenerAnswer)
+    wrongText1:addEventListener("touch", TouchListenerWrongText1)
+    wrongText2:addEventListener("touch", TouchListenerWrongText2)
+    wrongText3:addEventListener("touch", TouchListenerWrongText3)
 --[[
 -- Add Text Listeners for question 1 -- 
     pentagon1:addEventListener( "touch", TouchListenerAnswerQ1 )
@@ -514,6 +548,7 @@ local function AddTextListeners ( )
     triangle1:addEventListener( "touch", TouchListenerWrongAnswer3Q1 )
 --]]
 
+--[[
 -- Add Text Listeners for question 2 -- 
     answerText:addEventListener( "touch", TouchListenerAnswerQ2 )
     wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q2 ) 
@@ -535,6 +570,7 @@ local function AddTextListeners ( )
     wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q5 )
     wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2Q5 )
     wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3Q5 )
+    ]]---
 --[[
 -- Add Text Listeners for question 6 -- 
     rightAngleTri6:addEventListener( "touch", TouchListenerAnswerQ6 ) 
@@ -576,6 +612,7 @@ local function RemoveTextListeners()
     circle1:removeEventListener( "touch", TouchListenerWrongAnswer3Q1 )
 --]]
 -- Remove Text Listeners for question 2 --
+--[[
     answerText:removeEventListener( "touch", TouchListenerAnswerQ2 )
     wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q2 )
     wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2Q2 )
@@ -596,6 +633,7 @@ local function RemoveTextListeners()
     wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q5 )
     wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2Q5 )
     wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3Q5 )
+    ]]--
 --[[
 -- Remove Text Listeners for question 6 --
     rightAngleTri6:removeEventListener( "touch", TouchListenerAnswerQ6 )
@@ -630,7 +668,7 @@ end
 local function DisplayQuestion()
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,4)
+    questionSelect = math.random(1,1)
 --[[
     if (questionSelect == 1) then
 
@@ -928,10 +966,16 @@ function scene:create( event )
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
 
     answerText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    answerText.anchorX = 0
  
     wrongText1 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText1.anchorX = 0
+
     wrongText2 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText2.anchorX = 0
+
     wrongText3 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText3.anchorX = 0
 
     -- Question 1 --
 
