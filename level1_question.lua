@@ -515,26 +515,26 @@ local function AddTextListeners ( )
 --]]
 
 -- Add Text Listeners for question 2 -- 
-    oval2:addEventListener( "touch", TouchListenerAnswerQ2 )
-    circle1:addEventListener( "touch", TouchListenerWrongAnswer1Q2 ) 
-    tri5:addEventListener( "touch", TouchListenerWrongAnswer2Q2 )
-    square5:addEventListener( "touch", TouchListenerWrongAnswer3Q2 )
+    answerText:addEventListener( "touch", TouchListenerAnswerQ2 )
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q2 ) 
+    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2Q2 )
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3Q2 )
 
 -- Add Text Listeners for question 3 -- 
-    numZero:addEventListener( "touch", TouchListenerAnswerQ3 )
-    numEight:addEventListener( "touch", TouchListenerWrongAnswer1Q3 ) 
-    numThree:addEventListener( "touch", TouchListenerWrongAnswer2Q3 )
-    numFour:addEventListener( "touch", TouchListenerWrongAnswer3Q3 )
+    answerText:addEventListener( "touch", TouchListenerAnswerQ3 )
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q3 ) 
+    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2Q3 )
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3Q3 )
 
 -- Add Text Listeners for question 4 -- 
     textObject:addEventListener( "touch", TouchListenerAnswerQ4 )
-    textObject2:addEventListener( "touch", TouchListenerWrongAnswer1Q4 )
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q4 )
 
 -- Add Text Listeners for question 5 -- 
-    tri5:addEventListener( "touch", TouchListenerAnswerQ5 ) 
-    square5:addEventListener( "touch", TouchListenerWrongAnswer1Q5 )
-    pentagon1:addEventListener( "touch", TouchListenerWrongAnswer2Q5 )
-    oval2:addEventListener( "touch", TouchListenerWrongAnswer3Q5 )
+    answerText:addEventListener( "touch", TouchListenerAnswerQ5 ) 
+    wrongText1:addEventListener( "touch", TouchListenerWrongAnswer1Q5 )
+    wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2Q5 )
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3Q5 )
 --[[
 -- Add Text Listeners for question 6 -- 
     rightAngleTri6:addEventListener( "touch", TouchListenerAnswerQ6 ) 
@@ -576,26 +576,26 @@ local function RemoveTextListeners()
     circle1:removeEventListener( "touch", TouchListenerWrongAnswer3Q1 )
 --]]
 -- Remove Text Listeners for question 2 --
-    oval2:removeEventListener( "touch", TouchListenerAnswerQ2 )
-    circle1:removeEventListener( "touch", TouchListenerWrongAnswer1Q2 )
-    circle1:removeEventListener( "touch", TouchListenerWrongAnswer2Q2 )
-    pentagon1:removeEventListener( "touch", TouchListenerWrongAnswer3Q2 )
+    answerText:removeEventListener( "touch", TouchListenerAnswerQ2 )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q2 )
+    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2Q2 )
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3Q2 )
 
 -- Remove Text Listeners for question 3 --
-    numThree:removeEventListener( "touch", TouchListenerAnswerQ3 )
-    numEight:removeEventListener( "touch", TouchListenerWrongAnswer1Q3 )
-    numZero:removeEventListener( "touch", TouchListenerWrongAnswer2Q3 )
-    numFour:removeEventListener( "touch", TouchListenerWrongAnswer3Q3 )
+    answerText:removeEventListener( "touch", TouchListenerAnswerQ3 )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q3 )
+    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2Q3 )
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3Q3 )
 
 -- Remove Text Listeners for question 4 --
-    textObject:removeEventListener( "touch", TouchListenerAnswerQ4 )
-    textObject2:removeEventListener( "touch", TouchListenerWrongAnswer1Q4 )
+    answerText:removeEventListener( "touch", TouchListenerAnswerQ4 )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q4 )
 
 -- Remove Text Listeners for question 5 --
-    tri5:removeEventListener( "touch", TouchListenerAnswerQ5 )
-    square5:removeEventListener( "touch", TouchListenerWrongAnswer1Q5 )
-    pentagon1:removeEventListener( "touch", TouchListenerWrongAnswer2Q5 )
-    oval2:removeEventListener( "touch", TouchListenerWrongAnswer3Q5 )
+    answerText:removeEventListener( "touch", TouchListenerAnswerQ5 )
+    wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer1Q5 )
+    wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2Q5 )
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3Q5 )
 --[[
 -- Remove Text Listeners for question 6 --
     rightAngleTri6:removeEventListener( "touch", TouchListenerAnswerQ6 )
@@ -926,6 +926,12 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+
+    answerText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+ 
+    wrongText1 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText2 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText3 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
 
     -- Question 1 --
 

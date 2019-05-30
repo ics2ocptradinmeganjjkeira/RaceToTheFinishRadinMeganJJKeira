@@ -177,6 +177,7 @@ end
 local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
     Runtime:addEventListener("touch", stop )
+    print ("***Called MovePylon event listeners")
     Runtime:addEventListener("enterFrame", MovePylon4)
     Runtime:addEventListener("enterFrame", MovePylon5)
     Runtime:addEventListener("enterFrame", MovePylon6)
@@ -185,6 +186,7 @@ end
 local function RemoveRuntimeListeners()
     Runtime:removeEventListener("enterFrame", movePlayer)
     Runtime:removeEventListener("touch", stop )
+    print ("***Removed MovePylon event listeners")
     Runtime:removeEventListener("enterFrame", MovePylon4)
     Runtime:removeEventListener("enterFrame", MovePylon5)
     Runtime:removeEventListener("enterFrame", MovePylon6)
@@ -419,11 +421,11 @@ local function RemovePhysicsBodies()
     if (Pylon4 ~= nil) and (Pylon4.isBodyActive == true) then        
         physics.removeBody(Pylon4)
     end
-    physics.removeBody(pylon2)
+    physics.removeBody(Pylon2)
     if (Pylon5 ~= nil) and (Pylon5.isBodyActive == true) then        
         physics.removeBody(Pylon5)
     end
-    physics.removeBody(pylon3)
+    physics.removeBody(Pylon3)
     if (Pylon6 ~= nil) and (Pylon6.isBodyActive == true) then        
         physics.removeBody(Pylon6)
     end
@@ -456,6 +458,8 @@ function ResumeLevel1()
             Runtime:addEventListener("enterFrame", MovePylon6)
             Pylon6.isVisible = true
     end
+
+   
 end
 
 function CountScore1()
