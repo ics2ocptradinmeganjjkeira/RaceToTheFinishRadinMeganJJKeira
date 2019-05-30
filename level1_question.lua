@@ -668,7 +668,7 @@ end
 local function DisplayQuestion()
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,1)
+    questionSelect = math.random(1,4)
 --[[
     if (questionSelect == 1) then
 
@@ -1037,13 +1037,13 @@ function scene:create( event )
     -- Create the text for the true and false questions
     textObject = display.newText("True", 0, 0, nil, 50)
     textObject.x = display.contentWidth*1/3
-    textObject.y = display.contentHeight*3/4
+    textObject.y = display.contentHeight*2/4
     textObject:setTextColor (1, 1, 0)
     textObject.isVisible = false
 
     textObject2 = display.newText("False", 0, 0, nil, 50)
     textObject2.x = display.contentWidth*2/3
-    textObject2.y = display.contentHeight*3/4
+    textObject2.y = display.contentHeight*2/4
     textObject2:setTextColor (1, 1, 0)
     textObject2.isVisible = false
 

@@ -65,8 +65,8 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 4
-local LeftSpeed = -4
+local SPEED = 5
+local LeftSpeed = -5
 local LINEAR_VELOCITY = -100
 local GRAVITY = 9
 
