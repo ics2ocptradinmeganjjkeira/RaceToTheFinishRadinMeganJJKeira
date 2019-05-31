@@ -185,7 +185,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(3,3)
+    questionSelect = math.random(1,4)
 
     if (questionSelect == 1) then
 
@@ -668,6 +668,11 @@ function scene:create( event )
     -- insert the questions for question 9
     sceneGroup:insert( bkg )
     sceneGroup:insert( cover )
+    sceneGroup:insert( answerText )
+    sceneGroup:insert( wrongText1 )
+    sceneGroup:insert( wrongText2 )
+    sceneGroup:insert( wrongText3 )
+
     sceneGroup:insert( questionText )
     sceneGroup:insert( pentagonText )
     sceneGroup:insert( octagonText )
