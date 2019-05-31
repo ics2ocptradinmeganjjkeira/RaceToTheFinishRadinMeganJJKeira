@@ -139,7 +139,7 @@ end
 
 
 local function ReplaceCharacter()
-    character = display.newImageRect("Images/KickyKatRight.png", 100, 150)
+    character = display.newImageRect("Images/MainMenu_Car.png", 100, 150)
     character.x = display.contentWidth * 0.5 / 8
     character.y = display.contentHeight  * 0.1 / 3
     character.width = 75
