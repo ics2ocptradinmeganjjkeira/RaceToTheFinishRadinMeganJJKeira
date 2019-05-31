@@ -1,17 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua
+-- level3_screen.lua
 -- Created by: John Omage
--- Date: Month Day, Year
--- Description: This is the level 3 screen of the game.
------------------------------------------------------------------------------------------
-
-
------------------------------------------------------------------------------------------
---
--- level1_screen.lua
--- Created by: Megan
--- Date: Month Day, Year
+-- Date: Nov. 22nd, 2014
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 
@@ -43,101 +34,97 @@ local scene = composer.newScene( sceneName )
 -- The local variables for this scene
 local bkg_image
 
--- Create the back button to the main menu screen
-local backButton
+local platform1
+local platform2
+local platform3
+local platform4
 
--- Create the lives for the car
+local spikes1
+local spikes2
+local spikes3
+
+local spikes1platform
+local spikes2platform
+local spikes3platform
+
+local torchesAndSign
+local door
+local door
+local character
+
 local heart1
 local heart2
-local heart3
-local heart4
-local heart5
+local numLives = 2
 
--- To keep track of the hearts the player has
-local numLives = 5
-
--- Create the score
-local Score = 0
-local ScoreObject
-
--- Create the local variables for the 
-local totalSeconds = 2
-local secondsLeft = 2
-local clockText 
-local countDownTimer
-
--- Create the arrows for the car to move left or right
-local rArrow
+local rArrow 
+local uArrow
 local lArrow
 
--- Create the physics for the car
 local motionx = 0
-local SPEED = 8
-local LeftSpeed = -8
+local SPEED = 9.5
 local LINEAR_VELOCITY = -100
-local GRAVITY = 9
+local GRAVITY = 5
 
--- Create the walls for the level 1 
 local leftW 
-local rightW
 local topW
 local floor
+local rightW
 
--- Create the car
-local Car
-
--- Create the pylon
-local Pylon1
-local Pylon2
-local Pylon3
-local Pylon
+local ball1
+local ball2
+local ball3
+local theBall
 
 local questionsAnswered = 0
 
------------------------------------------------------------------------------------------
--- SOUNDS
------------------------------------------------------------------------------------------ 
-
--- create a sound for when the character collids with the spikes
-local crashSound = audio.loadSound("Sounds/Crash.wav")
-local crashSoundChannel
-
+local popSound = audio.loadSound("Sounds/Pop.mp3") 
+local popSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL SCENE FUNCTIONS
------------------------------------------------------------------------------------------
-
--- When right arrow is touched, move car right
+----------------------------------------------------------------------------------------- 
+ 
+-- When right arrow is touched, move character right
 local function right (touch)
     motionx = SPEED
-    Car.xScale = 1
+    character.xScale = 1
 end
 
--- When left arrow is touched, move car left
+-- When left arrow is touched, move character left
 local function left (touch)
-    motionx = LeftSpeed
-    Car.xScale = -1
+    motionx = -SPEED
+    character.xScale = -1
 end
 
--- Move car horizontally
+-- When up arrow is touched, add vertical so it can jump
+local function up (touch)
+    if (character ~= nil) then
+        character:setLinearVelocity( 0, LINEAR_VELOCITY )
+    end
+end
+
+-- Move character horizontally
 local function movePlayer (event)
-    Car.x = Car.x + motionx
+    character.x = character.x + motionx
 end
  
--- Stop car movement when no arrow is pushed
+-- Stop character movement when none of the arrows are pushed
 local function stop (event)
     if (event.phase =="ended") then
         motionx = 0
     end
 end
 
+
 local function AddArrowEventListeners()
     rArrow:addEventListener("touch", right)
     lArrow:addEventListener("touch", left)
+    uArrow:addEventListener("touch", up)
 end
 
 local function RemoveArrowEventListeners()
     rArrow:removeEventListener("touch", right)
     lArrow:removeEventListener("touch", left)
+    uArrow:removeEventListener("touch", up)
 end
 
 local function AddRuntimeListeners()
@@ -151,16 +138,22 @@ local function RemoveRuntimeListeners()
 end
 
 
-local function ReplaceCar()
+local function ReplaceCharacter()
+    character = display.newImageRect("Images/KickyKatRight.png", 100, 150)
+    character.x = display.contentWidth * 0.5 / 8
+    character.y = display.contentHeight  * 0.1 / 3
+    character.width = 75
+    character.height = 100
+    character.myName = "KickyKat"
 
-    -- intialize horizontal movement of car
+    -- intialize horizontal movement of character
     motionx = 0
 
     -- add physics body
-    physics.addBody( Car, "dynamic", { density=0, friction=0.8, bounce=0, rotation=0 } )
+    physics.addBody( character, "dynamic", { density=0, friction=0.7, bounce=0, rotation=0 } )
 
-    -- prevent car from being able to tip over
-    Car.isFixedRotation = true
+    -- prevent character from being able to tip over
+    character.isFixedRotation = true
 
     -- add back arrow listeners
     AddArrowEventListeners()
@@ -169,109 +162,24 @@ local function ReplaceCar()
     AddRuntimeListeners()
 end
 
-local function MakePylonsVisible()
-    Pylon1.isVisible = true
-    Pylon2.isVisible = true
-    Pylon3.isVisible = true
+local function MakeSoccerBallsVisible()
+    ball1.isVisible = true
+    ball2.isVisible = true
+    ball3.isVisible = true
 end
 
 local function MakeHeartsVisible()
     heart1.isVisible = true
     heart2.isVisible = true
-    heart3.isVisible = true
-    heart4.isVisible = true
-    heart5.isVisible = true
-
 end
 
--- Creating Transition Function to Credits Page
-local function MainTransition( )       
-    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 700})
-end 
-
-
-
-local function UpdateTime()
-
-    -- Decrement the number of seconds
-    secondsLeft = secondsLeft - 1
-
-    -- Display the number of seconds left in the clock object 
-    clockText.text = "Time Left: " .. secondsLeft
-
-    if ( secondsLeft == 0 ) then
-        -- Reset the number of seconds left
-        secondsLeft = totalSeconds
-
-        numLives = numLives - 1
-
-        -- If there are no lives left, play a lose sound, show a you lose image
-        -- and cancel the timer remove the third heart by making it invisible
-
-        if (numLives == 4) then
-
-            heart5.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 3) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 2) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-            heart3.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 1) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-            heart3.isVisible = false
-            heart2.isVisible = false
-
-            ResumeGame()
-        end
-
-        if (numLives == 0) then
-
-            heart1.isVisible = false   
-            heart2.isVisible = false
-            heart3.isVisible = false 
-            heart2.isVisible = false
-            heart3.isVisible = false
-            ScoreObject.isVisible = false
-            timer.cancel(countDownTimer)
-
-            ResumeGame()
-            
-        end
-    end
+local function YouLoseTransition()
+    composer.gotoScene( "you_lose" )
 end
 
--- Function that calls the timer
-local function StartTimer()
-
-    -- Create a countdown timer that loops infinitely
-    countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0 )
-
-    if (countDownTimer == 0) then
-
-        timer.cancel(countDownTimer)
-    
-    end
+local function YouWinTransition()
+    composer.gotoScene( "you_win" )
 end
-
-
 
 local function onCollision( self, event )
     -- for testing purposes
@@ -283,32 +191,65 @@ local function onCollision( self, event )
 
     if ( event.phase == "began" ) then
 
-        if  (event.target.myName == "Pylon1") or 
-            (event.target.myName == "Pylon2") or
-            (event.target.myName == "Pylon3") then
 
-            -- add sound effect here
-            crashSoundChannel = audio.play(crashSound)
+        if  (event.target.myName == "spikes1") or 
+            (event.target.myName == "spikes2") or
+            (event.target.myName == "spikes3") then
 
-            -- remove runtime listeners that move the car
+            --Pop sound
+            popSoundChannel = audio.play(popSound)
+
+            -- remove runtime listeners that move the character
             RemoveArrowEventListeners()
             RemoveRuntimeListeners()
 
-            -- get the Pylon that the user hit
-            Pylon = event.target
+            -- remove the character from the display
+            display.remove(character)
+
+            -- decrease number of lives
+            numLives = numLives - 1
+
+            if (numLives == 1) then
+                -- update hearts
+                heart1.isVisible = true
+                heart2.isVisible = false
+                timer.performWithDelay(200, ReplaceCharacter) 
+
+            elseif (numLives == 0) then
+                -- update hearts
+                heart1.isVisible = false
+                heart2.isVisible = false
+                timer.performWithDelay(200, YouLoseTransition)
+            end
+        end
+
+        if  (event.target.myName == "ball1") or
+            (event.target.myName == "ball2") or
+            (event.target.myName == "ball3") then
+
+            -- get the ball that the user hit
+            theBall = event.target
 
             -- stop the character from moving
             motionx = 0
 
             -- make the character invisible
-            Car.isVisible = false
+            character.isVisible = false
 
             -- show overlay with math question
             composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
 
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
-            
+        end
+
+        if (event.target.myName == "door") then
+            --check to see if the user has answered 5 questions
+            if (questionsAnswered == 3) then
+                -- after getting 3 questions right, go to the you win screen
+                timer.performWithDelay(200, YouWinTransition)
+
+            end
         end        
 
     end
@@ -317,48 +258,80 @@ end
 
 local function AddCollisionListeners()
     -- if character collides with ball, onCollision will be called
-    Pylon1.collision = onCollision
-    Pylon1:addEventListener( "collision" )
-    Pylon2.collision = onCollision
-    Pylon2:addEventListener( "collision" )
-    Pylon3.collision = onCollision
-    Pylon3:addEventListener( "collision" )
+    spikes1.collision = onCollision
+    spikes1:addEventListener( "collision" )
+    spikes2.collision = onCollision
+    spikes2:addEventListener( "collision" )
+    spikes3.collision = onCollision
+    spikes3:addEventListener( "collision" )
 
-end
+    -- if character collides with ball, onCollision will be called    
+    ball1.collision = onCollision
+    ball1:addEventListener( "collision" )
+    ball2.collision = onCollision
+    ball2:addEventListener( "collision" )
+    ball3.collision = onCollision
+    ball3:addEventListener( "collision" )
 
-local function RemoveCollisionListeners()
+    door.collision = onCollision
+    door:addEventListener( "collision" )
 
-    Pylon1:removeEventListener( "collision" )
-    Pylon2:removeEventListener( "collision" )
-    Pylon3:removeEventListener( "collision" )
+    ball1:removeEventListener( "collision" )
+    ball2:removeEventListener( "collision" )
+    ball3:removeEventListener( "collision" )
+
+    door:removeEventListener( "collision")
 
 end
 
 local function AddPhysicsBodies()
-    --add to the physics engine 
+    --add to the physics engine
+    physics.addBody( platform1, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( platform2, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( platform3, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( platform4, "static", { density=1.0, friction=0.3, bounce=0.2 } )
 
-    physics.addBody( leftW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody( rightW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody( topW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody( floor, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody( spikes1, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( spikes2, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( spikes3, "static", { density=1.0, friction=0.3, bounce=0.2 } )    
 
+    physics.addBody( spikes1platform, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( spikes2platform, "static", { density=1.0, friction=0.3, bounce=0.2 } )
+    physics.addBody( spikes3platform, "static", { density=1.0, friction=0.3, bounce=0.2 } )
 
-    physics.addBody( Pylon1, "static",  {density=0, friction=0, bounce=0} )
-    physics.addBody( Pylon2, "static",  {density=0, friction=0, bounce=0} )
-    physics.addBody( Pylon3, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(topW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
+
+    physics.addBody(ball1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(ball2, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(ball3, "static",  {density=0, friction=0, bounce=0} )
+
+    physics.addBody(door, "static", {density=1, friction=0.3, bounce=0.2})
 
 end
-
 
 local function RemovePhysicsBodies()
-    
-    physics.removeBody( Car )
-    physics.removeBody( leftW )
-    physics.removeBody( rightW )
-    physics.removeBody( topW )
-    physics.removeBody( floor ) 
-end
+    physics.removeBody(platform1)
+    physics.removeBody(platform2)
+    physics.removeBody(platform3)
+    physics.removeBody(platform4)
 
+    physics.removeBody(spikes1)
+    physics.removeBody(spikes2)
+    physics.removeBody(spikes3)
+
+    physics.removeBody(spikes1platform)
+    physics.removeBody(spikes2platform)
+    physics.removeBody(spikes3platform)
+
+    physics.removeBody(leftW)
+    physics.removeBody(rightW)
+    physics.removeBody(topW)
+    physics.removeBody(floor)
+ 
+end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
@@ -366,32 +339,18 @@ end
 
 function ResumeGame()
 
-    -- make car visible again
-    Car.isVisible = true
+    -- make character visible again
+    character.isVisible = true
     
     if (questionsAnswered > 0) then
-        if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
---            physics.removeBody( Pylon )
-            Pylon.isVisible = true
-            ReplaceCar()
+        if (theBall ~= nil) and (theBall.isBodyActive == true) then
+            physics.removeBody(theBall)
+            theBall.isVisible = false
         end
     end
 
 end
 
-function CountScore()
-
-    Score = Score + 100
-
-    ScoreObject.text = "Score: " .. Score
-end
---[[
-function DecreaseLives()
-
-
-
-end
---]]
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -402,121 +361,111 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -----------------------------------------------------------------------------------------
-
     -- Insert the background image
     bkg_image = display.newImageRect("Images/Level3ScreenJohnOmage@2x.png", display.contentWidth, display.contentHeight)
-    bkg_image.x = display.contentCenterX
-    bkg_image.y = display.contentCenterY
-    bkg_image.width = display.contentWidth
-    bkg_image.height = display.contentHeight
+    bkg_image.x = display.contentWidth / 2 
+    bkg_image.y = display.contentHeight / 2
 
     -- Insert background image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( bkg_image ) 
+    sceneGroup:insert( bkg_image )    
+    
+    -- Insert the platforms
+    platform1 = display.newImageRect("Images/Level-1Platform1.png", 250, 50)
+    platform1.x = display.contentWidth * 1 / 8
+    platform1.y = display.contentHeight * 1.6 / 4
+        
+    sceneGroup:insert( platform1 )
 
-    -- Insert the car into the level one screen
-    Car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
-    Car.x = display.contentWidth * 1/2
-    Car.y = display.contentHeight  * 0.1 / 3
-    Car.width = 200
-    Car.height = 150
-    Car.myName = "Car"
+    platform2 = display.newImageRect("Images/Level-1Platform1.png", 150, 50)
+    platform2.x = display.contentWidth /2.1
+    platform2.y = display.contentHeight * 1.2 / 4
+        
+    sceneGroup:insert( platform2 )
+
+    platform3 = display.newImageRect("Images/Level-1Platform1.png", 180, 50)
+    platform3.x = display.contentWidth *3 / 5
+    platform3.y = display.contentHeight * 3.5 / 5
+        
+    sceneGroup:insert( platform3 )
+
+    platform4 = display.newImageRect("Images/Level-1Platform1.png", 180, 50)
+    platform4.x = display.contentWidth *4.7 / 5
+    platform4.y = display.contentHeight * 1.3 / 5
+        
+    sceneGroup:insert( platform4 )
+
+    spikes1 = display.newImageRect("Images/lava.png", 250, 50)
+    spikes1.x = display.contentWidth * 3 / 8
+    spikes1.y = display.contentHeight * 2.5 / 5
+    spikes1.myName = "spikes1"
+        
+    sceneGroup:insert( spikes1)
+
+    spikes1platform = display.newImageRect("Images/lava.png", 250, 50)
+    spikes1platform.x = display.contentWidth * 3 / 8
+    spikes1platform.y = display.contentHeight * 2.8 / 5
+        
+    sceneGroup:insert( spikes1platform)
+
+    spikes2 = display.newImageRect("Images/lava.png", 150, 50)
+    spikes2.x = display.contentWidth * 6 / 8
+    spikes2.y = display.contentHeight * 2.5 / 5
+    spikes2.myName = "spikes2"
+        
+    sceneGroup:insert( spikes2)
+
+    spikes2platform = display.newImageRect("Images/lava.png", 150, 50)
+    spikes2platform.x = display.contentWidth * 6 / 8
+    spikes2platform.y = display.contentHeight * 2.2 / 5
+        
+    sceneGroup:insert( spikes2platform)
+
+    spikes3 = display.newImageRect("Images/lava.png", 50, 150)
+    spikes3.x = display.contentWidth * 5.5 / 8
+    spikes3.y = display.contentHeight * 0.4 / 5
+    spikes3.myName = "spikes3"
+        
+    sceneGroup:insert( spikes3)
+
+    spikes3platform = display.newImageRect("Images/lava.png", 50, 150)
+    spikes3platform.x = display.contentWidth * 5.8 / 8
+    spikes3platform.y = display.contentHeight * 0.4 / 5
+        
+    sceneGroup:insert( spikes3platform)
+
+    -- Insert the Door
+    door = display.newImage("Images/Line.png", 200, 200)
+    door.x = display.contentWidth/5 
+    door.y = display.contentHeight*6.1/7
+    door.myName = "door"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( Car )
-
-
-    -- Create the clock text colour and text
-    clockText = display.newText("Time Left: ", display.contentWidth*3.3/5, display.contentHeight*2.2/10, nil, 60)
-    clockText:setTextColor(0, 0, 0)
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( clockText )
-
-    ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.5/5, display.contentHeight*0.4/10, nil, 50 )
-    ScoreObject:setTextColor(0, 0, 0)
-    ScoreObject.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( ScoreObject )  
+    sceneGroup:insert( door )
 
     -- Insert the Hearts
     heart1 = display.newImageRect("Images/heart.png", 80, 80)
-    heart1.x = 985
-    heart1.y = 100
+    heart1.x = 50
+    heart1.y = 50
     heart1.isVisible = true
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( heart1 )
 
     heart2 = display.newImageRect("Images/heart.png", 80, 80)
-    heart2.x = 905
-    heart2.y = 100
+    heart2.x = 130
+    heart2.y = 50
     heart2.isVisible = true
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( heart2 )
 
-    heart3= display.newImageRect("Images/heart.png", 80, 80)
-    heart3.x = 825
-    heart3.y = 100
-    heart3.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart3 )
-
-    heart4 = display.newImageRect("Images/heart.png", 80, 80)
-    heart4.x = 745
-    heart4.y = 100
-    heart4.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart4 )
-
-    heart5 = display.newImageRect("Images/heart.png", 80, 80)
-    heart5.x = 665
-    heart5.y = 100
-    heart5.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( heart5 )
-
-    Pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon1.x = 110
-    Pylon1.y = 650
-    Pylon1.isVisible = true
-    Pylon1.myName = "Pylon1"
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( Pylon1 )
-
-
-    Pylon2 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon2.x = 50
-    Pylon2.y = 400
-    Pylon2.isVisible = true
-    Pylon2.myName = "Pylon2"
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( Pylon2 )
-  
-
-    Pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon3.x = 750
-    Pylon3.y = 500
-    Pylon3.isVisible = true
-    Pylon3.myName = "Pylon3"
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( Pylon3 )
-
     --Insert the right arrow
     rArrow = display.newImageRect("Images/RightArrowUnpressed.png", 100, 50)
     rArrow.x = display.contentWidth * 9.2 / 10
     rArrow.y = display.contentHeight * 9.5 / 10
-
-     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( rArrow )
+   
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( rArrow)
 
     --Insert the left arrow
     lArrow = display.newImageRect("Images/LeftArrowUnpressed.png", 100, 50)
@@ -524,7 +473,15 @@ function scene:create( event )
     lArrow.y = display.contentHeight * 9.5 / 10
    
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( lArrow )
+    sceneGroup:insert( lArrow)
+
+    --Insert the left arrow
+    uArrow = display.newImageRect("Images/UpArrowUnpressed.png", 50, 100)
+    uArrow.x = display.contentWidth * 8.2 / 10
+    uArrow.y = display.contentHeight * 8.5 / 10
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( uArrow)
 
     --WALLS--
     leftW = display.newLine( 0, 0, 0, display.contentHeight)
@@ -553,33 +510,32 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( floor )
 
-    -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
+    --ball1
+    ball1 = display.newImageRect ("Images/Pylon.png", 70, 70)
+    ball1.x = 610
+    ball1.y = 480
+    ball1.myName = "ball1"
 
------------------------------------------------------------------------------------------
--- BUTTON WIDGETS
------------------------------------------------------------------------------------------   
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( ball1 )
 
-    -- Creating Start Button
-    backButton = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1/8,
-            y = display.contentHeight*7.5/8,
+    --ball2
+    ball2 = display.newImageRect ("Images/Pylon.png", 70, 70)
+    ball2.x = 490
+    ball2.y = 170
+    ball2.myName = "ball2"
 
-            -- Insert the images here
-            defaultFile = "Images/BackButtonUnpressed.png", 
-            overFile = "Images/BackButtonPressed.png", 
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( ball2 )
 
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = MainTransition         
-        } )
-    -- Set the scale for the Start button
-        backButton:scale( 0.3, 0.3 )
-    ----------------------------------------------------------------------------------------
+    --ball3
+    ball3 = display.newImageRect ("Images/Pylon.png", 70, 70)
+    ball3.x = 767
+    ball3.y = 277
+    ball3.myName = "ball3"
 
-    -- Associating button widgets with this scene
-    sceneGroup:insert( backButton ) 
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( ball3 )
 
 end --function scene:create( event )
 
@@ -598,12 +554,11 @@ function scene:show( event )
 
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
-            -- start physics
+        -- start physics
         physics.start()
 
         -- set gravity
         physics.setGravity( 0, GRAVITY )
-
 
     elseif ( phase == "did" ) then
 
@@ -611,18 +566,11 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
-
-        -- Start the timer
-
---        StartTimer()
-
-        -- Keep count of the lives and questions answered
-
-        numLives = 5
+        numLives = 2
         questionsAnswered = 0
 
-        -- make all of the pylons visible
-        MakePylonsVisible()
+        -- make all soccer balls visible
+        MakeSoccerBallsVisible()
 
         -- make all lives visible
         MakeHeartsVisible()
@@ -633,11 +581,8 @@ function scene:show( event )
         -- add collision listeners to objects
         AddCollisionListeners()
 
-        -- create the car, add physics bodies and runtime listeners
-        ReplaceCar()
-
-        -- start the countdown timer
---        StartTimer()
+        -- create the character, add physics bodies and runtime listeners
+        ReplaceCharacter()
 
     end
 
@@ -663,11 +608,12 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        RemoveCollisionListeners()
         RemovePhysicsBodies()
+
         physics.stop()
         RemoveArrowEventListeners()
         RemoveRuntimeListeners()
+        display.remove(character)
     end
 
 end --function scene:hide( event )
@@ -701,10 +647,3 @@ scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
-
-
-
-
-
-
-

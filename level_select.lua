@@ -53,21 +53,21 @@ local textObject
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_1_screen", {effect = "slideDown", time = 1000})
 end    
 
 -- Creating Transition to Level1 Screen
 local function Level2ScreenTransition( )
-    composer.gotoScene( "level2_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_2_screen", {effect = "slideDown", time = 1000})
 end    
 
 -- Creating Transition to Level1 Screen
 local function Level3ScreenTransition( )
-    composer.gotoScene( "level3_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_3_screen", {effect = "slideDown", time = 1000})
 end    
 
 local function BackButtonTransition( )
-    composer.gotoScene( "CharacterSelect", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
 end  
 
 -----------------------------------------------------------------------------------------

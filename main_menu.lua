@@ -107,6 +107,11 @@ local function LevelSelectTransition( )
 end   
 -----------------------------------------------------------------------------------------
 
+-- Creating Transition to Instuctions Screen
+local function LevelSelectTransition( )
+    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
+end    
+
 -- Creating the mute/unmute buttons
 local function Mute( touch )
     if (touch.phase == "ended") then
@@ -352,7 +357,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-        audio.stop(backgroundSoundChannel)
+        audio.stop()
 
     -----------------------------------------------------------------------------------------
 
