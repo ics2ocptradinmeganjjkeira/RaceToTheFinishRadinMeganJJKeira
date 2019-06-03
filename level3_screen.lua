@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- level1_screen.lua
+-- level3_screen.lua
 -- Created by: John Omage
 -- Date: Month Day, Year
 -- Description: This is the level 3 screen of the game.
@@ -70,7 +70,7 @@ local LeftSpeed = -5
 local LINEAR_VELOCITY = -100
 local GRAVITY = 9
 
--- Create the walls for the level 1 
+-- Create the walls for the level 3
 local leftW 
 local rightW
 local topW
@@ -261,7 +261,7 @@ local function UpdateTime()
 
             heart5.isVisible = false
 
-            ResumeLevel1()
+            ResumeLevel3()
         end
 
         if (numLives == 3) then
@@ -269,7 +269,7 @@ local function UpdateTime()
             heart5.isVisible = false
             heart4.isVisible = false
 
-            ResumeLevel1()
+            ResumeLevel3()
         end
 
         if (numLives == 2) then
@@ -278,7 +278,7 @@ local function UpdateTime()
             heart4.isVisible = false
             heart3.isVisible = false
 
-            ResumeLevel1()
+            ResumeLevel3()
         end
 
         if (numLives == 1) then
@@ -288,7 +288,7 @@ local function UpdateTime()
             heart3.isVisible = false
             heart2.isVisible = false
 
-            ResumeLevel1()
+            ResumeLevel3()
         end
 
         if (numLives == 0) then
@@ -301,7 +301,7 @@ local function UpdateTime()
             ScoreObject.isVisible = false
             timer.cancel(countDownTimer)
 
-            ResumeLevel1()
+            ResumeLevel3()
             
         end
     end
@@ -476,7 +476,7 @@ function ResumeLevel3()
    
 end
 
-function CountScore1()
+function CountScore3()
 
     Score = Score + 100
 
@@ -489,7 +489,7 @@ function CountScore1()
     end
 end
 
-function DecreaseLives1()
+function DecreaseLives3()
 
     numLives = numLives - 1
     print ("***lives = " .. numLives)
@@ -723,7 +723,7 @@ function scene:create( event )
             defaultFile = "Images/BackButtonUnpressed.png", 
             overFile = "Images/BackButtonPressed.png", 
 
-            -- When the button is released, call the Level1 screen transition function
+            -- When the button is released, call the Level3 screen transition function
             onRelease = MainTransition         
         } )
     -- Set the scale for the Start button
