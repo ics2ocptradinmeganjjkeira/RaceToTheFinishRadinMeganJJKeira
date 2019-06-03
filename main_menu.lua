@@ -168,7 +168,8 @@ function scene:create( event )
     Car = display.newImage("Images/MainMenu_Car.png")
     Car.x = display.contentWidth*7.7/10
     Car.y = display.contentHeight*3/10
-    Car:scale( 0.1, 0.1 )
+    Car.width = 240
+    Car.height = 170
 
     -- Insert the mute/unmute
     MuteButton = display.newImageRect("Images/MuteButton.png", 80, 80)
