@@ -4,7 +4,7 @@
 --Name: John Omage
 -- Description: This is the level 1 screen of the game. the charater can be dragged to move
 --If character goes off a certain araea they go back to the start. When a user interactes
---with piant a trivia question will come up. they will have a limided time to click on the answer
+--with piant a trivia question will me up. they will have a limided time to click on the answer
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -65,10 +65,10 @@ local textTouched = false
 -----------------------------------------------------------------------------------------
 
 --making transition to next scene
-local function BackToLevel1() 
+local function BackToLevel3() 
     composer.hideOverlay("crossFade", 400 )
   
-    ResumeGame()
+    ResumeLevel3()
 end 
 
 -----------------------------------------------------------------------------------------
@@ -78,8 +78,7 @@ local function TouchListenerAnswer(touch)
     
     if (touch.phase == "ended") then
 
-        BackToLevel3( )
-    
+        BackToLevel3()
     end 
 end
 
@@ -88,8 +87,8 @@ local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     
     if (touch.phase == "ended") then
-        
-        BackToLevel3( )
+        CountScore3()
+        BackToLevel3()
         
         
     end 
@@ -100,9 +99,8 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-
+        DecreaseLives3()
         BackToLevel3( )
-        
     end 
 end
 
@@ -111,6 +109,7 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
+        DecreaseLives3()
 
         BackToLevel3( )
         
@@ -136,8 +135,8 @@ end
 
 local function DisplayQuestion()
     --creating random numbers
-    firstNumber = math.random (0,15)
-    secondNumber = math.random (0,15)
+    firstNumber = math.random (0,9)
+    secondNumber = math.random (0,9)
 
     -- calculate answer
     answer = firstNumber * secondNumber
