@@ -139,9 +139,9 @@ local function Unmute( touch )
 
     end
 end
------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 -- The function called when the screen doesn't exist
 function scene:create( event )
@@ -149,9 +149,9 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -----------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------
     -- BACKGROUND IMAGE & STATIC OBJECTS
-    -----------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------
 
 
     -- Hide the status bar 
@@ -164,9 +164,9 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
-    -- Insert the car and set the scale
+    -- Insert the car and set it's height and width
     Car = display.newImage("Images/MainMenu_Car.png")
-    Car.x = display.contentWidth*7.7/10
+    Car.x = display.contentWidth*7.5/10
     Car.y = display.contentHeight*3/10
     Car.width = 240
     Car.height = 170
@@ -195,11 +195,11 @@ function scene:create( event )
     Tree_2.y = display.contentHeight*2/3
 
     Rock_1 = display.newImageRect("Images/MainMenu_Rock.png", 90, 40)
-    Rock_1.x = display.contentWidth*6/10
+    Rock_1.x = display.contentWidth*5.5/10
     Rock_1.y = display.contentHeight*2/3
 
     Rock_2 = display.newImageRect("Images/MainMenu_Rock.png", 70, 40)
-    Rock_2.x = display.contentWidth*8.5/10
+    Rock_2.x = display.contentWidth*9.3/10
     Rock_2.y = display.contentHeight*3.7/8
 
     Cloud = display.newImageRect("Images/MainMenu_Cloud.png", 350, 200)
@@ -326,7 +326,7 @@ function scene:show( event )
         -- Move the cloud
         transition.moveTo( Cloud, {x = 250, y = 100 , time = 3000})
 
-        transition.moveTo( Car, {x = display.contentWidth*7.77/10, y = display.contentHeight*8.7/10 , time = 2000})
+        transition.moveTo( Car, {x = display.contentWidth*7.67/10, y = display.contentHeight*8.7/10 , time = 2000})
 
         -- Play the background music
         backgroundSoundChannel = audio.play(backgroundSound, {loops = -1})
