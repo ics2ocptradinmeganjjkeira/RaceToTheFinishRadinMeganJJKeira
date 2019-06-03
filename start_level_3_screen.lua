@@ -41,9 +41,9 @@ local startText
 --------------------------------------------------------------------------------------------
 
 -- The function that will go to the main menu 
-local function gotoLevel1()
+local function gotoLevel3()
 
-    composer.gotoScene( "level1_screen" )
+    composer.gotoScene( "level3_screen" )
 end
 
 local function redStopLight()
@@ -146,7 +146,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- Go to the level 1 screen after the given time.
-        timer.performWithDelay ( 2800, gotoLevel1) 
+        timer.performWithDelay ( 2800, gotoLevel3) 
 
         -- Create the animation for the stop lights
         timer.performWithDelay( 500, redStopLight )
