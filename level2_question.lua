@@ -127,13 +127,12 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,4)
+    question = math.random(6,6)
 
     if (question == 1) then 
         -- create the question
         questionText.text = "How many faces are there?"
         
-        rectangularprism.isVisible = true
 
         -- create the answer
         answerText.text = 6
@@ -142,6 +141,11 @@ local function DisplayQuestion()
         wrongText1.text = 4
         wrongText2.text = 7
         wrongText3.text = 3
+
+        -- make the objects needed visible and the others invisible
+        rectangularprism.isVisible = true
+        cylinder.isVisible = false
+        sphere.isVisible = false
 
 
     elseif (question == 2) then 
@@ -158,22 +162,26 @@ local function DisplayQuestion()
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
 
 
     elseif (question == 3) then 
         --create the question
-        questionText.text = "What type of 3D shape has one face? "
+        questionText.text = "What type of 3D shape has one \nface? "
 
         --create the answer
         answerText.text = "cone"
 
         --create the incorrect answers
-        wrongText1.text = "rectangular prism"
-        wrongText2.text = "octagonal prism"
+        wrongText1.text = "rectangular \nprism"
+        wrongText2.text = "octagonal \nprism"
         wrongText3.text = "sphere"
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
 
 
     elseif (question == 4) then 
@@ -181,30 +189,64 @@ local function DisplayQuestion()
         questionText.text = "What two shapes are in a\nsquare-based pyramid?"
 
         --create the answer
-        answerText.text = "square, triangle"
+        answerText.text = "square, \ntriangle"
 
         --create the incorrect answers
-        wrongText1.text = "square, circle"
-        wrongText2.text = "tringle, circle"
-        wrongText3.text = "square, rectangle"
+        wrongText1.text = "square, \ncircle"
+        wrongText2.text = "triangle, \ncircle"
+        wrongText3.text = "square, \nrectangle"
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
-    end
---[[
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
     elseif (question == 5) then
+        -- create the question
+        questionText.text = "How many edges does a sphere \nhave?"
+
+        -- create the anser
+        answerText.text = "0"
+
+        -- create then wrong answers
+        wrongText1.text = "2"
+        wrongText2.text = "14"
+        wrongText3.text = "8"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+    
+    --[[
+    elseif (question == 6) then
         --create the question
         questionText.text = "Click on the sphere."
 
         --create the answer
-        answerText.text = " "
+        answerText.text = sphere
 
         --create the incorrect answers
-        wrongText1.text = " "
-        wrongText2.text = " "
+        wrongText1.text = rectangularprism
+        wrongText2.text = cylinder
         wrongText3.text = " "
-    end
     ]]--
+    elseif (question == 6) then
+        -- create the question text
+        questionText.text = "What colour is the cylinder?"
+
+        rectangularprism.isVisible = true
+        cylinder.isVisible = true
+        sphere.isVisible = true
+
+        -- create the answer text
+        answerText.text = "purple"
+
+        -- create the wrong answers
+        wrongText1.text = "green"
+        wrongText2.text = "blue"
+        wrongText3.text = "red"
+    end 
 end
 
 local function PositionAnswers()
@@ -320,9 +362,9 @@ function scene:create( event )
     -- add the rectangular prism
     cylinder = display.newImage("Images/cylinder.png", 5, 5)
     -- make the image smaller
-    cylinder:scale(0.55, 0.55)
+    cylinder:scale(0.45, 0.45)
     --  set the location on the x-axis
-    cylinder.x = display.contentWidth/2.2
+    cylinder.x = display.contentWidth/3.4
     -- set the location on the y-axis
     cylinder.y = display.contentHeight/3
     -- make the prism invisible
@@ -331,9 +373,9 @@ function scene:create( event )
     -- add the rectangular prism
     sphere = display.newImage("Images/sphere.png", 5, 5)
     -- make the image smaller
-    sphere:scale(0.55, 0.55)
+    sphere:scale(0.25, 0.25)
     --  set the location on the x-axis
-    sphere.x = display.contentWidth/2.2
+    sphere.x = display.contentWidth/1.5
     -- set the location on the y-axis
     sphere.y = display.contentHeight/3
     -- make the prism invisible
