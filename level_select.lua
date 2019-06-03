@@ -53,17 +53,17 @@ local textObject
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_1_screen", {effect = "slideDown", time = 1000})
 end    
 
 -- Creating Transition to Level1 Screen
 local function Level2ScreenTransition( )
-    composer.gotoScene( "level2_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_2_screen", {effect = "slideDown", time = 1000})
 end    
 
 -- Creating Transition to Level1 Screen
 local function Level3ScreenTransition( )
-    composer.gotoScene( "level3_screen", {effect = "slideDown", time = 1000})
+    composer.gotoScene( "start_level_3_screen", {effect = "slideDown", time = 1000})
 end    
 
 local function BackButtonTransition( )
@@ -107,8 +107,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage2.png",
-            overFile = "Images/JohnOmage2.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
   
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level2ScreenTransition  
@@ -126,8 +126,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage3.png",
-            overFile = "Images/JohnOmage3.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = Level3ScreenTransition
@@ -145,8 +145,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage1.png",
-            overFile = "Images/JohnOmage1.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          

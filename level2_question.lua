@@ -13,7 +13,6 @@
 -- Use Composer Libraries
 local composer = require( "composer" )
 local widget = require( "widget" )
-local physics = require( "physics")
 
 
 -----------------------------------------------------------------------------------------
@@ -37,15 +36,14 @@ local cover
 local answerPosition = 1
 
 local questionText
-local questionText2
 
 local answerText 
 local wrongText1
 local wrongText2
 local wrongText3
 
-local X1 = display.contentWidth*1.5/7
-local X2 = display.contentWidth*4.5/7
+local X1 = display.contentWidth*1/7
+local X2 = display.contentWidth*3.75/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
@@ -53,6 +51,8 @@ local userAnswer
 local textTouched = false
 
 local rectangularprism
+local sphere
+local cylinder
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -67,6 +67,8 @@ end
 local function TouchListenerAnswerText(touch)
 
     if (touch.phase == "ended") then
+
+        CountScore2()
         BackToLevel2()
     end
 end
@@ -78,6 +80,7 @@ local function TouchListenerWrongText1(touch)
     
     if (touch.phase == "ended") then
         
+        DecreaseLives2()
         BackToLevel2( )
          
     end 
@@ -88,6 +91,7 @@ local function TouchListenerWrongText2(touch)
     
     if (touch.phase == "ended") then
 
+        DecreaseLives2()
         BackToLevel2( )
         
     end 
@@ -98,13 +102,14 @@ local function TouchListenerWrongText3(touch)
     
     if (touch.phase == "ended") then
 
+        DecreaseLives2()
         BackToLevel2( )
         
     end
 end 
 
 --adding the event listeners 
-function AddTextListeners2 ()    
+local function AddTextListeners ( )    
     answerText:addEventListener( "touch", TouchListenerAnswerText)
     wrongText1:addEventListener( "touch", TouchListenerWrongText1)
     wrongText2:addEventListener( "touch", TouchListenerWrongText2)
@@ -112,7 +117,7 @@ function AddTextListeners2 ()
 end
 
 --removing the event listeners
-function RemoveTextListeners2()
+local function RemoveTextListeners( )
     answerText:removeEventListener( "touch", TouchListenerAnswerText)
     wrongText1:removeEventListener( "touch", TouchListenerWrongText1)
     wrongText2:removeEventListener( "touch", TouchListenerWrongText2)
@@ -122,7 +127,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,3)
+    question = math.random(1,4)
 
     if (question == 1) then 
         -- create the question
@@ -141,8 +146,7 @@ local function DisplayQuestion()
 
     elseif (question == 2) then 
         --create the question
-        questionText.text = "How many vertices does a "
-        questionText2.text = "rectangular prism have?"
+        questionText.text = "How many vertices does a\nrectangular prism have?"
 
         --create the answer
         answerText.text = 8
@@ -170,7 +174,37 @@ local function DisplayQuestion()
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
+
+
+    elseif (question == 4) then 
+        --create the question
+        questionText.text = "What two shapes are in a\nsquare-based pyramid?"
+
+        --create the answer
+        answerText.text = "square, triangle"
+
+        --create the incorrect answers
+        wrongText1.text = "square, circle"
+        wrongText2.text = "tringle, circle"
+        wrongText3.text = "square, rectangle"
+
+        -- make the other things from other questions invisible
+        rectangularprism.isVisible = false
     end
+--[[
+    elseif (question == 5) then
+        --create the question
+        questionText.text = "Click on the sphere."
+
+        --create the answer
+        answerText.text = " "
+
+        --create the incorrect answers
+        wrongText1.text = " "
+        wrongText2.text = " "
+        wrongText3.text = " "
+    end
+    ]]--
 end
 
 local function PositionAnswers()
@@ -261,7 +295,6 @@ function scene:create( event )
 
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 50)
-    questionText2 = display.newText("", display.contentCenterX, display.contentCenterY*4/8, Arial, 50)
 
     -- create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 50)
@@ -284,18 +317,41 @@ function scene:create( event )
     -- make the prism invisible
     rectangularprism.isVisible = false
 
+    -- add the rectangular prism
+    cylinder = display.newImage("Images/cylinder.png", 5, 5)
+    -- make the image smaller
+    cylinder:scale(0.55, 0.55)
+    --  set the location on the x-axis
+    cylinder.x = display.contentWidth/2.2
+    -- set the location on the y-axis
+    cylinder.y = display.contentHeight/3
+    -- make the prism invisible
+    cylinder.isVisible = false
+
+    -- add the rectangular prism
+    sphere = display.newImage("Images/sphere.png", 5, 5)
+    -- make the image smaller
+    sphere:scale(0.55, 0.55)
+    --  set the location on the x-axis
+    sphere.x = display.contentWidth/2.2
+    -- set the location on the y-axis
+    sphere.y = display.contentHeight/3
+    -- make the prism invisible
+    sphere.isVisible = false
+
     -----------------------------------------------------------------------------------------
 
     -- insert all objects for this scene into the scene group
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
     sceneGroup:insert(questionText)
-    sceneGroup:insert(questionText2)
     sceneGroup:insert(answerText)
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
     sceneGroup:insert(rectangularprism)
+    sceneGroup:insert( cylinder)
+    sceneGroup:insert( sphere)
 
     -- insert all objects for this scene into the scene group
 
@@ -323,7 +379,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
         PositionAnswers()
-        AddTextListeners2()
+        AddTextListeners()
     end
 
 end --function scene:show( event )
@@ -348,7 +404,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        RemoveTextListeners2()
+        RemoveTextListeners()
     end
 
 end --function scene:hide( event )
