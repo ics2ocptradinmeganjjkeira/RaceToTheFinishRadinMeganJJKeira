@@ -383,6 +383,7 @@ function CountScore1()
     end
 end
 
+
 function DecreaseLives1()
 
     numLives = numLives - 1
