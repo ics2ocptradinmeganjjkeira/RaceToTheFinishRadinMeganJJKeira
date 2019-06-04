@@ -108,8 +108,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage2.png",
-            overFile = "Images/JohnOmage2.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
   
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level2ScreenTransition  
@@ -127,8 +127,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage3.png",
-            overFile = "Images/JohnOmage3.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = Level3ScreenTransition
@@ -146,8 +146,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage1.png",
-            overFile = "Images/JohnOmage1.png",
+            defaultFile = "Images/levelselectRRW.png",
+            overFile = "Images/levelselectRRW.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          

@@ -46,7 +46,7 @@ local SPEED = 8
 local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 20
-local PSPEED = 8
+local SPEED3 = 8
 
 -- create the lives
 local heart1
@@ -54,7 +54,7 @@ local heart2
 local heart3
 local heart4
 local heart5
-local lives = 3
+local lives = 4
 
 --create the walls
 local leftW
@@ -68,8 +68,9 @@ local pylon3
 local pylon4
 local pylon5
 local thePylon
-local tree
-local rock
+local tree1
+local rock1
+local theObject
 
 -- create the score
 local score = 0
@@ -120,7 +121,12 @@ end
 -- move the pylon1 to the starting poisition
 local function MovePylon1( event )
     -- add the scroll speed to the y-value
-    pylon1.y = pylon1.y + PSPEED
+    if (pylon1.y > 768) then 
+        pylon1.x = math.random (150, 800)
+        pylon1.y = 0
+    else
+        pylon1.y = pylon1.y + SPEED3
+    end
     
 end
 
@@ -131,7 +137,7 @@ local function MovePylon2( event )
         pylon2.x = math.random (150, 800)
         pylon2.y = 0
     else
-        pylon2.y = pylon2.y + PSPEED
+        pylon2.y = pylon2.y + SPEED3
     end
     
 end
@@ -143,7 +149,7 @@ local function MovePylon3( event )
         pylon3.x = math.random (150, 800)
         pylon3.y = 0
     else
-        pylon3.y = pylon3.y + PSPEED
+        pylon3.y = pylon3.y + SPEED3
     end  
 end
 
@@ -154,7 +160,7 @@ local function MovePylon4( event )
         pylon4.x = math.random (150, 800)
         pylon4.y = 0
     else
-        pylon4.y = pylon4.y + PSPEED
+        pylon4.y = pylon4.y + SPEED3
     end
 end
 
@@ -165,10 +171,20 @@ local function MovePylon5( event )
         pylon5.x = math.random (150, 800)
         pylon5.y = 0
     else
-        pylon5.y = pylon5.y + PSPEED
+        pylon5.y = pylon5.y + SPEED3
     end
 end
 
+-- move the tree to the starting poisition
+local function MoveTree1( event )
+    -- add the scroll speed to the y-value
+    if (tree1.y > 768) then 
+        tree1.x = math.random (200, 800)
+        tree1.y = 0
+    else
+        tree1.y = tree1.y + SPEED3
+    end
+end
 
 local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
@@ -184,6 +200,7 @@ local function RemoveRuntimeListeners()
     Runtime:removeEventListener("enterFrame", MovePylon3)
     Runtime:removeEventListener("enterFrame", MovePylon4)
     Runtime:removeEventListener("enterFrame", MovePylon5)
+    Runtime:removeEventListener("enterFrame", MoveTree1)
 end
 
 local function AddArrowEventListeners()
@@ -232,9 +249,12 @@ local function MakeHeartsVisible()
     heart1.isVisible = true
     heart2.isVisible = true
     heart3.isVisible = true
-    heart4.isVisible = false
+    heart4.isVisible = true
     heart5.isVisible = false
+end
 
+local function MakeObjectsVisible()
+    tree1.isVisible = false
 end
 
 local function onCollision( self, event )
@@ -275,6 +295,29 @@ local function onCollision( self, event )
     end  
 end
 
+
+local function onCollision2( self, event )
+
+    -- for testing purposes
+    --print( event.target )        --the first object in the collision
+    --print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
+
+    if (event.phase == "began") then
+        if  (event.target.myName == "tree1") then
+
+            -- get the ball that the user hit
+            theObject = event.target         
+
+            -- call the decrease lives function
+            DecreaseLives2()
+        end   
+    end  
+end
+
+
 local function AddCollisionListeners()
 
     -- if character collides with ball, onCollision will be called    
@@ -288,6 +331,9 @@ local function AddCollisionListeners()
     pylon4:addEventListener( "collision" )
     pylon5.collision = onCollision
     pylon5:addEventListener( "collision" )
+
+    tree1.collision = onCollision2
+    tree1:addEventListener( "collision" )
 end
 
 local function RemoveCollisionListeners()
@@ -297,6 +343,8 @@ local function RemoveCollisionListeners()
     pylon3:removeEventListener( "collision" )
     pylon4:removeEventListener( "collision" )
     pylon5:removeEventListener( "collision" )
+
+    tree1:removeEventListener( "collision" )
 
 end
 
@@ -313,6 +361,8 @@ local function AddPhysicsBodies()
     physics.addBody(pylon3, "static",  { density=0, friction=0, bounce=0} )
     physics.addBody(pylon4, "static",  { density=0, friction=0, bounce=0} )
     physics.addBody(pylon5, "static",  { density=0, friction=0, bounce=0} )
+
+    physics.addBody(tree1, "static",  { density=0, friction=0, bounce=0} )
    
 end
 
@@ -339,6 +389,10 @@ local function RemovePhysicsBodies()
     if (pylon5 ~= nil) and (pylon5.isBodyActive == true) then        
         physics.removeBody(pylon5)
     end
+    physics.removeBody(tree1)
+    if (tree1 ~= nil) and (tree1.isBodyActive == true) then        
+        physics.removeBody(tree1)
+    end
  
 end
 
@@ -361,6 +415,8 @@ function ResumeLevel2()
         if (questionsAnswered == 1) then            
             Runtime:addEventListener("enterFrame", MovePylon2)
             pylon2.isVisible = true
+            Runtime:addEventListener("enterFrame", MoveTree1)
+            tree1.isVisible = true
         end
         if (questionsAnswered == 2) then
             Runtime:addEventListener("enterFrame", MovePylon3)
@@ -383,7 +439,7 @@ function CountScore2()
 
     scoreText.text = "Score: " .. score
 
-    if (score == 300) then
+    if (score == 400) then
         composer.gotoScene( "you_win" )
     end
 end
@@ -524,6 +580,12 @@ function scene:create( event )
     pylon5.isVisible = false
     pylon5.myName = "pylon5"
 
+    tree1 = display.newImageRect("Images/tree.png", 150, 100)
+    tree1.x = 700
+    tree1.y = 0
+    tree1.isVisible = false
+    tree1.myName = "tree1"
+
 
     scoreText = display.newText("Score: " .. score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
     scoreText:setTextColor(0, 0, 0)
@@ -573,6 +635,7 @@ function scene:create( event )
     sceneGroup:insert( pylon3)
     sceneGroup:insert( pylon4)
     sceneGroup:insert( pylon5)
+    sceneGroup:insert( tree1)
     sceneGroup:insert( ground)
     sceneGroup:insert( rightW)
     sceneGroup:insert( leftW)
@@ -599,6 +662,9 @@ function scene:show( event )
         -- delay the pylon3 from falling down immidiately
         timer.performWithDelay( 6500, MovePylon3) 
 
+        -- delay pylon5 from falling immediately
+        timer.performWithDelay( 8000, MovePylon5)
+
         -- Called when the scene is still off screen (but is about to come on screen).
         physics.start()
 
@@ -614,7 +680,7 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
-        lives = 3
+        lives = 4
         questionsAnswered = 0
 
         -- make all soccer balls visible
@@ -622,6 +688,9 @@ function scene:show( event )
 
         -- make all lives visible
         MakeHeartsVisible()
+
+        -- make destructive objects visible
+        MakeObjectsVisible()
 
         -- create the character, add physics bodies and runtime listeners
         ReplaceCar()

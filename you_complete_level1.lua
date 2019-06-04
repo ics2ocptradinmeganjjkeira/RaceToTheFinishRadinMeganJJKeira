@@ -1,8 +1,9 @@
 -----------------------------------------------------------------------------------------
 -- main_menu.lua
 -- Created by: Megan
--- Date: Month Day, Year
--- Description: This is the main menu, displaying the credits, instructions & play buttons.
+-- Date: June 4, 2019
+-- Description: This is the level 1 complete screen. This screen will appear when the user 
+-- completes the level. 
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "main_menu"
+sceneName = "you_complete_level1"
 
 -----------------------------------------------------------------------------------------
 
@@ -31,33 +32,12 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
-local bkg_image
-local startButton
-local creditsButton
-local instructionButton
+local bkg
 
--- Animation for the main menu screen
-
-local Car 
-
--- The variables for the trees
-local Tree_1
-local Tree_2
-
--- The variables for the rocks
-local Rock_1
-local Rock_2
+local mainMenu_Button
+local level2_Button
 
 
--- The variables for the Mute and Unmute buttons
-local MuteButton
-local UnmuteButton
-
--- Create a local variable for the cloud
-local Cloud
-
--- Create a local variable for the sun
-local Sun
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -74,20 +54,6 @@ soundOn = true
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
--- Creating Transition Function to Credits Page
-local function CreditsTransition( )       
-    composer.gotoScene( "credits_screen", {effect = "slideUp", time = 500})
-end 
-
------------------------------------------------------------------------------------------
-
--- Creating Transition to Level1 Screen
-local function Level1ScreenTransition( )
-    composer.gotoScene( "start_level_screen", {effect = "zoomInOutFade", time = 1000})
-end    
-
------------------------------------------------------------------------------------------
-
 -- Creating Transition to Level2 Screen
 local function Level2ScreenTransition( )
     composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 1000})
@@ -95,50 +61,14 @@ end
 
 -----------------------------------------------------------------------------------------
 
--- Creating Transition to Instuctions Screen
-local function InstructionTransition( )
-    composer.gotoScene( "instruction_screen", {effect = "slideUp", time = 1000})
-end    
------------------------------------------------------------------------------------------
-
 -- Creating Transition to Level Select Screen
-local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
+local function MainMenuTransition( )
+    composer.gotoScene( "main_menu", {effect = "slideUp", time = 1000})
 end   
 -----------------------------------------------------------------------------------------
 
--- Creating Transition to Instuctions Screen
-local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
-end    
+  
 
--- Creating the mute/unmute buttons
-local function Mute( touch )
-    if (touch.phase == "ended") then
-        -- pause the sound
-        audio.pause(backgroundSound)
-        -- set the boolean variable to be false (sound is now muted)
-        soundOn = false
-        -- hide the mute button visible 
-        MuteButton.isVisible = false
-        -- make the unmute button visible
-        UnmuteButton.isVisible = true
-    end
-end
-
-local function Unmute( touch )
-    if (touch.phase == "ended") then
-        -- play the sound
-        audio.resume(backgroundSound)
-        -- set the boolean variable to be false (sound is now muted)
-        soundOn = true
-        -- make the unmute button visible
-        UnmuteButton.isVisible = false
-        -- hide the mute button visible 
-        MuteButton.isVisible = true
-
-    end
-end
 ----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 ----------------------------------------------------------------------------------------
@@ -158,75 +88,18 @@ function scene:create( event )
     display.setStatusBar(display.HiddenStatusBar)
 
     -- Insert the background image and set it to the center of the screen
-    bkg_image = display.newImage("Images/MainMenuMeganS.png")
-    bkg_image.x = display.contentCenterX
-    bkg_image.y = display.contentCenterY
-    bkg_image.width = display.contentWidth
-    bkg_image.height = display.contentHeight
-
-    -- Insert the car and set it's height and width
-    Car = display.newImage("Images/MainMenu_Car.png")
-    Car.x = display.contentWidth*7.5/10
-    Car.y = display.contentHeight*3/10
-    Car.width = 240
-    Car.height = 170
-
-    -- Insert the mute/unmute
-    MuteButton = display.newImageRect("Images/MuteButton.png", 80, 80)
-    MuteButton.x = display.contentWidth*1/10
-    MuteButton.y = display.contentHeight*9.3/10
-    MuteButton.isVisible = true
-
-    UnmuteButton = display.newImageRect("Images/MainMenu_UnmuteButton.png", 80, 80)
-    UnmuteButton.x = display.contentWidth*1/10
-    UnmuteButton.y = display.contentHeight*9.3/10
-    UnmuteButton.isVisible = false  
-
-    Sun = display.newImageRect("Images/MainMenu_Sun.png", 1000, 1000)
-    Sun.x = display.contentWidth*9.5/10
-    Sun.y = display.contentHeight*2/10
-
-    Tree_1 = display.newImageRect("Images/MainMenu_Tree.png", 110, 110)
-    Tree_1.x = display.contentWidth*5/8
-    Tree_1.y = display.contentHeight*1/2
-
-    Tree_2 = display.newImageRect("Images/MainMenu_Tree2.png", 130, 130)
-    Tree_2.x = display.contentWidth*9.5/10
-    Tree_2.y = display.contentHeight*2/3
-
-    Rock_1 = display.newImageRect("Images/MainMenu_Rock.png", 90, 40)
-    Rock_1.x = display.contentWidth*5.5/10
-    Rock_1.y = display.contentHeight*2/3
-
-    Rock_2 = display.newImageRect("Images/MainMenu_Rock.png", 70, 40)
-    Rock_2.x = display.contentWidth*9.3/10
-    Rock_2.y = display.contentHeight*3.7/8
-
-    Cloud = display.newImageRect("Images/MainMenu_Cloud.png", 350, 200)
-    Cloud.x = 100
-    Cloud.y = 100
-
-
+    bkg = display.newImage("Images/MainMenuMeganS.png")
 
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg_image )
-    sceneGroup:insert( Car )
-    sceneGroup:insert( Sun )
-    sceneGroup:insert( Tree_1 )
-    sceneGroup:insert( Tree_2 )
-    sceneGroup:insert( Cloud )
-    sceneGroup:insert( Rock_1 )
-    sceneGroup:insert( Rock_2 )
+    sceneGroup:insert( bkg )
 
-    -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
     -- Creating Start Button
-    startButton = widget.newButton( 
+    mainmenu_Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,
@@ -246,7 +119,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Creating Credits Button
-    creditsButton = widget.newButton( 
+    level2_Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,
@@ -255,8 +128,8 @@ function scene:create( event )
             height = 100,
 
             -- Insert the images here
-            defaultFile = "Images/CreditsButtonUnpressed.png",
-            overFile = "Images/CreditsButtonPressed.png",
+            defaultFile = "Images/Level2_ButtonUnpressedMeganS@2x.psd.png",
+            overFile = "Images/Level2_ButtonPressedMeganS@2x.psd.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
@@ -264,34 +137,11 @@ function scene:create( event )
 
  -----------------------------------------------------------------------------------------
    
-    -- Creating the instructions button
-    instructionButton = widget.newButton(
-        { 
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1/8,
-            y = display.contentHeight*6.5/8,
-            width = 200,
-            height = 100,
-
-
-            -- Insert the images here
-            defaultFile = "Images/InstructionsButtonUnpressed.png",
-            overFile = "Images/InstructionsButtonPressed.png",
-
-            -- When the button is released, call the Credits transition function
-            onRelease = InstructionTransition
-        } ) 
-    
-
-    -----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
-    sceneGroup:insert( startButton )
-    sceneGroup:insert( creditsButton )
-    sceneGroup:insert( instructionButton )
-    sceneGroup:insert( MuteButton )
-    sceneGroup:insert( UnmuteButton )
- 
+    sceneGroup:insert( mainmenu_Button )
+    sceneGroup:insert( level2_Button )
+
     -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
 
 end -- function scene:create( event )   
