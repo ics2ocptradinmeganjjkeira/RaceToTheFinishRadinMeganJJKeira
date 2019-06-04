@@ -297,8 +297,8 @@ local function RemoveCollisionListeners()
     pylon3:removeEventListener( "collision" )
     pylon4:removeEventListener( "collision" )
     pylon5:removeEventListener( "collision" )
-
 end
+
 
 
 

@@ -128,7 +128,7 @@ function scene:destroy( event )
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
 end
-
+composer.gotoScene( "start_level_2_screen" )
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
