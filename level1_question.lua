@@ -33,8 +33,8 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 
 -- Create the local variables for the timer
-local totalSeconds = 2
-local secondsLeft = 2
+local totalSeconds = 30
+local secondsLeft = 30
 local clockText 
 local countDownTimer
 
@@ -64,6 +64,13 @@ local answerText
 local wrongText1
 local wrongText2
 local wrongText3
+
+-- Create the lives for the car
+local heart1
+local heart2
+local heart3
+local heart4
+local heart5
 
 -- question 1 objects
 local circle1
@@ -187,7 +194,6 @@ local function UpdateTime()
             heart3.isVisible = false 
             heart2.isVisible = false
             heart3.isVisible = false
-            ScoreObject.isVisible = false
             timer.cancel(countDownTimer)
             composer.gotoScene( "you_lose" )           
 
@@ -276,7 +282,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,4)
+    questionSelect = math.random(1,3)
 
     if (questionSelect == 1) then
 
@@ -701,15 +707,45 @@ function scene:create( event )
     local sceneGroup = self.view  
 
     -----------------------------------------------------------------------------------------
+
     --covering the other scene with a rectangle so it looks faded and stops touch from going through
     bkg = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
     --setting to a semi black colour
     bkg:setFillColor(0,0,0,0.5)
 
     -----------------------------------------------------------------------------------------
+
     -- create the clock text colour and text
-    clockText = display.newText("Time Left: ", display.contentWidth/2, display.contentHeight/2, nil, 60)
-    clockText:setTextColor(0, 0, 0)
+    clockText = display.newText("Time Left: ", display.contentWidth*1/5, display.contentHeight*1/5, nil, 70)
+    clockText:setTextColor(1, 1, 1)
+
+    -----------------------------------------------------------------------------------------
+
+    -- Insert the Hearts
+    heart1 = display.newImageRect("Images/heart.png", 80, 80)
+    heart1.x = 985
+    heart1.y = 100
+    heart1.isVisible = true
+
+    heart2 = display.newImageRect("Images/heart.png", 80, 80)
+    heart2.x = 905
+    heart2.y = 100
+    heart2.isVisible = true
+
+    heart3= display.newImageRect("Images/heart.png", 80, 80)
+    heart3.x = 825
+    heart3.y = 100
+    heart3.isVisible = true
+
+    heart4 = display.newImageRect("Images/heart.png", 80, 80)
+    heart4.x = 745
+    heart4.y = 100
+    heart4.isVisible = true
+
+    heart5 = display.newImageRect("Images/heart.png", 80, 80)
+    heart5.x = 665
+    heart5.y = 100
+    heart5.isVisible = true
 
     -----------------------------------------------------------------------------------------
     -- making a cover rectangle to have the background fully bolcked where the question is
@@ -894,6 +930,14 @@ function scene:create( event )
     sceneGroup:insert( clockText )
 
     -- the group scene insert for all of the objects in the questions
+
+    -- the hearts --
+
+    sceneGroup:insert( heart1 )
+    sceneGroup:insert( heart2 )
+    sceneGroup:insert( heart3 )
+    sceneGroup:insert( heart4 )    
+    sceneGroup:insert( heart5 )
 
     -- question 1 --
     sceneGroup:insert( circle1 )

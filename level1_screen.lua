@@ -216,14 +216,7 @@ local function MakePylonsVisible()
     Pylon6.isVisible = true
 end
 
-local function MakeHeartsVisible()
-    heart1.isVisible = true
-    heart2.isVisible = true
-    heart3.isVisible = true
-    heart4.isVisible = true
-    heart5.isVisible = true
 
-end
 
 -- Creating Transition Function to Credits Page
 local function MainTransition( )       
@@ -376,13 +369,21 @@ function CountScore1()
 
     ScoreObject.text = "Score: " .. Score
 
-    if (Score == 300) then
+    if (Score == 500) then
 
         composer.gotoScene( "you_win" )
 
     end
 end
 
+function MakeHeartsVisible()
+    heart1.isVisible = true
+    heart2.isVisible = true
+    heart3.isVisible = true
+    heart4.isVisible = true
+    heart5.isVisible = true
+
+end
 
 function DecreaseLives1()
 
@@ -431,6 +432,40 @@ function scene:create( event )
     -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image ) 
 
+    -- Insert the Hearts
+    heart1 = display.newImageRect("Images/heart.png", 80, 80)
+    heart1.x = 985
+    heart1.y = 100
+    heart1.isVisible = true
+
+    heart2 = display.newImageRect("Images/heart.png", 80, 80)
+    heart2.x = 905
+    heart2.y = 100
+    heart2.isVisible = true
+
+    heart3= display.newImageRect("Images/heart.png", 80, 80)
+    heart3.x = 825
+    heart3.y = 100
+    heart3.isVisible = true
+
+    heart4 = display.newImageRect("Images/heart.png", 80, 80)
+    heart4.x = 745
+    heart4.y = 100
+    heart4.isVisible = true
+
+    heart5 = display.newImageRect("Images/heart.png", 80, 80)
+    heart5.x = 665
+    heart5.y = 100
+    heart5.isVisible = true
+
+    -- the hearts --
+    
+    sceneGroup:insert( heart1 )
+    sceneGroup:insert( heart2 )
+    sceneGroup:insert( heart3 )
+    sceneGroup:insert( heart4 )    
+    sceneGroup:insert( heart5 )
+
     -- Insert the car into the level one screen
     Car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
     Car.x = display.contentWidth * 1/2
@@ -448,47 +483,6 @@ function scene:create( event )
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( ScoreObject )  
-
-    -- Insert the Hearts
-    heart1 = display.newImageRect("Images/heart.png", 80, 80)
-    heart1.x = 985
-    heart1.y = 100
-    heart1.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart1 )
-
-    heart2 = display.newImageRect("Images/heart.png", 80, 80)
-    heart2.x = 905
-    heart2.y = 100
-    heart2.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart2 )
-
-    heart3= display.newImageRect("Images/heart.png", 80, 80)
-    heart3.x = 825
-    heart3.y = 100
-    heart3.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart3 )
-
-    heart4 = display.newImageRect("Images/heart.png", 80, 80)
-    heart4.x = 745
-    heart4.y = 100
-    heart4.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart4 )
-
-    heart5 = display.newImageRect("Images/heart.png", 80, 80)
-    heart5.x = 665
-    heart5.y = 100
-    heart5.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( heart5 )
 
     Pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon1.x = 110
