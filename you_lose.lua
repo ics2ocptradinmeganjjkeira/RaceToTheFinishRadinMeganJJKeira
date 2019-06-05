@@ -30,13 +30,24 @@ local scene = composer.newScene( YouLose )
 
 -- local variables for the scene
 local bkg
-
+local backButton
 ----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+-- Creating Transition to the main menu 
+local function MainMenuTransition( )
+    composer.gotoScene( "main_menu", {effect = "flipFadeOutIn", time = 1000})
+end
+
 --------------------------------------------------------------------------------------
+   
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL SCENE FUNCTIONS
+-----------------------------------------------------------------------------------------
+
 -- The function called when the screen doesn't exist
 function scene:create( event )
 
@@ -49,16 +60,41 @@ function scene:create( event )
     bkg.y = display.contentCenterY
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
-   
-    -- Associating display objects with this scene 
-    sceneGroup:insert(bkg)
-  
-end    
 
------------------------------------------------------------------------------------------
--- GLOBAL SCENE FUNCTIONS
------------------------------------------------------------------------------------------
+    -----------------------------------------------------------------------------------------
+    -- BUTTON WIDGETS
+    -----------------------------------------------------------------------------------------
 
+    -- Creating Back Button
+    backButton = widget.newButton( 
+    {
+        -- Setting Position
+        x = display.contentWidth*0.5/8,
+        y = display.contentHeight*15/16,
+
+        -- Setting Dimensions
+        -- width = 1000,
+        -- height = 106,
+
+        -- Setting Visual Properties
+        defaultFile = "Images/BackButtonUnpressed.png",
+        overFile = "Images/BackButtonPressed.png",
+
+        -- Setting Functional Properties
+        onRelease = MainMenuTransition
+
+    } )
+
+    -- scale down the size
+    backButton:scale(0.33, 0.33)
+ 
+
+    -----------------------------------------------------------------------------------------
+
+    -- Associating Buttons with this scene
+    sceneGroup:insert( bkg ) 
+    sceneGroup:insert( backButton )
+end
 -----------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to appear on screen
