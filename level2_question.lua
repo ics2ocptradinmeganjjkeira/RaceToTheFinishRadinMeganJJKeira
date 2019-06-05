@@ -127,7 +127,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(8,8)
+    question = math.random(1,8)
 
     if (question == 1) then 
         -- create the question
