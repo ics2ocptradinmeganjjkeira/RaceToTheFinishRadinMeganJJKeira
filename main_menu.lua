@@ -3,7 +3,6 @@
 -- Created by: Megan
 -- Date: Month Day, Year
 -- Description: This is the main menu, displaying the credits, instructions & play buttons.
------------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
@@ -105,12 +104,7 @@ end
 local function LevelSelectTransition( )
     composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
 end   
------------------------------------------------------------------------------------------
-
--- Creating Transition to Instuctions Screen
-local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
-end    
+ 
 
 -- Creating the mute/unmute buttons
 local function Mute( touch )
