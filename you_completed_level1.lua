@@ -38,8 +38,8 @@ local creditsButton
 -- SOUNDS
 -----------------------------------------------------------------------------------------
 
-local backgroundSound = audio.loadSound("Sounds/Race-track.wav")
-local backgroundSoundChannel
+--local backgroundSound = audio.loadSound("Sounds/Race-track.wav")
+--local backgroundSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -94,7 +94,7 @@ function scene:create( event )
             height = 100,
 
             -- Insert the images here
-            defaultFile = "Images/PlayButtonUnpressed.png", 
+            defaultFile = "Images/mainmenu_ButtonUnpressedMeganS@2x.png", 
             overFile = "Images/PlayButtonPressed.png", 
 
             -- When the button is released, call the Level1 screen transition function
@@ -123,26 +123,6 @@ function scene:create( event )
 
  -----------------------------------------------------------------------------------------
    
-    -- Creating the instructions button
-    instructionButton = widget.newButton(
-        { 
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1/8,
-            y = display.contentHeight*6.5/8,
-            width = 200,
-            height = 100,
-
-
-            -- Insert the images here
-            defaultFile = "Images/InstructionsButtonUnpressed.png",
-            overFile = "Images/InstructionsButtonPressed.png",
-
-            -- When the button is released, call the Credits transition function
-            onRelease = InstructionTransition
-        } ) 
-    
-
-    -----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
     sceneGroup:insert( startButton )
@@ -211,9 +191,6 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-
-        MuteButton:removeEventListener("touch", Mute)
-        UnmuteButton:removeEventListener("touch", Unmute)
 
     end
 

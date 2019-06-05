@@ -516,7 +516,7 @@ function scene:create( event )
 
     Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon4.x = math.random(250, 400)
-    Pylon4.y = 500
+    Pylon4.y = 600
     Pylon4.isVisible = true
     Pylon4.myName = "Pylon4"
 
@@ -526,7 +526,7 @@ function scene:create( event )
 
     Pylon5 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon5.x = math.random(405, 600)
-    Pylon5.y = 500
+    Pylon5.y = 600
     Pylon5.isVisible = true
     Pylon5.myName = "Pylon5"
 
@@ -536,7 +536,7 @@ function scene:create( event )
 
     Pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon6.x = math.random(605, 800)
-    Pylon6.y = 500
+    Pylon6.y = 600
     Pylon6.isVisible = true
     Pylon6.myName = "Pylon6"
 
@@ -544,7 +544,7 @@ function scene:create( event )
     sceneGroup:insert( Pylon6 )
 
     --Insert the right arrow
-    rArrow = display.newImageRect("Images/RightArrowUnpressed.png", 100, 50)
+    rArrow = display.newImageRect("Images/RightArrowKeyMeganS.png", 100, 50)
     rArrow.x = display.contentWidth * 9.2 / 10
     rArrow.y = display.contentHeight * 9.5 / 10
 
@@ -552,7 +552,7 @@ function scene:create( event )
     sceneGroup:insert( rArrow )
 
     --Insert the left arrow
-    lArrow = display.newImageRect("Images/LeftArrowUnpressed.png", 100, 50)
+    lArrow = display.newImageRect("Images/LeftArrowKeyMeganS.png", 100, 50)
     lArrow.x = display.contentWidth * 7.2 / 10
     lArrow.y = display.contentHeight * 9.5 / 10
    

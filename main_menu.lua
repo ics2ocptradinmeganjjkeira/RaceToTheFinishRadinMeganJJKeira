@@ -308,9 +308,7 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
- --       backgroundSoundChannel = audio.play(backgroundSound)  
-    -----------------------------------------------------------------------------------------
+           -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.

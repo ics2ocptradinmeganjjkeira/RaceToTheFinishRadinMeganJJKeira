@@ -282,7 +282,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,3)
+    questionSelect = math.random(1,4)
 
     if (questionSelect == 1) then
 
@@ -924,7 +924,8 @@ function scene:create( event )
 
 
     -----------------------------------------------------------------------------------------
-
+    sceneGroup:insert( bkg )
+    sceneGroup:insert( cover )
 
     -- add the group scene insert for the timer
     sceneGroup:insert( clockText )
@@ -975,8 +976,6 @@ function scene:create( event )
     sceneGroup:insert( numSix )
 
     -- insert the questions for question 9
-    sceneGroup:insert( bkg )
-    sceneGroup:insert( cover )
     sceneGroup:insert( answerText )
     sceneGroup:insert( wrongText1 )
     sceneGroup:insert( wrongText2 )
@@ -1039,6 +1038,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+
 
     -----------------------------------------------------------------------------------------
 
