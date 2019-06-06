@@ -84,6 +84,7 @@ local Pylon4
 local Pylon5
 local Pylon6
 
+
 local questionsAnswered = 0
 
 -----------------------------------------------------------------------------------------
@@ -152,13 +153,15 @@ end
 local function MovePylon6( event )
     -- add the scroll speed to the y-value
     if (Pylon6.y > 768) then 
-        Pylon6.x = math.random (405, 800)
+        Pylon6.x = math.random (405, 600)
         Pylon6.y = 0
     else
 
         Pylon6.y = Pylon6.y + SPEED 
     end
 end
+
+
 
 local function AddArrowEventListeners()
     rArrow:addEventListener("touch", right)
@@ -174,9 +177,6 @@ local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
     Runtime:addEventListener("touch", stop )
     print ("***Called MovePylon event listeners")
-    Runtime:addEventListener("enterFrame", MovePylon4)
-    Runtime:addEventListener("enterFrame", MovePylon5)
-    Runtime:addEventListener("enterFrame", MovePylon6)
 end
 
 local function RemoveRuntimeListeners()
@@ -211,9 +211,9 @@ local function MakePylonsVisible()
     Pylon1.isVisible = true
     Pylon2.isVisible = true
     Pylon3.isVisible = true
-    Pylon4.isVisible = true
-    Pylon5.isVisible = true
-    Pylon6.isVisible = true
+    Pylon4.isVisible = false
+    Pylon5.isVisible = false
+    Pylon6.isVisible = false
 end
 
 
@@ -359,9 +359,29 @@ function ResumeLevel1()
     Pylon5.y = 0
     Pylon6.y = 0
     alreadyCollided = false
+
+    if (questionsAnswered >= 0) then
+        if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
+        thePylon.isVisible = false
+        physics.removeBody(thePylon)
+        end
+        if (questionsAnswered == 1) then            
+            Runtime:addEventListener("enterFrame", MovePylon4)
+            Pylon4.isVisible = true
+        end
+        if (questionsAnswered == 2) then
+            Runtime:addEventListener("enterFrame", MovePylon5)
+            Pylon5.isVisible = true
+        end
+        if (questionsAnswered == 3) then
+            Runtime:addEventListener("enterFrame", MovePylon6)
+            Pylon6.isVisible = true
+        end
+    end
+end
     
    
-end
+
 
 function CountScore1()
 
@@ -390,16 +410,16 @@ function DecreaseLives1()
     numLives = numLives - 1
     print ("***lives = " .. numLives)
     if ( numLives == 4) then
-        heart1.isVisible = false
+        heart5.isVisible = false
     end
     if ( numLives == 3) then
-        heart2.isVisible = false
+        heart4.isVisible = false
     end
     if ( numLives == 2) then
         heart3.isVisible = false
     end
     if ( numLives == 1) then
-        heart4.isVisible = false
+        heart2.isVisible = false
     end
     if ( numLives == 0) then
         composer.gotoScene( "you_lose" )
@@ -469,7 +489,7 @@ function scene:create( event )
     -- Insert the car into the level one screen
     Car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
     Car.x = display.contentWidth * 1/2
-    Car.y = display.contentHeight  * 0.1 / 3
+    Car.y = display.contentHeight  * 0.1/3
     Car.width = 200
     Car.height = 150
     Car.myName = "Car"
@@ -515,9 +535,9 @@ function scene:create( event )
 
 
     Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon4.x = math.random(250, 400)
-    Pylon4.y = 600
-    Pylon4.isVisible = true
+    Pylon4.x = math.random(0, 900)
+    Pylon4.y = 0
+    Pylon4.isVisible = false
     Pylon4.myName = "Pylon4"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
@@ -525,9 +545,9 @@ function scene:create( event )
 
 
     Pylon5 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon5.x = math.random(405, 600)
-    Pylon5.y = 600
-    Pylon5.isVisible = true
+    Pylon5.x = math.random(0, 900)
+    Pylon5.y = 0
+    Pylon5.isVisible = false
     Pylon5.myName = "Pylon5"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
@@ -535,9 +555,9 @@ function scene:create( event )
 
 
     Pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon6.x = math.random(605, 800)
-    Pylon6.y = 600
-    Pylon6.isVisible = true
+    Pylon6.x = math.random(60, 900)
+    Pylon6.y = 0
+    Pylon6.isVisible = false
     Pylon6.myName = "Pylon6"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  

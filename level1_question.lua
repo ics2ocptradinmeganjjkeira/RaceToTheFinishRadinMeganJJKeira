@@ -99,6 +99,7 @@ local isosceles6
 -- question 7 objects
 local numTwo
 local numOne
+local shapes
 
 -- question 8 objects
 local numSix
@@ -121,6 +122,8 @@ local numTen
 
 -- question 14 objects
 local angles 
+
+
 
 
 -----------------------------------------------------------------------------------------
@@ -282,7 +285,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,4)
+    questionSelect = math.random(1,1)
 
     if (questionSelect == 1) then
 
@@ -301,7 +304,7 @@ local function DisplayQuestion( )
         wrongText1 = rectangle1
         wrongText2 = circle1
         wrongText3 = triangle1
-
+--[[
         -- Set the position of the objects
         circle1.x = X1
         circle1.y = Y1
@@ -315,7 +318,7 @@ local function DisplayQuestion( )
         triangle1.x = X2
         triangle1.y = Y1
 
-
+--]]
 
     elseif (questionSelect == 2) then
 
@@ -443,17 +446,6 @@ local function DisplayQuestion( )
         -- create the wrong answers
         wrongText1 = rightAngleTri6
         wrongText2 = triangle1
-
-        -- Set the positions for the shapes
-        isosceles6.x = X1
-        isosceles6.y = Y1
-
-        rightAngleTri6.x = X1
-        rightAngleTri6.y = Y2
-
-        triangle1.x = X2
-        triangle1.y = Y2
-
 
 
     elseif (questionSelect == 7) then
@@ -716,8 +708,8 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- create the clock text colour and text
-    clockText = display.newText("Time Left: ", display.contentWidth*1/5, display.contentHeight*1/5, nil, 70)
-    clockText:setTextColor(1, 1, 1)
+    clockText = display.newText("Time Left: ", display.contentWidth*0.9/2, display.contentHeight*0.5/5, nil, 50)
+    clockText:setTextColor(1, 0, 0)
 
     -----------------------------------------------------------------------------------------
 
@@ -753,19 +745,17 @@ function scene:create( event )
     --setting its colour
     cover:setFillColor(96/255, 96/255, 96/255)
 
-    -- create the question text object
-    questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
-
-    answerText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    -- create the answer text object & wrong answer text objects
+    answerText = display.newText("", X1, Y2, Arial, 50)
     answerText.anchorX = 0
- 
-    wrongText1 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+
+    wrongText1 = display.newText("", X2, Y2, Arial, 50)
     wrongText1.anchorX = 0
 
-    wrongText2 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText2 = display.newText("", X1, Y1, Arial, 50)
     wrongText2.anchorX = 0
 
-    wrongText3 = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 30)
+    wrongText3 = display.newText("", X2, Y1, Arial, 50)
     wrongText3.anchorX = 0
 
     -- Question 1 --
@@ -849,7 +839,7 @@ function scene:create( event )
 
     -- the same oval as question 2
 
-    square5 = display.newImage("Images/SqaureMeganS@2x.png", 0, 0)
+    square5 = display.newImage("Images/SquareMeganS@2x.png", 0, 0)
     square5.width = 160
     square5.height = 160
     square5.isVisible = false
@@ -869,7 +859,12 @@ function scene:create( event )
     -- the same triangle displayed from question 1
 
     -- Question 7 -- 
-
+--[[
+    shapes = display.newImage("Images/ShapesMeganS@2x.png", 0, 0)
+    shapes.width = 170
+    shapes.height = 160
+    shapes.isVisible = false
+--]]
     numTwo = display.newText("2", 0, 0, nil, 60)
     numTwo:setTextColor (1, 1, 0)
     numTwo.isVisible = false
@@ -924,13 +919,6 @@ function scene:create( event )
 
 
     -----------------------------------------------------------------------------------------
-    sceneGroup:insert( bkg )
-    sceneGroup:insert( cover )
-
-    -- add the group scene insert for the timer
-    sceneGroup:insert( clockText )
-
-    -- the group scene insert for all of the objects in the questions
 
     -- the hearts --
 
@@ -939,6 +927,20 @@ function scene:create( event )
     sceneGroup:insert( heart3 )
     sceneGroup:insert( heart4 )    
     sceneGroup:insert( heart5 )
+
+    sceneGroup:insert( bkg )
+    sceneGroup:insert( cover )
+
+    sceneGroup:insert( questionText )
+    sceneGroup:insert( answerText )
+    sceneGroup:insert( wrongText1 )
+    sceneGroup:insert( wrongText2 )
+    sceneGroup:insert( wrongText3 )
+
+    -- add the group scene insert for the timer
+    sceneGroup:insert( clockText )
+
+    -- the group scene insert for all of the objects in the questions
 
     -- question 1 --
     sceneGroup:insert( circle1 )
@@ -970,18 +972,20 @@ function scene:create( event )
     -- question 7 --
     sceneGroup:insert( numTwo )
     sceneGroup:insert( numOne )
-
+ --   sceneGroup:insert( shapes )
     -- question 8 --
 
     sceneGroup:insert( numSix )
 
-    -- insert the questions for question 9
-    sceneGroup:insert( answerText )
-    sceneGroup:insert( wrongText1 )
-    sceneGroup:insert( wrongText2 )
-    sceneGroup:insert( wrongText3 )
+    -- question 9 --
+    sceneGroup:insert( numSeven )
+    sceneGroup:insert( numNine )
+--    sceneGroup:insert(  )
 
-    sceneGroup:insert( questionText )
+
+
+    -- insert the questions for question 9
+
     sceneGroup:insert( pentagonText )
     sceneGroup:insert( octagonText )
     sceneGroup:insert( decagonText )
