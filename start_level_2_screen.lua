@@ -41,7 +41,7 @@ local startText
 --------------------------------------------------------------------------------------------
 
 -- The function that will go to the main menu 
-local function gotoLevel1()
+local function gotoLevel2()
 
     composer.gotoScene( "level2_screen" )
 end
@@ -85,8 +85,8 @@ function scene:create( event )
     stopLight = display.newImage("Images/StopLightMeganS@2x.png", 0, 0)
     stopLight.x = display.contentCenterX
     stopLight.y = display.contentCenterY
-
-    stopLight:scale(0.5,0.47)
+    stopLight.width = 900
+    stopLight.height = 700
 
     -- Create the start text 
     startText = display.newText("Start!", 0, 0, nil, 80)
@@ -99,19 +99,22 @@ function scene:create( event )
     red = display.newImage("Images/RedMeganS@2x.png", 0, 0)
     red.x = display.contentWidth*1.05/2
     red.y = display.contentHeight*0.8/4
-    red:scale(0.1,0.1)
+    red.width = 175
+    red.height = 170
     red.isVisible = false
 
     yellow = display.newImage("Images/YellowMeganS@2x.png", 0, 0)
     yellow.x = display.contentWidth*1.05/2
     yellow.y = display.contentHeight*1.5/3
-    yellow:scale(0.1,0.1)
+    yellow.width = 175
+    yellow.height = 170
     yellow.isVisible = false
 
     green = display.newImage("Images/GreenMeganS@2x.png", 0, 0)
     green.x = display.contentWidth*1.05/2
     green.y = display.contentHeight*2.4/3
-    green:scale(0.1,0.1)
+    green.width = 175
+    green.height = 170
     green.isVisible = false
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
@@ -146,7 +149,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- Go to the level 1 screen after the given time.
-        timer.performWithDelay ( 2800, gotoLevel1) 
+        timer.performWithDelay ( 2800, gotoLevel2) 
 
         -- Create the animation for the stop lights
         timer.performWithDelay( 500, redStopLight )

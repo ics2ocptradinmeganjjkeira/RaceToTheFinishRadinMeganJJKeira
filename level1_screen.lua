@@ -46,18 +46,10 @@ local heart5
 
 local alreadyCollided = false
 
--- To keep track of the hearts the player has
-local numLives = 5
 
 -- Create the score
 local Score = 0
 local ScoreObject
-
--- Create the local variables for the 
-local totalSeconds = 2
-local secondsLeft = 2
-local clockText 
-local countDownTimer
 
 -- Create the arrows for the car to move left or right
 local rArrow
@@ -224,101 +216,15 @@ local function MakePylonsVisible()
     Pylon6.isVisible = true
 end
 
-local function MakeHeartsVisible()
-    heart1.isVisible = true
-    heart2.isVisible = true
-    heart3.isVisible = true
-    heart4.isVisible = true
-    heart5.isVisible = true
 
-end
 
 -- Creating Transition Function to Credits Page
 local function MainTransition( )       
     composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 700})
+
 end 
 
 
-
-local function UpdateTime()
-
-    -- Decrement the number of seconds
-    secondsLeft = secondsLeft - 1
-
-    -- Display the number of seconds left in the clock object 
-    clockText.text = "Time Left: " .. secondsLeft
-
-    if ( secondsLeft == 0 ) then
-        -- Reset the number of seconds left
-        secondsLeft = totalSeconds
-
-        numLives = numLives - 1
-
-        -- If there are no lives left, play a lose sound, show a you lose image
-        -- and cancel the timer remove the third heart by making it invisible
-
-        if (numLives == 4) then
-
-            heart5.isVisible = false
-
-            ResumeLevel1()
-        end
-
-        if (numLives == 3) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-
-            ResumeLevel1()
-        end
-
-        if (numLives == 2) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-            heart3.isVisible = false
-
-            ResumeLevel1()
-        end
-
-        if (numLives == 1) then
-
-            heart5.isVisible = false
-            heart4.isVisible = false
-            heart3.isVisible = false
-            heart2.isVisible = false
-
-            ResumeLevel1()
-        end
-
-        if (numLives == 0) then
-
-            heart1.isVisible = false   
-            heart2.isVisible = false
-            heart3.isVisible = false 
-            heart2.isVisible = false
-            heart3.isVisible = false
-            ScoreObject.isVisible = false
-            timer.cancel(countDownTimer)
-
-            ResumeLevel1()
-            
-        end
-    end
-end
-
--- Function that calls the timer
-local function StartTimer()
-
-    -- Create a countdown timer that loops infinitely
-    countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0 )
-
-    if (countDownTimer == 0) then
-
-        timer.cancel(countDownTimer)
-    
-    end
-end
 
 
 
@@ -359,7 +265,7 @@ local function onCollision( self, event )
             -- make the character invisible
             Car.isVisible = false
 
-            -- show overlay with math question
+            -- show overlay with the question
             composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
 
             -- Increment questions answered
@@ -454,25 +360,6 @@ function ResumeLevel1()
     Pylon6.y = 0
     alreadyCollided = false
     
-    --[[
-    if (questionsAnswered >= 0) then
-        if (Pylon ~= nil) and (Pylon.isBodyActive == true) then
-            Pylon.isVisible = false
-            physics.removeBody(Pylon)
-        end
-        if (questionsAnswered == 1) then            
-            Runtime:addEventListener("enterFrame", MovePylon4)
-            Pylon4.isVisible = true
-        end
-        if (questionsAnswered == 2) then
-            Runtime:addEventListener("enterFrame", MovePylon5)
-            Pylon5.isVisible = true
-        end
-        elseif (questionsAnswered == 3) then
-            Runtime:addEventListener("enterFrame", MovePylon6)
-            Pylon6.isVisible = true
-    end
-]]--
    
 end
 
@@ -482,11 +369,20 @@ function CountScore1()
 
     ScoreObject.text = "Score: " .. Score
 
-    if (Score == 300) then
+    if (Score == 500) then
 
         composer.gotoScene( "you_win" )
 
     end
+end
+
+function MakeHeartsVisible()
+    heart1.isVisible = true
+    heart2.isVisible = true
+    heart3.isVisible = true
+    heart4.isVisible = true
+    heart5.isVisible = true
+
 end
 
 function DecreaseLives1()
@@ -536,6 +432,40 @@ function scene:create( event )
     -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image ) 
 
+    -- Insert the Hearts
+    heart1 = display.newImageRect("Images/heart.png", 80, 80)
+    heart1.x = 985
+    heart1.y = 100
+    heart1.isVisible = true
+
+    heart2 = display.newImageRect("Images/heart.png", 80, 80)
+    heart2.x = 905
+    heart2.y = 100
+    heart2.isVisible = true
+
+    heart3= display.newImageRect("Images/heart.png", 80, 80)
+    heart3.x = 825
+    heart3.y = 100
+    heart3.isVisible = true
+
+    heart4 = display.newImageRect("Images/heart.png", 80, 80)
+    heart4.x = 745
+    heart4.y = 100
+    heart4.isVisible = true
+
+    heart5 = display.newImageRect("Images/heart.png", 80, 80)
+    heart5.x = 665
+    heart5.y = 100
+    heart5.isVisible = true
+
+    -- the hearts --
+    
+    sceneGroup:insert( heart1 )
+    sceneGroup:insert( heart2 )
+    sceneGroup:insert( heart3 )
+    sceneGroup:insert( heart4 )    
+    sceneGroup:insert( heart5 )
+
     -- Insert the car into the level one screen
     Car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
     Car.x = display.contentWidth * 1/2
@@ -547,61 +477,12 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( Car )
 
-
-    -- Create the clock text colour and text
-    clockText = display.newText("Time Left: ", display.contentWidth*3.3/5, display.contentHeight*2.2/10, nil, 60)
-    clockText:setTextColor(0, 0, 0)
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( clockText )
-
     ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
     ScoreObject:setTextColor(0, 0, 0)
     ScoreObject.isVisible = true
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( ScoreObject )  
-
-    -- Insert the Hearts
-    heart1 = display.newImageRect("Images/heart.png", 80, 80)
-    heart1.x = 985
-    heart1.y = 100
-    heart1.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart1 )
-
-    heart2 = display.newImageRect("Images/heart.png", 80, 80)
-    heart2.x = 905
-    heart2.y = 100
-    heart2.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart2 )
-
-    heart3= display.newImageRect("Images/heart.png", 80, 80)
-    heart3.x = 825
-    heart3.y = 100
-    heart3.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart3 )
-
-    heart4 = display.newImageRect("Images/heart.png", 80, 80)
-    heart4.x = 745
-    heart4.y = 100
-    heart4.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( heart4 )
-
-    heart5 = display.newImageRect("Images/heart.png", 80, 80)
-    heart5.x = 665
-    heart5.y = 100
-    heart5.isVisible = true
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene  
-    sceneGroup:insert( heart5 )
 
     Pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon1.x = 110
@@ -718,6 +599,8 @@ function scene:create( event )
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,
             y = display.contentHeight*7.5/8,
+            width = 130,
+            height = 70,
 
             -- Insert the images here
             defaultFile = "Images/BackButtonUnpressed.png", 
@@ -726,8 +609,7 @@ function scene:create( event )
             -- When the button is released, call the Level1 screen transition function
             onRelease = MainTransition         
         } )
-    -- Set the scale for the Start button
-        backButton:scale( 0.3, 0.3 )
+
     ----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
@@ -764,10 +646,6 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
 
 
-        -- Start the timer
-
---        StartTimer()
-
         -- Keep count of the lives and questions answered
 
         numLives = 5
@@ -787,9 +665,6 @@ function scene:show( event )
 
         -- create the car, add physics bodies and runtime listeners
         ReplaceCar()
-
-        -- start the countdown timer
---        StartTimer()
 
     end
 
