@@ -561,7 +561,6 @@ function scene:create( event )
     pylon2.myName = "pylon2"
 
   
-
     pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
     pylon3.x = 700
     pylon3.y = 0
