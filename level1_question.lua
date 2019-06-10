@@ -125,6 +125,16 @@ local numTen
 -- question 14 objects
 local angles 
 
+-- question 16 objects
+local ninetyDeg
+local rightAngle
+local properAng
+
+-- question 17 objects
+local fourninetyDeg
+local sameSides
+local samenumSides
+
 
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
@@ -307,7 +317,7 @@ local function PositionAnswers4()
         wrongAnswer2.x = X1
         wrongAnswer2.y = Y2 
 
-        wrongAnswer3.x = X2
+        wrongAnswer3.x = X1
         wrongAnswer3.y = Y1
 
     elseif ( randomPosition == 3 ) then
@@ -316,10 +326,10 @@ local function PositionAnswers4()
         correctAnswer.y = Y1 
 
         wrongAnswer1.x = X2
-        wrongAnswer1.y = Y1
+        wrongAnswer1.y = Y2
 
         wrongAnswer2.x = X1
-        wrongAnswer2.y = Y2 
+        wrongAnswer2.y = Y1 
 
         wrongAnswer3.x = X1
         wrongAnswer3.y = Y2
@@ -350,12 +360,12 @@ local function PositionAnswers2( )
         correctAnswer.x = X1
         correctAnswer.y = Y1
 
-        wrongAnswer1.x = X2
+        wrongAnswer1.x = X1
         wrongAnswer1.y = Y2
 
     elseif ( randomPosition == 2 ) then
 
-        correctAnswer.x = X2
+        correctAnswer.x = X1
         correctAnswer.y = Y2
 
         wrongAnswer1.x = X1
@@ -399,7 +409,7 @@ local function PositionAnswers3 ( )
         wrongAnswer1.x = X1
         wrongAnswer1.y = Y2
 
-        wrongAnswer2.x = X2
+        wrongAnswer2.x = X1
         wrongAnswer2.y = Y1
 
     end
@@ -414,7 +424,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(4,4)
+    questionSelect = math.random(7,7)
 
     if (questionSelect == 1) then
 
@@ -542,6 +552,8 @@ local function DisplayQuestion( )
         numFour.isVisible = true
         numOne.isVisible = true
         numZero.isVisible = true
+
+        shapes.isVisible = true
 
         -- create the answer
         correctAnswer = numTwo
@@ -680,6 +692,18 @@ local function DisplayQuestion( )
 
         questionText.text = display.newText( " Parallel lines are lines that never intercept. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
 
+        textTrue.isVisible = true
+        textFalse.isVisible = true
+
+        -- create the answer
+        correctAnswer = textFalse
+
+        -- create the wrong answer
+        wrongAnswer1 = textTrue
+
+        PositionAnswers2()
+
+
     elseif (questionSelect == 16) then
 
         questionText.text = display.newText( " What is a right angle? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
@@ -692,13 +716,55 @@ local function DisplayQuestion( )
 
         questionText.text = display.newText( " It is possible to draw a triangle with two right angles. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
 
+        textTrue.isVisible = true
+        textFalse.isVisible = true
+
+        -- create the answer
+        correctAnswer = textFalse
+
+        -- create the wrong answer
+        wrongAnswer1 = textTrue
+
+        PositionAnswers2()
+
     elseif (questionSelect == 19) then
 
         questionText.text = display.newText( " How many pairs of parallel lines does a square have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
 
+        numTwo.isVisible = true
+        numFour.isVisible = true
+        numEight.isVisible = true
+        numZero.isVisible = true
+
+        -- create the answer
+        correctAnswer = numTwo
+
+        -- create the wrong answer
+        wrongAnswer1 = numFour
+        wrongAnswer2 = numEight
+        wrongAnswer3 = numZero
+
+        PositionAnswers4()
+
+
     elseif (questionSelect == 20) then
 
         questionText.text = display.newText( " How many vertices does an octagon have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
+
+        numTen.isVisible = true
+        numFour.isVisible = true
+        numEight.isVisible = true
+        numNine.isVisible = true
+
+        -- create the answer
+        correctAnswer = numEight
+
+        -- create the wrong answer 
+        wrongAnswer1 = numTen
+        wrongAnswer2 = numFour
+        wrongAnswer3 = numNine
+
+        PositionAnswers4()
 
     end
 end
@@ -764,7 +830,7 @@ function scene:create( event )
     cover:setFillColor(96/255, 96/255, 96/255)
 
     -- create the answer text object & wrong answer text objects
-    questionText = display.newText("", display.contentWidth/2, display.contentHeight/3, Arial, 50)
+    questionText = display.newText("", display.contentWidth/2, display.contentHeight/6, Arial, 45)
 
 --[[
     correctAnswer = display.newText("", X1, Y2, Arial, 50)
@@ -882,8 +948,10 @@ function scene:create( event )
     -- Question 7 -- 
 
     shapes = display.newImage("Images/ShapesMeganS@2x.png", 0, 0)
-    shapes.width = 160
-    shapes.height = 160
+    shapes.x = display.contentWidth/2
+    shapes.y = display.contentHeight/3
+    shapes.width = 400
+    shapes.height = 230
     shapes.isVisible = false
 
     numTwo = display.newText("2", 0, 0, nil, 60)
@@ -934,9 +1002,27 @@ function scene:create( event )
     nonagonText = display.newText("Nonagon", X1, Y2, nil, 40)
     nonagonText.isVisible = false
 
+    -- Question 16 -- 
 
+    ninetyDeg = display.newText("90 degree angle", 0, 0, nil, 40)
+    ninetyDeg.isVisible = false
 
+    rightAngle = display.newText("A right facing angle", 0, 0, nil, 40)
+    rightAngle.isVisible = false
 
+    properAng = display.newText("A proper angle",0 , 0, nil, 40)
+    properAng.isVisible = false
+
+    -- Question 17 -- 
+
+    fourninetyDeg = display.newText("Four 90 degree angles", 0, 0 nil, 40)
+    fourninetyDeg.isVisible = false
+
+    sameSides = display.newText("Same side lengths", 0, 0 nil, 40)
+    sameSides.isVisible = false
+
+    samenumSides = display.newText("Same number of sides", 0, 0, nil, 40)
+    samenumSides.isVisible = false
 
 
     -----------------------------------------------------------------------------------------
@@ -996,6 +1082,16 @@ function scene:create( event )
     sceneGroup:insert( numSeven )
     sceneGroup:insert( numNine )
 --    sceneGroup:insert(  )
+
+    -- question 16 --
+    sceneGroup:insert( ninetyDeg )
+    sceneGroup:insert( rightAngle )
+    sceneGroup:insert( properAng )
+
+    -- question 17 -- 
+    sceneGroup:insert( fourninetyDeg )
+    sceneGroup:insert( sameSides )
+    sceneGroup:insert( samenumSides )
 
 --[[
     sceneGroup:insert( correctAnswer )
