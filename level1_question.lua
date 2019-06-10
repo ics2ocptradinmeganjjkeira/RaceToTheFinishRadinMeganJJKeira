@@ -50,6 +50,8 @@ local questionSelect = 1
 local bkg
 local cover
 
+local randomPosition
+
 -- The positions for the objects/answers
 local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*5/7
@@ -60,10 +62,10 @@ local textTouched = false
 
 -- Create the answer texts 
 local questionText
-local answerText 
-local wrongText1
-local wrongText2
-local wrongText3
+local correctAnswer 
+local wrongAnswer1
+local wrongAnswer2
+local wrongAnswer3
 
 -- Create the lives for the car
 local heart1
@@ -122,8 +124,6 @@ local numTen
 
 -- question 14 objects
 local angles 
-
-
 
 
 -----------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ local function TouchListenerAnswer(touch)
 end
 
 
-local function TouchListenerWrongText1(touch)
+local function TouchListenerwrongAnswer1(touch)
     if (touch.phase == "ended") then
 
         DecreaseLives1( )
@@ -241,7 +241,7 @@ local function TouchListenerWrongText1(touch)
 end
 
 
-local function TouchListenerWrongText2(touch)
+local function TouchListenerwrongAnswer2(touch)
     if (touch.phase == "ended") then
 
         DecreaseLives1( )
@@ -250,7 +250,7 @@ local function TouchListenerWrongText2(touch)
 end
 
 
-local function TouchListenerWrongText3(touch)
+local function TouchListenerwrongAnswer3(touch)
     if (touch.phase == "ended") then
 
         DecreaseLives1( )
@@ -260,24 +260,153 @@ end
 
 
 --adding the event listeners 
-local function AddTextListeners ( )
+local function AddListeners ( )
 
-    answerText:addEventListener("touch", TouchListenerAnswer)
-    wrongText1:addEventListener("touch", TouchListenerWrongText1)
-    wrongText2:addEventListener("touch", TouchListenerWrongText2)
-    wrongText3:addEventListener("touch", TouchListenerWrongText3)
+    correctAnswer:addEventListener("touch", TouchListenerAnswer)
+    wrongAnswer1:addEventListener("touch", TouchListenerwrongAnswer1)
+    wrongAnswer2:addEventListener("touch", TouchListenerwrongAnswer2)
+    wrongAnswer3:addEventListener("touch", TouchListenerwrongAnswer3)
 
 end
 
 --removing the event listeners
-local function RemoveTextListeners( )
---[[
-    answerText:RemoveTextListeners("touch", TouchListenerAnswer)
-    wrongText1:RemoveTextListeners("touch", TouchListenerWrongText1)
-    wrongText2:RemoveTextListeners("touch", TouchListenerWrongText2)
-    wrongText3:RemoveTextListeners("touch", TouchListenerWrongText3)
---]]
+local function removeEventListener( )
+
+    correctAnswer:removeEventListener("touch", TouchListenerAnswer)
+    wrongAnswer1:removeEventListener("touch", TouchListenerwrongAnswer1)
+    wrongAnswer2:removeEventListener("touch", TouchListenerwrongAnswer2)
+    wrongAnswer3:removeEventListener("touch", TouchListenerwrongAnswer3)
 end
+
+local function PositionAnswers4()
+
+    randomPosition = math.random(1,4)
+
+    if ( randomPosition == 1 ) then
+
+        correctAnswer.x = X1 
+        correctAnswer.y = Y1 
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y1
+
+        wrongAnswer2.x = X1
+        wrongAnswer2.y = Y2 
+
+        wrongAnswer3.x = X2
+        wrongAnswer3.y = Y2
+
+    elseif ( randomPosition == 2 ) then
+
+        correctAnswer.x = X2 
+        correctAnswer.y = Y2 
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y1
+
+        wrongAnswer2.x = X1
+        wrongAnswer2.y = Y2 
+
+        wrongAnswer3.x = X2
+        wrongAnswer3.y = Y1
+
+    elseif ( randomPosition == 3 ) then
+
+        correctAnswer.x = X2 
+        correctAnswer.y = Y1 
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y1
+
+        wrongAnswer2.x = X1
+        wrongAnswer2.y = Y2 
+
+        wrongAnswer3.x = X1
+        wrongAnswer3.y = Y2
+
+    elseif ( randomPosition == 4 ) then
+
+        correctAnswer.x = X1 
+        correctAnswer.y = Y1 
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y1
+
+        wrongAnswer2.x = X1
+        wrongAnswer2.y = Y2 
+
+        wrongAnswer3.x = X2
+        wrongAnswer3.y = Y2
+    end
+
+end
+
+local function PositionAnswers2( )
+
+    randomPosition = math.random(1,2)
+
+    if ( randomPosition == 1 ) then
+
+        correctAnswer.x = X1
+        correctAnswer.y = Y1
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y2
+
+    elseif ( randomPosition == 2 ) then
+
+        correctAnswer.x = X2
+        correctAnswer.y = Y2
+
+        wrongAnswer1.x = X1
+        wrongAnswer1.y = Y1
+
+    end
+
+end
+
+local function PositionAnswers3 ( )
+
+    randomPosition = math.random(1,3)
+
+    if ( randomPosition == 1 ) then 
+
+        correctAnswer.x = X2
+        correctAnswer.y = Y2
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y1
+
+        wrongAnswer2.x = X1
+        wrongAnswer2.y = Y2 
+
+    elseif ( randomPosition == 2 ) then
+
+        correctAnswer.x = X1
+        correctAnswer.y = Y2
+
+        wrongAnswer1.x = X2
+        wrongAnswer1.y = Y2
+
+        wrongAnswer2.x = X2
+        wrongAnswer2.y = Y1
+
+    elseif ( randomPosition == 3 ) then
+
+        correctAnswer.x = X2
+        correctAnswer.y = Y1
+
+        wrongAnswer1.x = X1
+        wrongAnswer1.y = Y2
+
+        wrongAnswer2.x = X2
+        wrongAnswer2.y = Y1
+
+    end
+
+end
+
+
 
 
 --local function Answers()
@@ -285,7 +414,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(1,1)
+    questionSelect = math.random(4,4)
 
     if (questionSelect == 1) then
 
@@ -295,30 +424,18 @@ local function DisplayQuestion( )
         circle1.isVisible = true
         rectangle1.isVisible = true
         pentagon1.isVisible = true
-        triangle1.isVisible = true
+        triangle1.isVisible = true        
 
         -- create the answer
-        answerText = pentagon1
+        correctAnswer = pentagon1
 
         -- create the wrong answers
-        wrongText1 = rectangle1
-        wrongText2 = circle1
-        wrongText3 = triangle1
---[[
-        -- Set the position of the objects
-        circle1.x = X1
-        circle1.y = Y1
+        wrongAnswer1 = rectangle1
+        wrongAnswer2 = circle1
+        wrongAnswer3 = triangle1
 
-        rectangle1.x = X2
-        rectangle1.y = Y2
+        PositionAnswers4()
 
-        pentagon1.x = X1
-        pentagon1.y = Y2
-
-        triangle1.x = X2
-        triangle1.y = Y1
-
---]]
 
     elseif (questionSelect == 2) then
 
@@ -331,26 +448,14 @@ local function DisplayQuestion( )
         tri5.isVisible = true
 
         -- create the answer
-        answerText = oval2
+        correctAnswer = oval2
 
         -- create the wrong answers
-        wrongText1 = square5
-        wrongText2 = circle1
-        wrongText3 = tri5
+        wrongAnswer1 = square5
+        wrongAnswer2 = circle1
+        wrongAnswer3 = tri5
 
-        -- Set the positions for the shapes
-
-        oval2.x = X1
-        oval2.y = Y1
-
-        square5.x = X1
-        square5.y = Y2
-
-        circle1.x = X2
-        circle1.y = Y1
-
-        tri5.x = X2
-        tri5.y = Y2
+        PositionAnswers4()
 
 
     elseif (questionSelect == 3) then 
@@ -364,27 +469,15 @@ local function DisplayQuestion( )
         numFour.isVisible = true
 
         -- create the answer
-        answerText = numZero
+        correctAnswer = numZero
 
         -- create the wrong answers
-        wrongText1 = numFour
-        wrongText2 = numEight
-        wrongText3 = numThree
-        
+        wrongAnswer1 = numFour
+        wrongAnswer2 = numEight
+        wrongAnswer3 = numThree
 
-        -- Set the positions for the numbers 
-        numThree.x = X1
-        numThree.y = Y1
-
-        numEight.x = X1
-        numEight.y = Y2
-
-        numZero.x = X2
-        numZero.y = Y1
-
-        numFour.x = X2
-        numFour.y = Y2
-
+        PositionAnswers4()
+    
     elseif (questionSelect == 4) then
 
         questionText.text = " A circle is a polygon. "
@@ -394,10 +487,12 @@ local function DisplayQuestion( )
         textFalse.isVisible = true
 
         -- create the answer
-        answerText = textTrue
+        correctAnswer = textTrue
 
         -- create the wrong answers
-        wrongText1 = textFalse
+        wrongAnswer1 = textFalse
+
+        PositionAnswers2()
 
     elseif (questionSelect == 5) then
 
@@ -410,25 +505,14 @@ local function DisplayQuestion( )
         oval2.isVisible = true
 
         -- create the answer
-        answerText = tri5
+        correctAnswer = tri5
 
         -- create the wrong answers
-        wrongText1 = square5
-        wrongText2 = pentagon1
-        wrongText3 = oval2
+        wrongAnswer1 = square5
+        wrongAnswer2 = pentagon1
+        wrongAnswer3 = oval2
 
-        -- Set the positions for the shapes
-        tri5.x = X1
-        tri5.y = Y1
-
-        square5.x  = X1
-        square5.y = Y2
-
-        pentagon1.x = X2
-        pentagon1.y = Y1
-
-        oval2.x = X2
-        oval2.y  = Y2
+        PositionAnswers4()
 
 
     elseif (questionSelect == 6) then   
@@ -441,12 +525,13 @@ local function DisplayQuestion( )
         triangle1 = true
 
         -- create the answer
-        answerText = isosceles6
+        correctAnswer = isosceles6
 
         -- create the wrong answers
-        wrongText1 = rightAngleTri6
-        wrongText2 = triangle1
+        wrongAnswer1 = rightAngleTri6
+        wrongAnswer2 = triangle1
 
+        PositionAnswers3()
 
     elseif (questionSelect == 7) then
 
@@ -459,25 +544,14 @@ local function DisplayQuestion( )
         numZero.isVisible = true
 
         -- create the answer
-        answerText = numTwo
+        correctAnswer = numTwo
 
         -- create the wrong answers
-        wrongText1 = numFour
-        wrongText2 = numOne
-        wrongText3 = numZero
+        wrongAnswer1 = numFour
+        wrongAnswer2 = numOne
+        wrongAnswer3 = numZero
 
-         -- Set the positions for the shapes
-        numTwo.x = X1
-        numTwo.y = Y1
-
-        numFour.x = X1
-        numFour.y = Y2
-
-        numOne.x = X2 
-        numOne.y = Y2
-
-        numZero.x = X2
-        numZero.y = Y1
+        PositionAnswers4()
 
 
     elseif (questionSelect == 8) then
@@ -491,26 +565,14 @@ local function DisplayQuestion( )
         numNine.isVisible = true
 
         -- create the answer
-        answerText = numSeven
+        correctAnswer = numSeven
 
         -- create the wrong answers
-        wrongText1 = numSix
-        wrongText2 = numEight
-        wrongText3 = numNine
+        wrongAnswer1 = numSix
+        wrongAnswer2 = numEight
+        wrongAnswer3 = numNine
 
-        -- Set the positions for the shapes
-        numSeven.x = X1
-        numSeven.y = Y1
-
-        numSix.x = X1
-        numSix.y = Y2
-
-        numEight.x = X2 
-        numEight.y = Y2
-
-        numNine.x = X2
-        numNine.y = Y1
-
+        PositionAnswers4()
 
 
     elseif (questionSelect == 9) then
@@ -524,26 +586,14 @@ local function DisplayQuestion( )
         hexagonText.isVisible = true
 
         -- create the answer
-        answerText = pentagonText
+        correctAnswer = pentagonText
 
         -- create the wrong answers
-        wrongText1 = octagonText
-        wrongText2 = decagonText
-        wrongText3 = hexagonText
+        wrongAnswer1 = octagonText
+        wrongAnswer2 = decagonText
+        wrongAnswer3 = hexagonText
 
-        -- Set the positions for the shapes
-        octagonText.x = X1
-        octagonText.y = Y1
-
-        pentagonText.x = X1
-        pentagonText.y = Y2
-
-        decagonText.x = X2
-        decagonText.y = Y1
-
-        hexagonText.x = X2
-        hexagonText.y = Y2
-
+        PositionAnswers4()
 
     elseif (questionSelect == 10) then
 
@@ -556,25 +606,14 @@ local function DisplayQuestion( )
         hexagonText.isVisible = true
 
         -- create the answer
-        answerText = octagonText
+        correctAnswer = octagonText
 
         -- create the wrong answers
-        wrongText1 = pentagonText
-        wrongText2 = nonagonText
-        wrongText3 = hexagonText
+        wrongAnswer1 = pentagonText
+        wrongAnswer2 = nonagonText
+        wrongAnswer3 = hexagonText
 
-        -- set the positions for the shapes
-        octagonText.x = X1
-        octagonText.y = Y1
-
-        pentagonText.x = X1
-        pentagonText.y = Y2
-
-        decagonText.x = X2
-        decagonText.y = Y1
-
-        hexagonText.x = X2
-        hexagonText.y = Y2
+        PositionAnswers4()
 
 
     elseif (questionSelect == 11) then 
@@ -588,25 +627,14 @@ local function DisplayQuestion( )
         numTen.isVisible = true
 
         -- create the answer
-        answerText = numFive
+        correctAnswer = numFive
 
         -- create the wrong answers
-        wrongText1 = numSix
-        wrongText2 = numSeven
-        wrongText3 = numTen
+        wrongAnswer1 = numSix
+        wrongAnswer2 = numSeven
+        wrongAnswer3 = numTen
 
-        -- set the positions for the shapes
-        numFive.x = X1
-        numFive.y = Y1
-
-        numSix.x = X1
-        numSix.y = Y2
-
-        numSeven.x = X2
-        numSeven.y = Y1
-
-        numTen.x = X2
-        numTen.y = Y2
+        PositionAnswers4()
 
 
     elseif (questionSelect == 12) then
@@ -618,17 +646,12 @@ local function DisplayQuestion( )
         textFalse.isVisible = true
 
         -- create the answer
-        answerText = textTrue
+        correctAnswer = textTrue
 
         -- create the wrong answer
-        wrongText1 = textFalse
+        wrongAnswer1 = textFalse
 
-        -- set the positions for the shapes
-        textTrue.x = X1
-        textTrue.y = Y1
-
-        textFalse.x = X1
-        textFalse.y = Y2
+        PositionAnswers2()
 
 
     elseif (questionSelect == 13) then
@@ -640,17 +663,12 @@ local function DisplayQuestion( )
         textFalse.isVisible = true
 
         -- create the answer
-        answerText = textFalse
+        correctAnswer = textFalse
 
         -- create the wrong answer
-        wrongText1 = textTrue
+        wrongAnswer1 = textTrue
 
-        -- set the positions for the shapes
-        textTrue.x = X1
-        textTrue.y = Y1
-
-        textFalse.x = X1
-        textFalse.y = Y2
+        PositionAnswers2()
 
 
     elseif (questionSelect == 14) then
@@ -746,36 +764,39 @@ function scene:create( event )
     cover:setFillColor(96/255, 96/255, 96/255)
 
     -- create the answer text object & wrong answer text objects
-    answerText = display.newText("", X1, Y2, Arial, 50)
-    answerText.anchorX = 0
+    questionText = display.newText("", display.contentWidth/2, display.contentHeight/3, Arial, 50)
 
-    wrongText1 = display.newText("", X2, Y2, Arial, 50)
-    wrongText1.anchorX = 0
-
-    wrongText2 = display.newText("", X1, Y1, Arial, 50)
-    wrongText2.anchorX = 0
-
-    wrongText3 = display.newText("", X2, Y1, Arial, 50)
-    wrongText3.anchorX = 0
-
+--[[
+    correctAnswer = display.newText("", X1, Y2, Arial, 50)
+    correctAnswer.anchorX = 0
+    wrongAnswer1 = display.newText("", X2, Y2, Arial, 50)
+    wrongAnswer1.anchorX = 0
+    wrongAnswer2 = display.newText("", X1, Y1, Arial, 50)
+    wrongAnswer2.anchorX = 0
+    wrongAnswer3 = display.newText("", X2, Y1, Arial, 50)
+    wrongAnswer3.anchorX = 0
+]]--
     -- Question 1 --
 
-    circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
+    circle1 = display.newImage("Images/CircleMeganS@2x.png", X1, Y1)
     circle1.width = 150
     circle1.height = 150
     circle1.isVisible = false
 
-    rectangle1 = display.newImage("Images/RectangleMeganS@2x.png", 0, 0)
+
+
+
+    rectangle1 = display.newImage("Images/RectangleMeganS@2x.png", X1, Y2)
     rectangle1.width = 180
     rectangle1.height = 180
     rectangle1.isVisible = false
 
-    pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", 0, 0)
+    pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", X2, Y1)
     pentagon1.width = 160
     pentagon1.height = 160
     pentagon1.isVisible = false
 
-    triangle1 = display.newImage("Images/TriangleMeganS@2x.png", 0, 0)
+    triangle1 = display.newImage("Images/TriangleMeganS@2x.png", X2, Y2)
     triangle1.width = 160
     triangle1.height = 160
     triangle1.isVisible = false
@@ -859,12 +880,12 @@ function scene:create( event )
     -- the same triangle displayed from question 1
 
     -- Question 7 -- 
---[[
+
     shapes = display.newImage("Images/ShapesMeganS@2x.png", 0, 0)
-    shapes.width = 170
+    shapes.width = 160
     shapes.height = 160
     shapes.isVisible = false
---]]
+
     numTwo = display.newText("2", 0, 0, nil, 60)
     numTwo:setTextColor (1, 1, 0)
     numTwo.isVisible = false
@@ -931,12 +952,6 @@ function scene:create( event )
     sceneGroup:insert( bkg )
     sceneGroup:insert( cover )
 
-    sceneGroup:insert( questionText )
-    sceneGroup:insert( answerText )
-    sceneGroup:insert( wrongText1 )
-    sceneGroup:insert( wrongText2 )
-    sceneGroup:insert( wrongText3 )
-
     -- add the group scene insert for the timer
     sceneGroup:insert( clockText )
 
@@ -972,7 +987,7 @@ function scene:create( event )
     -- question 7 --
     sceneGroup:insert( numTwo )
     sceneGroup:insert( numOne )
- --   sceneGroup:insert( shapes )
+    sceneGroup:insert( shapes )
     -- question 8 --
 
     sceneGroup:insert( numSix )
@@ -982,10 +997,13 @@ function scene:create( event )
     sceneGroup:insert( numNine )
 --    sceneGroup:insert(  )
 
-
-
-    -- insert the questions for question 9
-
+--[[
+    sceneGroup:insert( correctAnswer )
+    sceneGroup:insert( wrongAnswer1 )
+    sceneGroup:insert( wrongAnswer2 )
+    sceneGroup:insert( wrongAnswer3 )
+--]]
+    sceneGroup:insert( questionText )
     sceneGroup:insert( pentagonText )
     sceneGroup:insert( octagonText )
     sceneGroup:insert( decagonText )
@@ -1019,7 +1037,8 @@ function scene:show( event )
 
         DisplayQuestion()
 
-        AddTextListeners()
+
+        AddListeners()
 
         StartTimer()
 
@@ -1049,7 +1068,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
 
-        RemoveTextListeners()
+        removeEventListener()
 
         timer.cancel(countDownTimer)
     end
