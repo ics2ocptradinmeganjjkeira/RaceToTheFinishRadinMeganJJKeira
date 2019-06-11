@@ -58,7 +58,7 @@ local lArrow
 -- Create the physics for the car
 local motionx = 0
 local SPEED = 8
-local pylonSPEED = 8
+local pylonSPEED = 4
 local LeftSpeed = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 5
@@ -164,10 +164,13 @@ end
 
 local function callQuestion( )
 
-    composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
-
     -- Increment questions answered
     questionsAnswered = questionsAnswered + 1
+
+    composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+
+ResumeLevel1()
+
 end
 
 local function AddArrowEventListeners()
@@ -370,7 +373,8 @@ function ResumeLevel1()
         thePylon.isVisible = false
         physics.removeBody(thePylon)
         end
-        if (questionsAnswered == 1) then            
+        if (questionsAnswered == 1) then  
+            print("questionsAnswered is 4!!")          
             Runtime:addEventListener("enterFrame", MovePylon4)
             Pylon4.isVisible = true
         end
@@ -656,9 +660,9 @@ function scene:show( event )
 
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
-    
-        callQuestion() 
         
+        callQuestion()
+
         -- start physics
         physics.start()
 
@@ -671,7 +675,6 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-
 
         -- Keep count of the lives and questions answered
 

@@ -366,7 +366,7 @@ local function DisplayQuestion( )
 
     elseif (questionSelect == 2) then
 
-        questionText.text = "What shape is an oval?"
+        questionText.text = "Which shape is an oval?"
 
         -- Display the shapes 
         oval2.isVisible = true
