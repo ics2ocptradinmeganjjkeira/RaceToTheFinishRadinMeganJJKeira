@@ -41,11 +41,17 @@ local answerText
 local wrongText1
 local wrongText2
 local wrongText3
+local trueText
+local falseText
 
 local X1 = display.contentWidth*1/7
 local X2 = display.contentWidth*3.75/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
+local TRUE1 = display.contentWidth/3.5
+local TRUE2 = display.contentHeight/2
+local FALSE1 = display.contentWidth/1.5
+local FALSE2 = display.contentHeight/2
 
 local userAnswer
 local textTouched = false
@@ -59,6 +65,7 @@ local totalSeconds = 30
 local secondsLeft = 30
 local clockText 
 local countDownTimer
+
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -114,12 +121,36 @@ local function TouchListenerWrongText3(touch)
     end
 end 
 
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerTrueText(touch)
+    
+    if (touch.phase == "ended") then
+
+        CountScore2()
+        BackToLevel2( )
+        
+    end
+end
+
+--checking to see if the user pressed the right answer and bring them back to level 1
+local function TouchListenerFalseText(touch)
+    
+    if (touch.phase == "ended") then
+
+        DecreaseLives2()
+        BackToLevel2( )
+        
+    end
+end
+
 --adding the event listeners 
 local function AddTextListeners ( )    
     answerText:addEventListener( "touch", TouchListenerAnswerText)
     wrongText1:addEventListener( "touch", TouchListenerWrongText1)
     wrongText2:addEventListener( "touch", TouchListenerWrongText2)
     wrongText3:addEventListener( "touch", TouchListenerWrongText3)
+    trueText:addEventListener( "touch", TouchListenerTrueText)
+    falseText:addEventListener( "touch", TouchListenerFalseText)
 end
 
 --removing the event listeners
@@ -128,12 +159,14 @@ local function RemoveTextListeners( )
     wrongText1:removeEventListener( "touch", TouchListenerWrongText1)
     wrongText2:removeEventListener( "touch", TouchListenerWrongText2)
     wrongText3:removeEventListener( "touch", TouchListenerWrongText3)
+    trueText:removeEventListener( "touch", TouchListenerTrueText)
+    falseText:removeEventListener( "touch", TouchListenerFalseText)
 end
 
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(9, 9)
+    question = math.random(10, 10)
 
     if (question == 1) then 
         -- create the question
@@ -281,13 +314,28 @@ local function DisplayQuestion()
         questionText.text = "Which shape has 8 vertices?"
 
         -- create the answer text
-        answerText.text = "cuboid"
+        trueText.text = "true"
+
+        -- create the wrong answer
+        falseText.text = "false"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 10) then
+        -- create the question text
+        questionText.text = "Which shape has no faces?"
+
+        -- create the answer text
+        answerText.text = "sphere"
 
         -- create the wrong answers
-        wrongText1.text = "cylinder"
-        wrongText2.text = "sphere"
-        wrongText3.text = "hexagonal\n prism"
-
+        wrongText1.text = "triangular\nprism"
+        wrongText2.text = "rectangular\nprism"
+        wrongText3.text = "cone"
+        
         -- make the other objects from other questions invisible
         rectangularprism.isVisible = false
         cylinder.isVisible = false
@@ -394,6 +442,12 @@ function scene:create( event )
     wrongText3 = display.newText("", X2, Y1, Arial, 50)
     wrongText3.anchorX = 0
 
+    -- create the text for true and false answers
+    trueText = display.newText("", TRUE1, TRUE2, Arial, 50)
+    trueText.anchorX = 0
+    falseText = display.newText("", FALSE1, FALSE2, Arial, 50)
+    falseText.anchorX = 0
+
     -- add the rectangular prism
     rectangularprism = display.newImage("Images/rectangularprism1.png", 5, 5)
     -- make the image smaller
@@ -437,9 +491,11 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(trueText)
+    sceneGroup:insert(falseText)
     sceneGroup:insert(rectangularprism)
-    sceneGroup:insert( cylinder)
-    sceneGroup:insert( sphere)
+    sceneGroup:insert(cylinder)
+    sceneGroup:insert(sphere)
 
     -- insert all objects for this scene into the scene group
 

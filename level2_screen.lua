@@ -309,7 +309,10 @@ local function onCollision2( self, event )
         if  (event.target.myName == "tree1") then
 
             -- get the ball that the user hit
-            theObject = event.target         
+            theObject = event.target        
+
+            -- remove the collision listener
+            tree1:removeEventListener( "collision" ) 
 
             -- call the decrease lives function
             DecreaseLives2()
