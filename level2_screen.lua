@@ -296,10 +296,7 @@ local function onCollision( self, event )
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
 
-            -- add the listener back
-            thePylon:addEventListener( "collision" )
-
-            -- make the pylon continue moving
+            -- make the tree continue moving
             SPEED4 = 8      
         end   
     end  
@@ -326,6 +323,11 @@ local function onCollision2( self, event )
 
             -- call the decrease lives function
             DecreaseLives2()
+        end
+
+        if (composer.showOverlay == true) then
+            
+        SPEED4 = 0
         end   
     end  
 end
