@@ -47,6 +47,7 @@ local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 20
 local SPEED3 = 8
+local SPEED4 = 8
 
 -- create the lives
 local heart1
@@ -182,7 +183,7 @@ local function MoveTree1( event )
         tree1.x = math.random (200, 800)
         tree1.y = 0
     else
-        tree1.y = tree1.y + SPEED3
+        tree1.y = tree1.y + SPEED4
     end
 end
 
@@ -283,6 +284,9 @@ local function onCollision( self, event )
             -- stop the character from moving
             motionx = 0
 
+            -- stop the pylon from moving
+            SPEED4 = 0
+
             -- make the character invisible
             car.isVisible = false
 
@@ -291,6 +295,12 @@ local function onCollision( self, event )
 
             -- Increment questions answered
             questionsAnswered = questionsAnswered + 1
+
+            -- add the listener back
+            thePylon:addEventListener( "collision" )
+
+            -- make the pylon continue moving
+            SPEED4 = 8      
         end   
     end  
 end
@@ -312,7 +322,7 @@ local function onCollision2( self, event )
             theObject = event.target        
 
             -- remove the collision listener
-            tree1:removeEventListener( "collision" ) 
+            --theObject:removeEventListener( "collision" ) 
 
             -- call the decrease lives function
             DecreaseLives2()
