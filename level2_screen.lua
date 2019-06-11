@@ -440,7 +440,7 @@ function CountScore2()
     scoreText.text = "Score: " .. score
 
     if (score == 400) then
-        composer.gotoScene( "you_win" )
+        composer.gotoScene( "you_completed_level2" )
     end
 end
 

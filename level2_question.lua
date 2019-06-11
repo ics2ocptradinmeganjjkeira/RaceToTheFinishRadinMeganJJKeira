@@ -53,6 +53,12 @@ local textTouched = false
 local rectangularprism
 local sphere
 local cylinder
+
+-- Create the local variables for the timer
+local totalSeconds = 30
+local secondsLeft = 30
+local clockText 
+local countDownTimer
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -127,7 +133,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1,8)
+    question = math.random(9, 9)
 
     if (question == 1) then 
         -- create the question
@@ -264,6 +270,23 @@ local function DisplayQuestion()
         wrongText1.text = "0"
         wrongText2.text = "12"
         wrongText3.text = "9"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 9) then
+        -- create the question text
+        questionText.text = "Which shape has 8 vertices?"
+
+        -- create the answer text
+        answerText.text = "cuboid"
+
+        -- create the wrong answers
+        wrongText1.text = "cylinder"
+        wrongText2.text = "sphere"
+        wrongText3.text = "hexagonal\n prism"
 
         -- make the other objects from other questions invisible
         rectangularprism.isVisible = false
