@@ -311,7 +311,7 @@ local function DisplayQuestion()
 
     elseif (question == 9) then
         -- create the question text
-        questionText.text = "Which shape has 8 vertices?"
+        questionText.text = "Edges are where the\n two faces meet."
 
         -- create the answer text
         trueText.text = "true"
