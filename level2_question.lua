@@ -166,7 +166,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(10, 10)
+    question = math.random(1, 10)
 
     if (question == 1) then 
         -- create the question
@@ -174,7 +174,7 @@ local function DisplayQuestion()
         
 
         -- create the answer
-        answerText.text = 6
+        answerText.text = "6"
 
         -- create the wrong answers
         wrongText1.text = 4

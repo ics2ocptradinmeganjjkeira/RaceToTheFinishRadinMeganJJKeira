@@ -376,23 +376,23 @@ local function RemovePhysicsBodies()
     if (pylon1 ~= nil) and (pylon1.isBodyActive == true) then        
         physics.removeBody(pylon1)
     end
-    physics.removeBody(pylon2)
+
     if (pylon2 ~= nil) and (pylon2.isBodyActive == true) then        
         physics.removeBody(pylon2)
     end
-    physics.removeBody(pylon3)
+
     if (pylon3 ~= nil) and (pylon3.isBodyActive == true) then        
         physics.removeBody(pylon3)
     end
-    physics.removeBody(pylon4)
+
     if (pylon4 ~= nil) and (pylon4.isBodyActive == true) then        
         physics.removeBody(pylon4)
     end
-    physics.removeBody(pylon5)
+
     if (pylon5 ~= nil) and (pylon5.isBodyActive == true) then        
         physics.removeBody(pylon5)
     end
-    physics.removeBody(tree1)
+
     if (tree1 ~= nil) and (tree1.isBodyActive == true) then        
         physics.removeBody(tree1)
     end
