@@ -682,6 +682,7 @@ function scene:show( event )
 
         lives = 4
         questionsAnswered = 0
+        score = 0
 
         -- make all soccer balls visible
         MakePylonsVisible()
