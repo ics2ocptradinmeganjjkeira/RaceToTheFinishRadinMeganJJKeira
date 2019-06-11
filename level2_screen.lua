@@ -439,7 +439,7 @@ function CountScore2()
 
     scoreText.text = "Score: " .. score
 
-    if (score == 400) then
+    if (score == 500) then
         composer.gotoScene( "you_win" )
     end
 end

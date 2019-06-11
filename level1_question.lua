@@ -5,7 +5,7 @@
 -- Date: May 16, 2019
 -- Description: This is the level 1 screen of the game. The user can use the right or left arrow keys to move the
 -- car around. Once the car touches a pylon or a tree, the use will be asked a question. If thw user gets the 
--- the question right he/she will earn 100 points. If the user gets the question qrong, he/she will lose one heart
+-- the question right he/she will earn 100 points. If the user gets the question wrong, he/she will lose one heart
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -60,6 +60,10 @@ local Y2 = display.contentHeight*5.5/7
 
 local textTouched = false
 
+-- Create the maybe and unsure objects for the true or false questions
+local unSureObject1
+local maybeObject2
+
 -- Create the answer texts 
 local questionText
 local correctAnswer 
@@ -108,7 +112,6 @@ local numSix
 local numSeven
 local numNine
 
-
 -- question 9 objects 
 local pentagonText
 local octagonText
@@ -117,24 +120,6 @@ local hexagonText
 
 -- question 10 objects 
 local nonagonText
-
--- question 11 objects 
-local numFive
-local numTen
-
--- question 14 objects
-local angles 
-
--- question 16 objects
-local ninetyDeg
-local rightAngle
-local properAng
-
--- question 17 objects
-local fourninetyDeg
-local sameSides
-local samenumSides
-
 
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
@@ -235,7 +220,6 @@ local function TouchListenerAnswer(touch)
     if (touch.phase == "ended") then
 
         CountScore1( )
-
         BackToLevel1( )
     
     end 
@@ -342,81 +326,14 @@ local function PositionAnswers4()
         wrongAnswer1.x = X2
         wrongAnswer1.y = Y1
 
-        wrongAnswer2.x = X1
+        wrongAnswer2.x = X2
         wrongAnswer2.y = Y2 
 
-        wrongAnswer3.x = X2
+        wrongAnswer3.x = X1
         wrongAnswer3.y = Y2
     end
 
 end
-
-local function PositionAnswers2( )
-
-    randomPosition = math.random(1,2)
-
-    if ( randomPosition == 1 ) then
-
-        correctAnswer.x = X1
-        correctAnswer.y = Y1
-
-        wrongAnswer1.x = X1
-        wrongAnswer1.y = Y2
-
-    elseif ( randomPosition == 2 ) then
-
-        correctAnswer.x = X1
-        correctAnswer.y = Y2
-
-        wrongAnswer1.x = X1
-        wrongAnswer1.y = Y1
-
-    end
-
-end
-
-local function PositionAnswers3 ( )
-
-    randomPosition = math.random(1,3)
-
-    if ( randomPosition == 1 ) then 
-
-        correctAnswer.x = X2
-        correctAnswer.y = Y2
-
-        wrongAnswer1.x = X2
-        wrongAnswer1.y = Y1
-
-        wrongAnswer2.x = X1
-        wrongAnswer2.y = Y2 
-
-    elseif ( randomPosition == 2 ) then
-
-        correctAnswer.x = X1
-        correctAnswer.y = Y2
-
-        wrongAnswer1.x = X2
-        wrongAnswer1.y = Y2
-
-        wrongAnswer2.x = X2
-        wrongAnswer2.y = Y1
-
-    elseif ( randomPosition == 3 ) then
-
-        correctAnswer.x = X2
-        correctAnswer.y = Y1
-
-        wrongAnswer1.x = X1
-        wrongAnswer1.y = Y2
-
-        wrongAnswer2.x = X1
-        wrongAnswer2.y = Y1
-
-    end
-
-end
-
-
 
 
 --local function Answers()
@@ -424,7 +341,7 @@ end
 local function DisplayQuestion( )
 
     -- creating random start position in a certian area
-    questionSelect = math.random(7,7)
+    questionSelect = math.random(1,10)
 
     if (questionSelect == 1) then
 
@@ -495,20 +412,24 @@ local function DisplayQuestion( )
         -- Display the text objects for the true or false question
         textTrue.isVisible = true
         textFalse.isVisible = true
+        maybeObject2.isVisible = true
+        unSureObject1.isVisible = true
 
         -- create the answer
         correctAnswer = textTrue
 
         -- create the wrong answers
         wrongAnswer1 = textFalse
+        wrongAnswer2 = maybeObject2
+        wrongAnswer3 = unSureObject1
 
-        PositionAnswers2()
+        PositionAnswers4()
 
     elseif (questionSelect == 5) then
 
         questionText.text = " Click on the triangle "
 
-         -- Display the shapes 
+        -- Display the shapes 
         tri5.isVisible = true
         square5.isVisible = true
         pentagon1.isVisible = true
@@ -527,21 +448,23 @@ local function DisplayQuestion( )
 
     elseif (questionSelect == 6) then   
 
-        questionText.text = " Which triangle is isosceles? "
+        questionText.text = " A polygon is a plane shape with \ncurved sides. "
 
-        -- Display the shapes
-        isosceles6 = true
-        rightAngleTri6 = true
-        triangle1 = true
+        -- Display the text objects for the true or false question
+        textTrue.isVisible = true
+        textFalse.isVisible = true
+        maybeObject2.isVisible = true
+        unSureObject1.isVisible = true
 
         -- create the answer
-        correctAnswer = isosceles6
+        correctAnswer = textFalse
 
         -- create the wrong answers
-        wrongAnswer1 = rightAngleTri6
-        wrongAnswer2 = triangle1
+        wrongAnswer1 = textTrue
+        wrongAnswer2 = maybeObject2
+        wrongAnswer3 = unSureObject1
 
-        PositionAnswers3()
+        PositionAnswers4()
 
     elseif (questionSelect == 7) then
 
@@ -609,7 +532,7 @@ local function DisplayQuestion( )
 
     elseif (questionSelect == 10) then
 
-        questionText.text = " A polygon that has two more sides than a hexagon is called: "
+        questionText.text = " A polygon that has two more sides \nthan a hexagon is called: "
 
         -- Make the objects visible
         pentagonText.isVisible = true
@@ -624,145 +547,6 @@ local function DisplayQuestion( )
         wrongAnswer1 = pentagonText
         wrongAnswer2 = nonagonText
         wrongAnswer3 = hexagonText
-
-        PositionAnswers4()
-
-
-    elseif (questionSelect == 11) then 
-
-        questionText.text = display.newText(" How many more sides than a pentagon does a decagon have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 25 )
-
-        -- Make the objects visible
-        numFive.isVisible = true
-        numSix.isVisible = true
-        numSeven.isVisible = true
-        numTen.isVisible = true
-
-        -- create the answer
-        correctAnswer = numFive
-
-        -- create the wrong answers
-        wrongAnswer1 = numSix
-        wrongAnswer2 = numSeven
-        wrongAnswer3 = numTen
-
-        PositionAnswers4()
-
-
-    elseif (questionSelect == 12) then
-
-        questionText.text = display.newText( " A polygon can have as many sides as it likes. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
-
-        -- Make the objects visible
-        textTrue.isVisible = true
-        textFalse.isVisible = true
-
-        -- create the answer
-        correctAnswer = textTrue
-
-        -- create the wrong answer
-        wrongAnswer1 = textFalse
-
-        PositionAnswers2()
-
-
-    elseif (questionSelect == 13) then
-
-        questionText.text = display.newText( " A polygon is a plane shape with curved sides. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
-
-        -- Make the objects visible
-        textTrue.isVisible = true
-        textFalse.isVisible = true
-
-        -- create the answer
-        correctAnswer = textFalse
-
-        -- create the wrong answer
-        wrongAnswer1 = textTrue
-
-        PositionAnswers2()
-
-
-    elseif (questionSelect == 14) then
-
-        questionText.text = display.newText( " Which angle is acute? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
-
-
-    elseif (questionSelect == 15) then
-
-        questionText.text = display.newText( " Parallel lines are lines that never intercept. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
-
-        textTrue.isVisible = true
-        textFalse.isVisible = true
-
-        -- create the answer
-        correctAnswer = textFalse
-
-        -- create the wrong answer
-        wrongAnswer1 = textTrue
-
-        PositionAnswers2()
-
-
-    elseif (questionSelect == 16) then
-
-        questionText.text = display.newText( " What is a right angle? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
-
-    elseif (questionSelect == 17) then
-
-        questionText.text = display.newText( " What do a square and a quadrilateral have in common? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
-
-    elseif (questionSelect == 18) then
-
-        questionText.text = display.newText( " It is possible to draw a triangle with two right angles. ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
-
-        textTrue.isVisible = true
-        textFalse.isVisible = true
-
-        -- create the answer
-        correctAnswer = textFalse
-
-        -- create the wrong answer
-        wrongAnswer1 = textTrue
-
-        PositionAnswers2()
-
-    elseif (questionSelect == 19) then
-
-        questionText.text = display.newText( " How many pairs of parallel lines does a square have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 30 )
-
-        numTwo.isVisible = true
-        numFour.isVisible = true
-        numEight.isVisible = true
-        numZero.isVisible = true
-
-        -- create the answer
-        correctAnswer = numTwo
-
-        -- create the wrong answer
-        wrongAnswer1 = numFour
-        wrongAnswer2 = numEight
-        wrongAnswer3 = numZero
-
-        PositionAnswers4()
-
-
-    elseif (questionSelect == 20) then
-
-        questionText.text = display.newText( " How many vertices does an octagon have? ", display.contentWidth*1/2, display.contentHeight*1/3, nil, 50 )
-
-        numTen.isVisible = true
-        numFour.isVisible = true
-        numEight.isVisible = true
-        numNine.isVisible = true
-
-        -- create the answer
-        correctAnswer = numEight
-
-        -- create the wrong answer 
-        wrongAnswer1 = numTen
-        wrongAnswer2 = numFour
-        wrongAnswer3 = numNine
 
         PositionAnswers4()
 
@@ -830,9 +614,9 @@ function scene:create( event )
     cover:setFillColor(96/255, 96/255, 96/255)
 
     -- create the answer text object & wrong answer text objects
-    questionText = display.newText("", display.contentWidth/2, display.contentHeight/6, Arial, 45)
+    questionText = display.newText("", display.contentWidth/2, display.contentHeight/5, Arial, 40)
 
---[[
+
     correctAnswer = display.newText("", X1, Y2, Arial, 50)
     correctAnswer.anchorX = 0
     wrongAnswer1 = display.newText("", X2, Y2, Arial, 50)
@@ -841,28 +625,35 @@ function scene:create( event )
     wrongAnswer2.anchorX = 0
     wrongAnswer3 = display.newText("", X2, Y1, Arial, 50)
     wrongAnswer3.anchorX = 0
-]]--
+
+
+    -- fill in the blank for the questions that only have true or false answers
+    maybeObject2 = display.newText("Maybe", 0, 0, nil, 50)
+    maybeObject2:setTextColor (1, 1, 0)
+    maybeObject2.isVisible = false
+
+    unSureObject1 = display.newText("Unsure", 0, 0, nil, 50)
+    unSureObject1:setTextColor (1, 1, 0)
+    unSureObject1.isVisible = false
+
     -- Question 1 --
 
-    circle1 = display.newImage("Images/CircleMeganS@2x.png", X1, Y1)
+    circle1 = display.newImage("Images/CircleMeganS@2x.png", 0, 0)
     circle1.width = 150
     circle1.height = 150
     circle1.isVisible = false
 
-
-
-
-    rectangle1 = display.newImage("Images/RectangleMeganS@2x.png", X1, Y2)
+    rectangle1 = display.newImage("Images/RectangleMeganS@2x.png", 0, 0)
     rectangle1.width = 180
     rectangle1.height = 180
     rectangle1.isVisible = false
 
-    pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", X2, Y1)
+    pentagon1 = display.newImage("Images/PentagonMeganS@2x.png", 0, 0)
     pentagon1.width = 160
     pentagon1.height = 160
     pentagon1.isVisible = false
 
-    triangle1 = display.newImage("Images/TriangleMeganS@2x.png", X2, Y2)
+    triangle1 = display.newImage("Images/TriangleMeganS@2x.png", 0, 0)
     triangle1.width = 160
     triangle1.height = 160
     triangle1.isVisible = false
@@ -904,14 +695,10 @@ function scene:create( event )
 
     -- Create the text for the true and false questions
     textTrue = display.newText("True", 0, 0, nil, 50)
-    textTrue.x = display.contentWidth*1/3
-    textTrue.y = display.contentHeight*2/4
     textTrue:setTextColor (1, 1, 0)
     textTrue.isVisible = false
 
     textFalse = display.newText("False", 0, 0, nil, 50)
-    textFalse.x = display.contentWidth*2/3
-    textFalse.y = display.contentHeight*2/4
     textFalse:setTextColor (1, 1, 0)
     textFalse.isVisible = false
 
@@ -931,27 +718,13 @@ function scene:create( event )
     square5.height = 160
     square5.isVisible = false
 
-    -- Question 6 -- 
-
-    isosceles6 = display.newImage("Images/IsoscelesTriMegan@2x.png", 0, 0)
-    isosceles6.width = 160
-    isosceles6.height = 160
-    isosceles6.isVisible = false
-
-    rightAngleTri6 = display.newImage("Images/RightAngleTriMeganS@2x.png", 0, 0)
-    rightAngleTri6.width = 160
-    rightAngleTri6.height = 160
-    rightAngleTri6.isVisible = false
-
-    -- the same triangle displayed from question 1
-
     -- Question 7 -- 
 
     shapes = display.newImage("Images/ShapesMeganS@2x.png", 0, 0)
     shapes.x = display.contentWidth/2
-    shapes.y = display.contentHeight/3
-    shapes.width = 400
-    shapes.height = 230
+    shapes.y = display.contentHeight/2.8
+    shapes.width = 450
+    shapes.height = 225
     shapes.isVisible = false
 
     numTwo = display.newText("2", 0, 0, nil, 60)
@@ -985,45 +758,27 @@ function scene:create( event )
 
     -- Question 9 --
 
-    pentagonText = display.newText("Pentagon", X1, Y2, nil, 40)
+    pentagonText = display.newText("Pentagon", 0, 0, nil, 40)
+    pentagonText:setTextColor (1, 1, 0)
     pentagonText.isVisible = false
 
-    octagonText = display.newText("Octagon", X2, Y2, nil, 40)
+    octagonText = display.newText("Octagon", 0, 0, nil, 40)
+    octagonText:setTextColor (1, 1, 0)
     octagonText.isVisible = false
 
-    decagonText = display.newText("Decagon", X1, Y1, nil, 40)
+    decagonText = display.newText("Decagon", 0, 0, nil, 40)
+    decagonText:setTextColor (1, 1, 0)
     decagonText.isVisible = false
 
-    hexagonText = display.newText("Hexagon", X2, Y1, nil, 40)
+    hexagonText = display.newText("Hexagon", 0, 0, nil, 40)
+    hexagonText:setTextColor (1, 1, 0)
     hexagonText.isVisible = false
 
     -- Question 10 --
 
-    nonagonText = display.newText("Nonagon", X1, Y2, nil, 40)
+    nonagonText = display.newText("Nonagon", 0, 0, nil, 40)
+    nonagonText:setTextColor (1, 1, 0)
     nonagonText.isVisible = false
-
-    -- Question 16 -- 
-
-    ninetyDeg = display.newText("90 degree angle", 0, 0, nil, 40)
-    ninetyDeg.isVisible = false
-
-    rightAngle = display.newText("A right facing angle", 0, 0, nil, 40)
-    rightAngle.isVisible = false
-
-    properAng = display.newText("A proper angle",0 , 0, nil, 40)
-    properAng.isVisible = false
-
-    -- Question 17 -- 
-
-    fourninetyDeg = display.newText("Four 90 degree angles", 0, 0 nil, 40)
-    fourninetyDeg.isVisible = false
-
-    sameSides = display.newText("Same side lengths", 0, 0 nil, 40)
-    sameSides.isVisible = false
-
-    samenumSides = display.newText("Same number of sides", 0, 0, nil, 40)
-    samenumSides.isVisible = false
-
 
     -----------------------------------------------------------------------------------------
 
@@ -1040,6 +795,12 @@ function scene:create( event )
 
     -- add the group scene insert for the timer
     sceneGroup:insert( clockText )
+
+    sceneGroup:insert( questionText )
+    sceneGroup:insert( unSureObject1 )
+    sceneGroup:insert( maybeObject2 )
+
+
 
     -- the group scene insert for all of the objects in the questions
 
@@ -1066,10 +827,6 @@ function scene:create( event )
     sceneGroup:insert( tri5 )
     sceneGroup:insert( square5 )
 
-    -- question 6 --
-    sceneGroup:insert( isosceles6 )
-    sceneGroup:insert( rightAngleTri6 )
-
     -- question 7 --
     sceneGroup:insert( numTwo )
     sceneGroup:insert( numOne )
@@ -1081,25 +838,9 @@ function scene:create( event )
     -- question 9 --
     sceneGroup:insert( numSeven )
     sceneGroup:insert( numNine )
---    sceneGroup:insert(  )
 
-    -- question 16 --
-    sceneGroup:insert( ninetyDeg )
-    sceneGroup:insert( rightAngle )
-    sceneGroup:insert( properAng )
+    sceneGroup:insert( nonagonText )
 
-    -- question 17 -- 
-    sceneGroup:insert( fourninetyDeg )
-    sceneGroup:insert( sameSides )
-    sceneGroup:insert( samenumSides )
-
---[[
-    sceneGroup:insert( correctAnswer )
-    sceneGroup:insert( wrongAnswer1 )
-    sceneGroup:insert( wrongAnswer2 )
-    sceneGroup:insert( wrongAnswer3 )
---]]
-    sceneGroup:insert( questionText )
     sceneGroup:insert( pentagonText )
     sceneGroup:insert( octagonText )
     sceneGroup:insert( decagonText )
@@ -1133,7 +874,6 @@ function scene:show( event )
 
         DisplayQuestion()
 
-
         AddListeners()
 
         StartTimer()
@@ -1165,7 +905,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
 
         removeEventListener()
-
+        
         timer.cancel(countDownTimer)
     end
 
