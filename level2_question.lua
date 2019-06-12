@@ -177,9 +177,9 @@ local function DisplayQuestion()
         answerText.text = "6"
 
         -- create the wrong answers
-        wrongText1.text = 4
-        wrongText2.text = 7
-        wrongText3.text = 3
+        wrongText1.text = "4"
+        wrongText2.text = "7"
+        wrongText3.text = "3"
 
         -- make the objects needed visible and the others invisible
         rectangularprism.isVisible = true
@@ -192,12 +192,12 @@ local function DisplayQuestion()
         questionText.text = "How many vertices does a\nrectangular prism have?"
 
         --create the answer
-        answerText.text = 8
+        answerText.text = "8"
 
         --create the incorrect answers
-        wrongText1.text = 4
-        wrongText2.text = 10
-        wrongText3.text = 12
+        wrongText1.text = "4"
+        wrongText2.text = "10"
+        wrongText3.text = "12"
 
         -- make the other things from other questions invisible
         rectangularprism.isVisible = false
@@ -311,7 +311,7 @@ local function DisplayQuestion()
 
     elseif (question == 9) then
         -- create the question text
-        questionText.text = "Which shape has 8 vertices?"
+        questionText.text = "Edges are where the\n two faces meet."
 
         -- create the answer text
         trueText.text = "true"
