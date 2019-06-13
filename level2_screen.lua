@@ -70,6 +70,8 @@ local pylon2
 local pylon3
 local pylon4
 local pylon5
+local pylon6
+local pylon7
 local thePylon
 local tree1
 local rock1
@@ -178,6 +180,28 @@ local function MovePylon5( event )
     end
 end
 
+-- move the pylon1 to the starting poisition
+local function MovePylon6( event )
+    -- add the scroll speed to the y-value
+    if (pylon6.y > 768) then 
+        pylon6.x = math.random (150, 800)
+        pylon6.y = 0
+    else
+        pylon6.y = pylon6.y + SPEED3
+    end
+end
+
+-- move the pylon1 to the starting poisition
+local function MovePylon7( event )
+    -- add the scroll speed to the y-value
+    if (pylon7.y > 768) then 
+        pylon7.x = math.random (150, 800)
+        pylon7.y = 0
+    else
+        pylon7.y = pylon7.y + SPEED3
+    end
+end
+
 -- move the tree to the starting poisition
 local function MoveTree1( event )
     -- add the scroll speed to the y-value
@@ -203,6 +227,8 @@ local function RemoveRuntimeListeners()
     Runtime:removeEventListener("enterFrame", MovePylon3)
     Runtime:removeEventListener("enterFrame", MovePylon4)
     Runtime:removeEventListener("enterFrame", MovePylon5)
+    Runtime:removeEventListener("enterFrame", MovePylon6)
+    Runtime:removeEventListener("enterFrame", MovePylon7)    
     Runtime:removeEventListener("enterFrame", MoveTree1)
 end
 
@@ -246,6 +272,8 @@ local function MakePylonsVisible()
     pylon3.isVisible = false
     pylon4.isVisible = false
     pylon5.isVisible = false
+    pylon6.isVisible = false
+    pylon7.isVisible = false
 end
 
 local function MakeHeartsVisible()
@@ -274,7 +302,9 @@ local function onCollision( self, event )
             (event.target.myName == "pylon2") or
             (event.target.myName == "pylon3") or
             (event.target.myName == "pylon4") or
-            (event.target.myName == "pylon5") then
+            (event.target.myName == "pylon5") or
+            (event.target.myName == "pylon6") or
+            (event.target.myName == "pylon7") then
 
             hitPylon = true
 
@@ -325,6 +355,10 @@ local function AddCollisionListeners()
     pylon4:addEventListener( "collision" )
     pylon5.collision = onCollision
     pylon5:addEventListener( "collision" )
+    pylon6.collision = onCollision
+    pylon6:addEventListener( "collision" )
+    pylon7.collision = onCollision
+    pylon7:addEventListener( "collision" )
 
     tree1.collision = onCollision
     tree1:addEventListener( "collision" )
@@ -337,10 +371,12 @@ local function RemoveCollisionListeners()
     pylon3:removeEventListener( "collision" )
     pylon4:removeEventListener( "collision" )
     pylon5:removeEventListener( "collision" )
+    pylon6:removeEventListener( "collision" )
+    pylon7:removeEventListener( "collision" )
 
     tree1:removeEventListener( "collision" )
-
 end
+
 
 
 
@@ -355,6 +391,8 @@ local function AddPhysicsBodies()
     physics.addBody(pylon3, "static",  { density=0, friction=0, bounce=0} )
     physics.addBody(pylon4, "static",  { density=0, friction=0, bounce=0} )
     physics.addBody(pylon5, "static",  { density=0, friction=0, bounce=0} )
+    physics.addBody(pylon6, "static",  { density=0, friction=0, bounce=0} )
+    physics.addBody(pylon7, "static",  { density=0, friction=0, bounce=0} )
 
     physics.addBody(tree1, "static",  { density=0, friction=0, bounce=0} )
    
@@ -382,6 +420,14 @@ local function RemovePhysicsBodies()
 
     if (pylon5 ~= nil) and (pylon5.isBodyActive == true) then        
         physics.removeBody(pylon5)
+    end
+
+    if (pylon6 ~= nil) and (pylon6.isBodyActive == true) then        
+        physics.removeBody(pylon6)
+    end
+
+    if (pylon7 ~= nil) and (pylon7.isBodyActive == true) then        
+        physics.removeBody(pylon7)
     end
 
     if (tree1 ~= nil) and (tree1.isBodyActive == true) then        
@@ -430,6 +476,14 @@ function ResumeLevel2()
         if (questionsAnswered == 4) then
             Runtime:addEventListener("enterFrame", MovePylon5)
             pylon5.isVisible = true
+        end
+        if (questionsAnswered == 5) then
+            Runtime:addEventListener("enterFrame", MovePylon6)
+            pylon6.isVisible = true
+        end
+        if (questionsAnswered == 6) then
+            Runtime:addEventListener("enterFrame", MovePylon7)
+            pylon7.isVisible = true
         end
     end
 end
@@ -580,6 +634,18 @@ function scene:create( event )
     pylon5.isVisible = false
     pylon5.myName = "pylon5"
 
+    pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
+    pylon6.x = 700
+    pylon6.y = 0
+    pylon6.isVisible = false
+    pylon6.myName = "pylon6"
+
+    pylon7 = display.newImageRect("Images/Pylon.png", 80, 80)
+    pylon7.x = 700
+    pylon7.y = 0
+    pylon7.isVisible = false
+    pylon7.myName = "pylon7"
+
     tree1 = display.newImageRect("Images/tree.png", 150, 100)
     tree1.x = 700
     tree1.y = 0
@@ -635,6 +701,8 @@ function scene:create( event )
     sceneGroup:insert( pylon3)
     sceneGroup:insert( pylon4)
     sceneGroup:insert( pylon5)
+    sceneGroup:insert( pylon6)
+    sceneGroup:insert( pylon7)
     sceneGroup:insert( tree1)
     sceneGroup:insert( ground)
     sceneGroup:insert( rightW)
