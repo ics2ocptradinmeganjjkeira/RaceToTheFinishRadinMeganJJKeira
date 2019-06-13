@@ -57,10 +57,11 @@ local lArrow
 
 -- Create the physics for the car
 local motionx = 0
-local SPEED = 5
-local LeftSpeed = -5
+local SPEED = 8
+local pylonSPEED = 4
+local LeftSpeed = -8
 local LINEAR_VELOCITY = -100
-local GRAVITY = 9
+local GRAVITY = 5
 
 -- Create the walls for the level 1 
 local leftW 
@@ -83,6 +84,7 @@ local thePylon
 local Pylon4
 local Pylon5
 local Pylon6
+
 
 local questionsAnswered = 0
 
@@ -122,15 +124,15 @@ local function stop (event)
     end
 end
 
+
 -- move the pylon1 to the starting poisition
 local function MovePylon4( event )
     -- add the scroll speed to the y-value
     if (Pylon4.y > 768) then 
-        Pylon4.x = math.random (150, 250)
+        Pylon4.x = math.random (150, 800)
         Pylon4.y = 0
     else
-
-        Pylon4.y = Pylon4.y + SPEED
+        Pylon4.y = Pylon4.y + pylonSPEED
     end
     
 end
@@ -139,11 +141,11 @@ end
 local function MovePylon5( event )
     -- add the scroll speed to the y-value
     if (Pylon5.y > 768) then 
-        Pylon5.x = math.random (260, 400)
+        Pylon5.x = math.random (150, 800)
         Pylon5.y = 0
     else
 
-        Pylon5.y = Pylon5.y + SPEED
+        Pylon5.y = Pylon5.y + pylonSPEED
     end
     
 end
@@ -152,12 +154,23 @@ end
 local function MovePylon6( event )
     -- add the scroll speed to the y-value
     if (Pylon6.y > 768) then 
-        Pylon6.x = math.random (405, 800)
+        Pylon6.x = math.random (150, 800)
         Pylon6.y = 0
     else
 
-        Pylon6.y = Pylon6.y + SPEED 
+        Pylon6.y = Pylon6.y + pylonSPEED 
     end
+end
+
+local function callQuestion( )
+
+    -- Increment questions answered
+    questionsAnswered = questionsAnswered + 1
+
+    composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+
+ResumeLevel1()
+
 end
 
 local function AddArrowEventListeners()
@@ -174,9 +187,6 @@ local function AddRuntimeListeners()
     Runtime:addEventListener("enterFrame", movePlayer)
     Runtime:addEventListener("touch", stop )
     print ("***Called MovePylon event listeners")
-    Runtime:addEventListener("enterFrame", MovePylon4)
-    Runtime:addEventListener("enterFrame", MovePylon5)
-    Runtime:addEventListener("enterFrame", MovePylon6)
 end
 
 local function RemoveRuntimeListeners()
@@ -211,9 +221,9 @@ local function MakePylonsVisible()
     Pylon1.isVisible = true
     Pylon2.isVisible = true
     Pylon3.isVisible = true
-    Pylon4.isVisible = true
-    Pylon5.isVisible = true
-    Pylon6.isVisible = true
+    Pylon4.isVisible = false
+    Pylon5.isVisible = false
+    Pylon6.isVisible = false
 end
 
 
@@ -223,8 +233,6 @@ local function MainTransition( )
     composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 700})
 
 end 
-
-
 
 
 
@@ -359,9 +367,29 @@ function ResumeLevel1()
     Pylon5.y = 0
     Pylon6.y = 0
     alreadyCollided = false
+
+    if (questionsAnswered >= 0) then
+        if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
+        thePylon.isVisible = false
+        physics.removeBody(thePylon)
+        end
+        if (questionsAnswered == 1) then  
+            print("questionsAnswered is 4!!")          
+            Runtime:addEventListener("enterFrame", MovePylon4)
+            Pylon4.isVisible = true
+        end
+        if (questionsAnswered == 2) then
+            Runtime:addEventListener("enterFrame", MovePylon5)
+            Pylon5.isVisible = true
+        end
+        if (questionsAnswered == 3) then
+            Runtime:addEventListener("enterFrame", MovePylon6)
+            Pylon6.isVisible = true
+        end
+    end
+end
     
    
-end
 
 function CountScore1()
 
@@ -371,7 +399,7 @@ function CountScore1()
 
     if (Score == 500) then
 
-        composer.gotoScene( "you_win" )
+        composer.gotoScene( "you_completed_level1" )
 
     end
 end
@@ -390,16 +418,16 @@ function DecreaseLives1()
     numLives = numLives - 1
     print ("***lives = " .. numLives)
     if ( numLives == 4) then
-        heart1.isVisible = false
+        heart5.isVisible = false
     end
     if ( numLives == 3) then
-        heart2.isVisible = false
+        heart4.isVisible = false
     end
     if ( numLives == 2) then
         heart3.isVisible = false
     end
     if ( numLives == 1) then
-        heart4.isVisible = false
+        heart2.isVisible = false
     end
     if ( numLives == 0) then
         composer.gotoScene( "you_lose" )
@@ -468,8 +496,8 @@ function scene:create( event )
 
     -- Insert the car into the level one screen
     Car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
-    Car.x = display.contentWidth * 1/2
-    Car.y = display.contentHeight  * 0.1 / 3
+    Car.x = display.contentWidth/2
+    Car.y = display.contentHeight*0.1/1
     Car.width = 200
     Car.height = 150
     Car.myName = "Car"
@@ -515,9 +543,9 @@ function scene:create( event )
 
 
     Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon4.x = math.random(250, 400)
-    Pylon4.y = 600
-    Pylon4.isVisible = true
+    Pylon4.x = 350
+    Pylon4.y = 0
+    Pylon4.isVisible = false
     Pylon4.myName = "Pylon4"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
@@ -525,9 +553,9 @@ function scene:create( event )
 
 
     Pylon5 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon5.x = math.random(405, 600)
-    Pylon5.y = 600
-    Pylon5.isVisible = true
+    Pylon5.x = math.random(0, 900)
+    Pylon5.y = 0
+    Pylon5.isVisible = false
     Pylon5.myName = "Pylon5"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
@@ -535,9 +563,9 @@ function scene:create( event )
 
 
     Pylon6 = display.newImageRect("Images/Pylon.png", 80, 80)
-    Pylon6.x = math.random(605, 800)
-    Pylon6.y = 600
-    Pylon6.isVisible = true
+    Pylon6.x = math.random(60, 900)
+    Pylon6.y = 0
+    Pylon6.isVisible = false
     Pylon6.myName = "Pylon6"
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
@@ -632,7 +660,10 @@ function scene:show( event )
 
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
-            -- start physics
+        
+        callQuestion()
+
+        -- start physics
         physics.start()
 
         -- set gravity
@@ -644,7 +675,6 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-
 
         -- Keep count of the lives and questions answered
 

@@ -160,7 +160,7 @@ function scene:create( event )
 
     -- Insert the car and set it's height and width
     Car = display.newImage("Images/MainMenu_Car.png")
-    Car.x = display.contentWidth*7.5/10
+    Car.x = display.contentWidth*7.67/10
     Car.y = display.contentHeight*3/10
     Car.width = 240
     Car.height = 170

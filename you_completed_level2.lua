@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 -- main_menu.lua
--- Created by: Megan
+-- Created by: Keira
 -- Date: Month Day, Year
--- Description: This is the screen if you have completed level 1
+-- Description: This is the main menu, displaying the credits, instructions & play buttons.
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
@@ -19,7 +19,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "you_completed_level1"
+sceneName = "you_completed_level2"
 
 -----------------------------------------------------------------------------------------
 
@@ -29,21 +29,17 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-local background
-local MainMenuButton
-local Level2Button
 
--- Create the car for the animation
-local car
+local level3Button
+local backButton
+local bkg
 
--- Create the pylon for the animation
-local Pylon1
-local Pylon2
+-----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
 
--- Create the sliding text
-local Text1
-local Text2
-
+--local backgroundSound = audio.loadSound("Sounds/Race-track.wav")
+--local backgroundSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -57,9 +53,11 @@ end
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
-local function Level2ScreenTransition( )
-    composer.gotoScene( "start_level_2_screen", {effect = "zoomInOutFade", time = 500})
+local function Level3ScreenTransition( )
+    composer.gotoScene( "start_level_3_screen", {effect = "zoomInOutFade", time = 1000})
 end    
+
+
 
 -------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -75,103 +73,75 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -------------------------------------------------------------------------------------
 
+
     -- Hide the status bar 
     display.setStatusBar(display.HiddenStatusBar)
 
-    -- Set a light blue colour to the background
-    display.setDefault("background", 51/255, 153/255, 1)
 
-
-    -- Create the car
-    car = display.newImageRect("Images/MainMenu_Car.png", 0, 0)
-    car.x = 0
-    car.y = display.contentHeight*1.8/3
-    car.width = 250
-    car.height = 160
-
-    -- Create the pylon
-    Pylon1 = display.newImage("Images/Pylon.png", 0, 0)
-    Pylon1.x = 0
-    Pylon1.y = display.contentHeight*1.8/3
-    Pylon1.width = 90
-    Pylon1.height = 100
-
-
-    Pylon2 = display.newImage("Images/Pylon.png", 0, 0)
-    Pylon2.x = 0
-    Pylon2.y = display.contentHeight*1.8/3
-    Pylon2.width = 90
-    Pylon2.height = 100
-
-
-    -- Create the text for the animation
-    Text1 = display.newText("You have completed level 1!", 0, 0, nil, 60 )
-    Text1:setTextColor(1, 128/255, 0/255)
-    Text1.x = 0 
-    Text1.y = display.contentHeight*1/6
-
-
-    Text2 = display.newText("Click the button to move onto the next level", 0, 0, nil, 47 )
-    Text2:setTextColor(1, 128/255, 0/255)
-    Text2.x = 0 
-    Text2.y = display.contentHeight*1/3
-
-
+    -- Insert the background image
+    bkg = display.newImageRect("Images/you_completed_level2.png", display.contentWidth, display.contentHeight)
+    bkg.x = display.contentCenterX
+    bkg.y = display.contentCenterY
+    bkg.width = display.contentWidth
+    bkg.height = display.contentHeight
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
-    -- Creating Start Button
-    MainMenuButton = widget.newButton( 
-        {   
+    -- Creating Credits Button
+    level3Button = widget.newButton( 
+        {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1.5/8,
-            y = display.contentHeight*6.7/8,
-            width = 300,
-            height = 200,
+            x = 740,
+            y = display.contentHeight/1.50,
+            width = 250,
+            height = 250,
 
             -- Insert the images here
-            defaultFile = "Images/mainmenu_ButtonUnpressedMeganS@2x.png", 
-            overFile = "Images/mainmenu_ButtonPressedMeganS@2x.png", 
+            defaultFile = "Images/level3button.PNG",
+            overFile = "Images/level3button(over).png",
 
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = MainMenuTransition 
-       
+            -- When the button is released, call the Credits transition function
+            onRelease = Level3ScreenTransition
+            
         } )
 
     -----------------------------------------------------------------------------------------
 
-    -- Creating Credits Button
-    Level2Button = widget.newButton( 
-        {
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*6.5/8,
-            y = display.contentHeight*6.7/8,
-            width = 300,
-            height = 200,
+    -- Creating Back Button
+    backButton = widget.newButton( 
+    {
+        -- Setting Position
+        x = display.contentWidth*0.5/8,
+        y = display.contentHeight*15/16,
 
-            -- Insert the images here
-            defaultFile = "Images/Level2_ButtonUnpressedMeganS@2x.psd.png",
-            overFile = "Images/Level2_ButtonPressedMeganS@2x.psd.png",
+        -- Setting Dimensions
+        -- width = 1000,
+        -- height = 106,
 
-            -- When the button is released, call the Credits transition function
-            onRelease = Level2ScreenTransition
-        } ) 
+        -- Setting Visual Properties
+        defaultFile = "Images/BackButtonUnpressed.png",
+        overFile = "Images/BackButtonPressed.png",
+
+        -- Setting Functional Properties
+        onRelease = MainMenuTransition
+
+    } )
+
+    -- scale down the size
+    backButton:scale(0.33, 0.33)
+
 
  -----------------------------------------------------------------------------------------
    
 
     -- Associating button widgets with this scene
-    sceneGroup:insert( MainMenuButton )
-    sceneGroup:insert( Level2Button )
+    sceneGroup:insert( bkg )
+    sceneGroup:insert( level3Button )
+    sceneGroup:insert( backButton )
 
-    -- Add the texts and objects into the scene
-    sceneGroup:insert( Text1 )
-    sceneGroup:insert( Text2 )
-    sceneGroup:insert( Pylon1 )
-    sceneGroup:insert( Pylon2 )
-    sceneGroup:insert( car )
-
+ 
+    -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
 
 end -- function scene:create( event )   
 
@@ -194,6 +164,7 @@ function scene:show( event )
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
        
+ --       backgroundSoundChannel = audio.play(backgroundSound)  
     -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
@@ -201,20 +172,8 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then  
 
-        -- Move the car
-        transition.moveTo( car, {x = display.contentWidth*2.4/3, y = display.contentHeight*1.8/3 , time = 2000})
 
-        -- Move text1 and text2
 
-        transition.moveTo( Text2, {x = display.contentWidth*1.5/3, y = display.contentHeight*1/3 , time = 2500})
-
-        transition.moveTo( Text1, {x = display.contentWidth*1.5/3, y = display.contentHeight*1/6 , time = 3000})
-
-        -- Move Pylon1 and Pylon2
-
-        transition.moveTo( Pylon2, {x = display.contentWidth*1.5/3, y = display.contentHeight*1.8/3 , time = 2700})
-
-        transition.moveTo( Pylon1, {x = display.contentWidth*1/3, y = display.contentHeight*1.8/3 , time = 3100})
 
     end
 

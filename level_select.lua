@@ -84,7 +84,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
 
-    display.setDefault("background", 124/255, 249/255, 250/255)
+    display.setDefault("background", 1, 1, 1)
     
 
     -----------------------------------------------------------------------------------------
@@ -108,8 +108,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage2.png",
-            overFile = "Images/JohnOmage2.png",
+            defaultFile = "Images/level2button.PNG",
+            overFile = "Images/level2button(over).png",
   
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level2ScreenTransition  
@@ -127,8 +127,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage3.png",
-            overFile = "Images/JohnOmage3.png",
+            defaultFile = "Images/level3button.PNG",
+            overFile = "Images/level3button(over).png",
 
             -- When the button is released, call the Credits transition function
             onRelease = Level3ScreenTransition
@@ -146,8 +146,8 @@ function scene:create( event )
             height = 185,
 
             -- Insert the images here
-            defaultFile = "Images/JohnOmage1.png",
-            overFile = "Images/JohnOmage1.png",
+            defaultFile = "Images/level1button.PNG",
+            overFile = "Images/level1button(over).png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          

@@ -47,6 +47,7 @@ local SPEED2 = -8
 local LINEAR_VELOCITY = -100
 local GRAVITY = 20
 local SPEED3 = 8
+local SPEED4 = 8
 
 -- create the lives
 local heart1
@@ -62,6 +63,8 @@ local rightW
 local ground
 
 -- add the items the car interacts with
+local hitPylon = false
+
 local pylon1
 local pylon2
 local pylon3
@@ -182,7 +185,7 @@ local function MoveTree1( event )
         tree1.x = math.random (200, 800)
         tree1.y = 0
     else
-        tree1.y = tree1.y + SPEED3
+        tree1.y = tree1.y + SPEED4
     end
 end
 
@@ -273,6 +276,8 @@ local function onCollision( self, event )
             (event.target.myName == "pylon4") or
             (event.target.myName == "pylon5") then
 
+            hitPylon = true
+
             --print ("***Collided with: " .. event.other[0])
             --print ("***Collided with: " .. event.object2.myName)
 
@@ -283,40 +288,29 @@ local function onCollision( self, event )
             -- stop the character from moving
             motionx = 0
 
+            -- stop the pylon from moving
+            SPEED4 = 0
+            SPEED3 = 0
+
             -- make the character invisible
             car.isVisible = false
 
             -- show overlay with math question
-            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})            
 
-            -- Increment questions answered
-            questionsAnswered = questionsAnswered + 1
-        end   
-    end  
-end
-
-
-local function onCollision2( self, event )
-
-    -- for testing purposes
-    --print( event.target )        --the first object in the collision
-    --print( event.other )         --the second object in the collision
-    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
-    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
-    --print( event.target.myName .. ": collision began with " .. event.other.myName )
-
-    if (event.phase == "began") then
-        if  (event.target.myName == "tree1") then
+        elseif  (event.target.myName == "tree1") and (hitPylon == false) then
 
             -- get the ball that the user hit
-            theObject = event.target         
+            theObject = event.target        
+
+            -- remove the collision listener
+            --heObject:removeEventListener( "collision" ) 
 
             -- call the decrease lives function
             DecreaseLives2()
-        end   
+        end    
     end  
 end
-
 
 local function AddCollisionListeners()
 
@@ -332,7 +326,7 @@ local function AddCollisionListeners()
     pylon5.collision = onCollision
     pylon5:addEventListener( "collision" )
 
-    tree1.collision = onCollision2
+    tree1.collision = onCollision
     tree1:addEventListener( "collision" )
 end
 
@@ -377,23 +371,23 @@ local function RemovePhysicsBodies()
     if (pylon1 ~= nil) and (pylon1.isBodyActive == true) then        
         physics.removeBody(pylon1)
     end
-    physics.removeBody(pylon2)
+
     if (pylon2 ~= nil) and (pylon2.isBodyActive == true) then        
         physics.removeBody(pylon2)
     end
-    physics.removeBody(pylon3)
+
     if (pylon3 ~= nil) and (pylon3.isBodyActive == true) then        
         physics.removeBody(pylon3)
     end
-    physics.removeBody(pylon4)
+
     if (pylon4 ~= nil) and (pylon4.isBodyActive == true) then        
         physics.removeBody(pylon4)
     end
-    physics.removeBody(pylon5)
+
     if (pylon5 ~= nil) and (pylon5.isBodyActive == true) then        
         physics.removeBody(pylon5)
     end
-    physics.removeBody(tree1)
+
     if (tree1 ~= nil) and (tree1.isBodyActive == true) then        
         physics.removeBody(tree1)
     end
@@ -409,7 +403,14 @@ function ResumeLevel2()
 
     -- make character visible again
     car.isVisible = true
-    
+    hitPylon = false
+    SPEED3 = 8
+    SPEED4 = 8
+
+    -- Increment questions answered
+    questionsAnswered = questionsAnswered + 1
+ 
+
     if (questionsAnswered >= 0) then
         if (thePylon ~= nil) and (thePylon.isBodyActive == true) then
             --print ("***ResumeLevel2: removed the pylon")
@@ -444,7 +445,7 @@ function CountScore2()
     scoreText.text = "Score: " .. score
 
     if (score == 400) then
-        composer.gotoScene( "you_win" )
+        composer.gotoScene( "you_completed_level2" )
     end
 end
 
@@ -565,7 +566,6 @@ function scene:create( event )
     pylon2.myName = "pylon2"
 
   
-
     pylon3 = display.newImageRect("Images/Pylon.png", 80, 80)
     pylon3.x = 700
     pylon3.y = 0
@@ -686,6 +686,7 @@ function scene:show( event )
 
         lives = 4
         questionsAnswered = 0
+        score = 0
 
         -- make all soccer balls visible
         MakePylonsVisible()
