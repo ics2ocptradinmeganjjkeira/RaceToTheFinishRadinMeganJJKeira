@@ -35,6 +35,11 @@ local bkg
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+-- The function that will go to the main menu 
+local function gotoMainMenu()
+
+    composer.gotoScene( "main_menu" )
+end
 
 --------------------------------------------------------------------------------------
 -- The function called when the screen doesn't exist
@@ -83,6 +88,9 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+
+        -- Go to the main menu screen after the given time.
+        timer.performWithDelay ( 2800, gotoMainMenu)
     end
 
 end
@@ -109,6 +117,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+
     end
 
 end
