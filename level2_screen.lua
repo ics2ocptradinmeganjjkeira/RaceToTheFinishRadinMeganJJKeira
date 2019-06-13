@@ -375,8 +375,8 @@ local function RemoveCollisionListeners()
     pylon7:removeEventListener( "collision" )
 
     tree1:removeEventListener( "collision" )
-
 end
+
 
 
 
