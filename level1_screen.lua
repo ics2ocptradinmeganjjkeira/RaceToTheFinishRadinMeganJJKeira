@@ -165,11 +165,10 @@ end
 local function callQuestion( )
 
     -- Increment questions answered
+
     questionsAnswered = questionsAnswered + 1
 
-    composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
-
-ResumeLevel1()
+    ResumeLevel1()
 
 end
 
@@ -661,8 +660,6 @@ function scene:show( event )
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
         
-        callQuestion()
-
         -- start physics
         physics.start()
 
@@ -677,6 +674,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
 
         -- Keep count of the lives and questions answered
+
+        callQuestion()
 
         numLives = 5
         questionsAnswered = 0
