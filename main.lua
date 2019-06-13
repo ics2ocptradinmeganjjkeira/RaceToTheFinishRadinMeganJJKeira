@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- main.lua
--- Created by: radin.S
+-- Created by: slime studios
 -- Date: Month Day, Year
 -- Description: This calls the splash screen of the app to load itself.
 -----------------------------------------------------------------------------------------

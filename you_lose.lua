@@ -165,7 +165,7 @@ function scene:destroy( event )
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
 end
-composer.gotoScene("level_select")
+
 
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
