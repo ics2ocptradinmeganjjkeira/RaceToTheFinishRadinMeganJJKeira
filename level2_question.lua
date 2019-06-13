@@ -41,17 +41,17 @@ local answerText
 local wrongText1
 local wrongText2
 local wrongText3
-local trueText
-local falseText
+local answerTFText
+local wrongtfText
 
 local X1 = display.contentWidth*1/7
 local X2 = display.contentWidth*3.75/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
-local TRUE1 = display.contentWidth/3.5
-local TRUE2 = display.contentHeight/2
-local FALSE1 = display.contentWidth/1.5
-local FALSE2 = display.contentHeight/2
+local ATF1 = display.contentWidth/3.5
+local ATF2 = display.contentHeight/2
+local WFT1 = display.contentWidth/1.5
+local WFT2 = display.contentHeight/2
 
 local userAnswer
 local textTouched = false
@@ -122,7 +122,7 @@ local function TouchListenerWrongText3(touch)
 end 
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerTrueText(touch)
+local function TouchListenerAnswerTFText(touch)
     
     if (touch.phase == "ended") then
 
@@ -133,7 +133,7 @@ local function TouchListenerTrueText(touch)
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
-local function TouchListenerFalseText(touch)
+local function TouchListenerWrongTFText(touch)
     
     if (touch.phase == "ended") then
 
@@ -149,8 +149,8 @@ local function AddTextListeners ( )
     wrongText1:addEventListener( "touch", TouchListenerWrongText1)
     wrongText2:addEventListener( "touch", TouchListenerWrongText2)
     wrongText3:addEventListener( "touch", TouchListenerWrongText3)
-    trueText:addEventListener( "touch", TouchListenerTrueText)
-    falseText:addEventListener( "touch", TouchListenerFalseText)
+    answerTFText:addEventListener( "touch", TouchListenerAnswerTFText)
+    wrongTFText:addEventListener( "touch", TouchListenerWrongTFText)
 end
 
 --removing the event listeners
@@ -159,14 +159,14 @@ local function RemoveTextListeners( )
     wrongText1:removeEventListener( "touch", TouchListenerWrongText1)
     wrongText2:removeEventListener( "touch", TouchListenerWrongText2)
     wrongText3:removeEventListener( "touch", TouchListenerWrongText3)
-    trueText:removeEventListener( "touch", TouchListenerTrueText)
-    falseText:removeEventListener( "touch", TouchListenerFalseText)
+    answerTFText:removeEventListener( "touch", TouchListenerAnswerTFText)
+    wrongTFText:removeEventListener( "touch", TouchListenerWrongTFText)
 end
 
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(1, 10)
+    question = math.random(1, 15)
 
     if (question == 1) then 
         -- create the question
@@ -314,10 +314,10 @@ local function DisplayQuestion()
         questionText.text = "Edges are where the\n two faces meet."
 
         -- create the answer text
-        trueText.text = "true"
+        answerTFText.text = "true"
 
         -- create the wrong answer
-        falseText.text = "false"
+        wrongTFText.text = "false"
 
         -- make the other objects from other questions invisible
         rectangularprism.isVisible = false
@@ -340,6 +340,82 @@ local function DisplayQuestion()
         rectangularprism.isVisible = false
         cylinder.isVisible = false
         sphere.isVisible = false
+
+    elseif (question == 11) then
+        -- create the question text
+        questionText.text = "Faces are round surfaces."
+
+        -- create the answer text
+        answerTFText.text = "false"
+
+        -- create the wrong answers
+        wrongTFText.text = "true"
+        
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 12) then
+        -- create the question text
+        questionText.text = "All faces on a 3D shape\n must be flat."
+
+        -- create the answer text
+        answerTFText.text = "false"
+
+        -- create the wrong answers
+        wrongTFText.text = "true"
+        
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 13) then
+        -- create the question text
+        questionText.text = "A rectangular prism and\n a cube are similar."
+
+        -- create the answer text
+        answerTFText.text = "true"
+
+        -- create the wrong answer
+        wrongTFText.text = "false"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 14) then
+        -- create the question text
+        questionText.text = "Symmetry is when an image looks\n different from both sides."
+
+        -- create the answer text
+        answerTFText.text = "false"
+
+        -- create the wrong answer
+        wrongTFText.text = "true"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    elseif (question == 15) then
+        -- create the question text
+        questionText.text = "A 3D triangle is a pyramid."
+
+        -- create the answer text
+        answerTFText.text = "false"
+
+        -- create the wrong answer
+        wrongTFText.text = "true"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
     end  
 end
 
@@ -443,10 +519,10 @@ function scene:create( event )
     wrongText3.anchorX = 0
 
     -- create the text for true and false answers
-    trueText = display.newText("", TRUE1, TRUE2, Arial, 50)
-    trueText.anchorX = 0
-    falseText = display.newText("", FALSE1, FALSE2, Arial, 50)
-    falseText.anchorX = 0
+    answerTFText = display.newText("", ATF1, ATF2, Arial, 50)
+    answerTFText.anchorX = 0
+    wrongTFText = display.newText("", WFT1, WFT2, Arial, 50)
+    wrongTFText.anchorX = 0         
 
     -- add the rectangular prism
     rectangularprism = display.newImage("Images/rectangularprism1.png", 5, 5)
@@ -491,8 +567,8 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
-    sceneGroup:insert(trueText)
-    sceneGroup:insert(falseText)
+    sceneGroup:insert(answerTFText)
+    sceneGroup:insert(wrongTFText)
     sceneGroup:insert(rectangularprism)
     sceneGroup:insert(cylinder)
     sceneGroup:insert(sphere)
