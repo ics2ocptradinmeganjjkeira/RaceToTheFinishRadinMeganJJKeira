@@ -80,9 +80,9 @@ local floor
 local Car
 
 -- Static pylons
---local Pylon1
---local Pylon2
---local Pylon3
+local Pylon1
+local Pylon2
+local Pylon3
 
 -- the pylon that is collided with
 local thePylon
@@ -216,9 +216,9 @@ local function ReplaceCar()
 end
 
 local function MakePylonsVisible()
-    --Pylon1.isVisible = true
-    --Pylon2.isVisible = true
-    --Pylon3.isVisible = true
+    Pylon1.isVisible = true
+    Pylon2.isVisible = true
+    Pylon3.isVisible = true
     Pylon4.isVisible = true
     Pylon5.isVisible = true
     Pylon6.isVisible = true
@@ -308,7 +308,7 @@ local function UpdateTime()
 end
 
 -- Function that calls the timer
---[[local function StartTimer()
+local function StartTimer()
 
     -- Create a countdown timer that loops infinitely
     countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0 )
@@ -319,7 +319,7 @@ end
     
     end
 end
-]]--
+
 
 
 local function onCollision( self, event )
@@ -332,9 +332,9 @@ local function onCollision( self, event )
 
     if ( event.phase == "began" ) then
 
-        if  (--(event.target.myName == "Pylon1") or 
-            --(event.target.myName == "Pylon2") or
-            --(event.target.myName == "Pylon3") or            
+        if  ((event.target.myName == "Pylon1") or 
+            (event.target.myName == "Pylon2") or
+            (event.target.myName == "Pylon3") or            
             (event.target.myName == "Pylon4") or
             (event.target.myName == "Pylon5") or
             (event.target.myName == "Pylon6")) and (alreadyCollided == false) then
@@ -373,12 +373,12 @@ end
 
 local function AddCollisionListeners()
     -- if character collides with ball, onCollision will be called
-    --Pylon1.collision = onCollision
-    --Pylon1:addEventListener( "collision" )
-    --Pylon2.collision = onCollision
-    --Pylon2:addEventListener( "collision" )
-    --Pylon3.collision = onCollision
-    --Pylon3:addEventListener( "collision" )
+    Pylon1.collision = onCollision
+    Pylon1:addEventListener( "collision" )
+    Pylon2.collision = onCollision
+    Pylon2:addEventListener( "collision" )
+    Pylon3.collision = onCollision
+    Pylon3:addEventListener( "collision" )
     Pylon4.collision = onCollision
     Pylon4:addEventListener( "collision" )
     Pylon5.collision = onCollision
@@ -390,9 +390,9 @@ end
 
 local function RemoveCollisionListeners()
 
-    ---Pylon1:removeEventListener( "collision" )
-    --Pylon2:removeEventListener( "collision" )
-    --Pylon3:removeEventListener( "collision" )
+    Pylon1:removeEventListener( "collision" )
+    Pylon2:removeEventListener( "collision" )
+    Pylon3:removeEventListener( "collision" )
     Pylon4:removeEventListener( "collision" )
     Pylon5:removeEventListener( "collision" )
     Pylon6:removeEventListener( "collision" )
@@ -409,9 +409,9 @@ local function AddPhysicsBodies()
     physics.addBody( floor, "static", {density=1, friction=0.3, bounce=0.2} )
 
 
-    --physics.addBody( Pylon1, "static",  {density=0, friction=0, bounce=0} )
-    --physics.addBody( Pylon2, "static",  {density=0, friction=0, bounce=0} )
-    --physics.addBody( Pylon3, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody( Pylon1, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody( Pylon2, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody( Pylon3, "static",  {density=0, friction=0, bounce=0} )
 
     physics.addBody(Pylon4, "static", { density=0, friction=0.8, bounce=0, rotation=0 } )
     physics.addBody(Pylon5, "static",  {density=0, friction=0, bounce=0} )
@@ -549,11 +549,11 @@ function scene:create( event )
 
 
     -- Create the clock text colour and text
-    --clockText = display.newText("Time Left: ", display.contentWidth*3.3/5, display.contentHeight*2.2/10, nil, 60)
-    --clockText:setTextColor(0, 0, 0)
+    clockText = display.newText("Time Left: ", display.contentWidth*3.3/5, display.contentHeight*2.2/10, nil, 60)
+    clockText:setTextColor(0, 0, 0)
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    --sceneGroup:insert( clockText )
+    sceneGroup:insert( clockText )
 
     ScoreObject = display.newText("Score: " .. Score, display.contentWidth*4.3/5, display.contentHeight*0.4/10, nil, 50 )
     ScoreObject:setTextColor(0, 0, 0)
@@ -602,7 +602,7 @@ function scene:create( event )
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
     sceneGroup:insert( heart5 )
---[[
+
     Pylon1 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon1.x = 110
     Pylon1.y = 650
@@ -631,7 +631,7 @@ function scene:create( event )
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene  
     sceneGroup:insert( Pylon3 )
-]]--
+
 
     Pylon4 = display.newImageRect("Images/Pylon.png", 80, 80)
     Pylon4.x = math.random(250, 400)
