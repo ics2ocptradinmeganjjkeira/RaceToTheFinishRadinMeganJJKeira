@@ -3,7 +3,6 @@
 -- Created by: Megan
 -- Date: Month Day, Year
 -- Description: This is the main menu, displaying the credits, instructions & play buttons.
------------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
@@ -105,12 +104,7 @@ end
 local function LevelSelectTransition( )
     composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
 end   
------------------------------------------------------------------------------------------
-
--- Creating Transition to Instuctions Screen
-local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "slideUp", time = 1000})
-end    
+ 
 
 -- Creating the mute/unmute buttons
 local function Mute( touch )
@@ -314,9 +308,7 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
- --       backgroundSoundChannel = audio.play(backgroundSound)  
-    -----------------------------------------------------------------------------------------
+           -----------------------------------------------------------------------------------------
 
     -- Called when the scene is now on screen.
     -- Insert code here to make the scene come alive.

@@ -127,7 +127,7 @@ end
 
 local function DisplayQuestion()
     -- choose a random question
-    question = math.random(6,6)
+    question = math.random(1,8)
 
     if (question == 1) then 
         -- create the question
@@ -218,20 +218,26 @@ local function DisplayQuestion()
         cylinder.isVisible = false
         sphere.isVisible = false
     
-    --[[
+    
     elseif (question == 6) then
-        --create the question
-        questionText.text = "Click on the sphere."
+        -- create the question
+        questionText.text = "Which 3D shape has 10 faces?"
 
-        --create the answer
-        answerText.text = sphere
+        -- create the answer text
+        answerText.text = "octagonal \nprism"
 
-        --create the incorrect answers
-        wrongText1.text = rectangularprism
-        wrongText2.text = cylinder
-        wrongText3.text = " "
-    ]]--
-    elseif (question == 6) then
+        -- create the wrong answers
+        wrongText1.text = "hexagonal \nprism"
+        wrongText2.text = "cylinder"
+        wrongText3.text = "sphere"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+
+    
+    elseif (question == 7) then
         -- create the question text
         questionText.text = "What colour is the cylinder?"
 
@@ -246,7 +252,24 @@ local function DisplayQuestion()
         wrongText1.text = "green"
         wrongText2.text = "blue"
         wrongText3.text = "red"
-    end 
+    
+    elseif (question == 8) then
+        -- create the question text
+        questionText.text = "How many edges does \n triangular prism have?"
+
+        -- create the answer text
+        answerText.text = "6"
+
+        -- create the wrong answers
+        wrongText1.text = "0"
+        wrongText2.text = "12"
+        wrongText3.text = "9"
+
+        -- make the other objects from other questions invisible
+        rectangularprism.isVisible = false
+        cylinder.isVisible = false
+        sphere.isVisible = false
+    end  
 end
 
 local function PositionAnswers()

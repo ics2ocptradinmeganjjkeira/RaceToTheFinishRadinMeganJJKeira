@@ -1,10 +1,8 @@
 -----------------------------------------------------------------------------------------
 -- main_menu.lua
 -- Created by: Megan
--- Date: June 4, 2019
--- Description: This is the level 1 complete screen. This screen will appear when the user 
--- completes the level. 
------------------------------------------------------------------------------------------
+-- Date: Month Day, Year
+-- Description: This is the main menu, displaying the credits, instructions & play buttons.
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
@@ -21,7 +19,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "you_complete_level1"
+sceneName = "you_completed_level1"
 
 -----------------------------------------------------------------------------------------
 
@@ -32,44 +30,36 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
-local bkg
-
-local mainMenu_Button
-local level2_Button
+local startButton
+local creditsButton
 
 
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
 
-local backgroundSound = audio.loadSound("Sounds/Race-track.wav")
-local backgroundSoundChannel
-
------------------------------------------------------------------------------------------
--- GLOBAL VARIABLES
------------------------------------------------------------------------------------------
-soundOn = true
+--local backgroundSound = audio.loadSound("Sounds/Race-track.wav")
+--local backgroundSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
--- Creating Transition to Level2 Screen
+-- Creating Transition Function to Credits Page
+local function MainMenuTransition( )       
+    composer.gotoScene( "main_menu", {effect = "slideUp", time = 500})
+end 
+
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level1 Screen
 local function Level2ScreenTransition( )
-    composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 1000})
-end
+    composer.gotoScene( "start_level_2_screen", {effect = "zoomInOutFade", time = 1000})
+end    
 
------------------------------------------------------------------------------------------
 
--- Creating Transition to Level Select Screen
-local function MainMenuTransition( )
-    composer.gotoScene( "main_menu", {effect = "slideUp", time = 1000})
-end   
------------------------------------------------------------------------------------------
 
-  
-
-----------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 ----------------------------------------------------------------------------------------
 
@@ -87,19 +77,15 @@ function scene:create( event )
     -- Hide the status bar 
     display.setStatusBar(display.HiddenStatusBar)
 
-    -- Insert the background image and set it to the center of the screen
-    bkg = display.newImage("Images/MainMenuMeganS.png")
 
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg )
-
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
     -- Creating Start Button
-    mainmenu_Button = widget.newButton( 
+    startButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,
@@ -108,7 +94,7 @@ function scene:create( event )
             height = 100,
 
             -- Insert the images here
-            defaultFile = "Images/PlayButtonUnpressed.png", 
+            defaultFile = "Images/mainmenu_ButtonUnpressedMeganS@2x.png", 
             overFile = "Images/PlayButtonPressed.png", 
 
             -- When the button is released, call the Level1 screen transition function
@@ -119,7 +105,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Creating Credits Button
-    level2_Button = widget.newButton( 
+    creditsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,
@@ -128,8 +114,8 @@ function scene:create( event )
             height = 100,
 
             -- Insert the images here
-            defaultFile = "Images/Level2_ButtonUnpressedMeganS@2x.psd.png",
-            overFile = "Images/Level2_ButtonPressedMeganS@2x.psd.png",
+            defaultFile = "Images/CreditsButtonUnpressed.png",
+            overFile = "Images/CreditsButtonPressed.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
@@ -139,9 +125,10 @@ function scene:create( event )
    
 
     -- Associating button widgets with this scene
-    sceneGroup:insert( mainmenu_Button )
-    sceneGroup:insert( level2_Button )
+    sceneGroup:insert( startButton )
+    sceneGroup:insert( creditsButton )
 
+ 
     -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
 
 end -- function scene:create( event )   
@@ -173,17 +160,7 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then  
 
-        -- Move the cloud
-        transition.moveTo( Cloud, {x = 250, y = 100 , time = 3000})
 
-        transition.moveTo( Car, {x = display.contentWidth*7.67/10, y = display.contentHeight*8.7/10 , time = 2000})
-
-        -- Play the background music
-        backgroundSoundChannel = audio.play(backgroundSound, {loops = -1})
-
-        -- Add the event listeners
-        MuteButton:addEventListener("touch", Mute)
-        UnmuteButton:addEventListener("touch", Unmute)
 
 
     end
@@ -214,9 +191,6 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-
-        MuteButton:removeEventListener("touch", Mute)
-        UnmuteButton:removeEventListener("touch", Unmute)
 
     end
 

@@ -17,16 +17,8 @@ local composer = require( "composer" )
 -----------------------------------------------------------------------------------------
 
 -- Go to the intro screen
-
-<<<<<<< HEAD
-
-
 composer.gotoScene( "main_menu" )
-
 composer.gotoScene( "splash_screen" )
-
-
-=======
 composer.gotoScene( "level1_screen" )
 
->>>>>>> 8d5424685e1d4f5986a4527bb1e9d5ae424d2b30
+
