@@ -772,6 +772,7 @@ function scene:show( event )
 
         numLives = 5
         questionsAnswered = 0
+        Score = 0
 
         -- make all of the pylons visible
         MakePylonsVisible()

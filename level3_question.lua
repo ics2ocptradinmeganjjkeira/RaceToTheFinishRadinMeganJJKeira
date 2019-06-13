@@ -74,20 +74,18 @@ end
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
-    userAnswer = answerText.text
     
     if (touch.phase == "ended") then
-
+        CountScore3()
         BackToLevel3()
     end 
 end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer(touch)
-    userAnswer = wrongText1.text
     
     if (touch.phase == "ended") then
-        CountScore3()
+        DecreaseLives3()
         BackToLevel3()
         
         
@@ -96,7 +94,6 @@ end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer2(touch)
-    userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
         DecreaseLives3()
@@ -106,7 +103,6 @@ end
 
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer3(touch)
-    userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
         DecreaseLives3()
