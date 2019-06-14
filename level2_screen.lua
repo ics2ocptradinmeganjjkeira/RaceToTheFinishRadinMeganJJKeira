@@ -87,6 +87,10 @@ local secondsLeft = 60
 local clockText 
 local countDownTimer
 
+-- Background sound
+local backgroundSound = audio.loadSound( "Sounds/bensound-littleidea.mp3" )
+local backgroundSoundChannel = audio.play(backgroundSound,{channel=1,loops=-1})
+
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -737,7 +741,9 @@ function scene:show( event )
         physics.start()
 
         --set gravity
-        physics.setGravity( 0, GRAVITY )     
+        physics.setGravity( 0, GRAVITY )  
+
+        audio.play(baqckgroundSoundChannel)   
 
         
     -----------------------------------------------------------------------------------------
